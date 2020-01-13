@@ -16,6 +16,7 @@ export default new Vuex.Store({
       username: "",
       password: ""
     },
+    menuShow: false,
     modalShow: false,
     delmodalShow: false,
     page: {
@@ -129,6 +130,9 @@ export default new Vuex.Store({
       //   }
       // });
       // return state.categories;
+    },
+    MENUSHOW(state, payload) {
+      state.menuShow = payload;
     },
 
     PRODUCT_TITLE(state, payload) {

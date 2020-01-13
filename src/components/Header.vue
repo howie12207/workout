@@ -35,9 +35,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$red: #842b00;
-$yellow: #ffd306;
-
+@import "../assets/variable.scss";
 .header {
   width: 100%;
   height: 60px;
@@ -54,12 +52,16 @@ $yellow: #ffd306;
     > .menu {
       > .menuIcon {
         font-size: 2rem;
+        > a {
+          @extend %abutton;
+          color: white;
+        }
       }
       > .nav {
         display: none;
         z-index: 10;
         > a {
-          display: block;
+          @extend %abutton;
           color: white;
         }
         > a:hover {
@@ -73,6 +75,7 @@ $yellow: #ffd306;
         top: 60px;
         background-color: rgba(0, 0, 0, 0.8);
         > a {
+          @extend %abutton;
           width: 250px;
           padding: 20px;
           box-sizing: border-box;
@@ -85,6 +88,7 @@ $yellow: #ffd306;
       }
     }
     > .logo {
+      @extend %abutton;
       height: 100%;
       display: flex;
       align-items: center;

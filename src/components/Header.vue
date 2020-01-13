@@ -37,11 +37,13 @@ export default {
 <style lang="scss" scoped>
 @import "../assets/variable.scss";
 .header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   width: 100%;
   height: 60px;
   background-color: rgba(0, 0, 0, 0.8);
   font-family: "Noto Serif TC", serif;
-  position: relative;
   > .container {
     height: 100%;
     width: 95%;
@@ -63,6 +65,8 @@ export default {
         > a {
           @extend %abutton;
           color: white;
+          position: relative;
+          text-align: center;
         }
         > a:hover {
           color: $yellow;
@@ -77,7 +81,7 @@ export default {
         > a {
           @extend %abutton;
           width: 250px;
-          padding: 20px;
+          padding: line(2);
           box-sizing: border-box;
           text-align: center;
           border-bottom: 1px solid white;
@@ -95,7 +99,8 @@ export default {
       > .txt {
         > h1 {
           font-size: 1.5rem;
-          color: $yellow;
+          color: $red;
+          font-weight: 900;
         }
       }
       > .pic {
@@ -124,10 +129,25 @@ export default {
           right: 0 !important;
           background-color: transparent !important;
           > a {
-            display: inline-block;
-            padding: 0 10px;
+            display: inline-block !important;
+            margin: 0 line(1) !important;
             border: none !important;
-            width: 150px !important;
+            width: 80px !important;
+            padding: 0 !important;
+          }
+          > a:after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            right: 50%;
+            top: 0;
+            bottom: -5px;
+            border-bottom: 2px solid $yellow;
+            transition: 0.7s;
+          }
+          > a:hover:after {
+            left: 0;
+            right: 0;
           }
         }
       }

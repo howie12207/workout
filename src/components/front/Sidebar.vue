@@ -77,7 +77,7 @@ export default {
 @import "../../assets/variable.scss";
 .sidebar {
   width: 80%;
-  padding: 0 0 20px 0;
+  padding: 0 0 line(2) 0;
   margin: 10px auto;
   text-align: center;
   font-family: "Noto Serif TC", serif;
@@ -89,7 +89,7 @@ export default {
         color: white;
         background-color: $red;
         width: 100%;
-        padding: 10px;
+        padding: line(1);
         box-sizing: border-box;
         border-radius: 5px;
         position: relative;
@@ -103,9 +103,10 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+      max-width: 400px;
       font-size: 1.5rem;
       border: 1px solid $red;
-      margin: 20px auto;
+      margin: line(2) auto;
       border-radius: 5px;
       > input {
         border: none;
@@ -131,7 +132,10 @@ export default {
       justify-content: space-around;
       > a {
         position: relative;
-        margin: 10px;
+        margin: line(1);
+        box-shadow: 0 0 5px $red;
+        transform: translateY(0px);
+        transition: 0.6s;
         > img {
           width: 150px;
           height: 100px;
@@ -150,15 +154,16 @@ export default {
           margin: auto;
           color: white;
           transition: 0.6s;
-          transform: translateY(0px);
         }
       }
+      > a:hover {
+        transform: translateY(10px);
+      }
       > a:hover img {
-        opacity: 0.7;
+        opacity: 0.5;
       }
       > a:hover p {
         color: black;
-        transform: translateY(10px);
       }
     }
   }

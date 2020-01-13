@@ -4,3 +4,6 @@ $yellow: #ffd306;
   display: block;
   text-decoration: none;
 }
+@function line($count: 1, $baselineheight: 10px) {
+  @return $baselineheight * $count;
+}

@@ -455,11 +455,11 @@ export default new Vuex.Store({
     //       context.commit("PAGENOW", page);
     //       // context.dispatch("pageProducts");
     //     },
-    //     //----- 開啟產品詳情模型 -----
-    //     openModal(context, payload) {
-    //       context.commit("MODAL_HANDLER", true);
-    //       context.dispatch("getProduct", payload);
-    //     },
+    //----- 開啟產品詳情模型 -----
+    openModal(context, payload) {
+      context.commit("MODALSHOW", true);
+      context.dispatch("getProduct", payload);
+    },
     //     //----- 關閉產品詳情模型 -----
     //     closeModal(context) {
     //       context.commit("MODAL_HANDLER", false);

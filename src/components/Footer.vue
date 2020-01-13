@@ -18,7 +18,6 @@ export default {
   height: 100px;
   width: 100%;
   background-color: #000;
-  // margin-top: 10px;
   color: white;
   display: flex;
   align-items: center;
@@ -28,6 +27,6 @@ export default {
   position: relative;
 }
 .footer p {
-  margin: 10px 0;
+  margin: line(1) 0;
 }
 </style>

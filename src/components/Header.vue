@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <header class="container">
-      <router-link to="" class="logo">
+      <router-link to class="logo">
         <div class="pic">
           <img src="../assets/logo.png" alt="Logo" />
         </div>
@@ -11,11 +11,7 @@
       </router-link>
       <div class="menu">
         <div class="menuIcon">
-          <a
-            href="#"
-            class="menu"
-            @click.prevent="$store.commit('NAVSHOW', !navShow)"
-          >
+          <a href="#" class="menu" @click.prevent="$store.commit('NAVSHOW', !navShow)">
             <i class="fas fa-bars"></i>
           </a>
         </div>
@@ -61,6 +57,7 @@ $yellow: #ffd306;
       }
       > .nav {
         display: none;
+        z-index: 10;
         > a {
           display: block;
           color: white;

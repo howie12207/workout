@@ -18,13 +18,13 @@ export default {
   height: 100px;
   width: 100%;
   background-color: #000;
-  margin-top: 10px;
+  // margin-top: 10px;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  z-index: 100;
+  z-index: 9;
   position: relative;
 }
 .footer p {

@@ -18,13 +18,57 @@ export default new Vuex.Store({
     },
     modalShow: false,
     delmodalShow: false,
+    page: {
+      pageNow: 1,
+      pageTotal: 1
+    },
+    categories: [],
     products: [],
     product: { category: "" },
     isNew: false,
     fileUploading: false,
     coupons: [],
     coupon: {},
-    pagination: {}
+    pagination: {},
+    banner: [
+      {
+        id: 0,
+        title: "舊金山必去20大景點！沒去過別說你來過舊金山！",
+        src: require("../assets/USA.jpg"),
+        alt: "USA",
+        to: ""
+      },
+      {
+        id: 1,
+        title: "2020櫻花季日本賞櫻行程！景點、交通、行程...一次搞定",
+        src: require("../assets/Japan.jpg"),
+        alt: "Japan",
+        to: ""
+      },
+      {
+        id: 2,
+        title: "暢遊浪漫水都「威尼斯」",
+        src: require("../assets/Italia.jpg"),
+        alt: "Italia",
+        to: ""
+      },
+      {
+        id: 3,
+        title:
+          "「峇里島」這裡不是天堂，卻讓人迷失，在這美麗原始的小島，享受寧靜的片刻!",
+        src: require("../assets/Bali.jpg"),
+        alt: "Bali",
+        to: ""
+      },
+      {
+        id: 4,
+        title:
+          "紐西蘭自助旅行│紐西蘭南島皇后鎮絕對不可錯過的Skyline、Gondola纜車、小雪橇滑板車Luge",
+        src: require("../assets/NewZealand.jpg"),
+        alt: "NewZealand",
+        to: ""
+      }
+    ]
   },
   mutations: {
     // --- Header ---
@@ -63,6 +107,28 @@ export default new Vuex.Store({
     },
     FILEUPLOADING(state, status) {
       state.fileUploading = status;
+    },
+    PAGENOW(state, payload) {
+      state.pageNow = payload;
+    },
+    PAGETOTAL(state, payload) {
+      state.pageTotal = payload;
+    },
+    CATEGORIES(state, payload) {
+      // 方法一
+      const categories = new Set();
+      payload.forEach(item => {
+        categories.add(item.category);
+      });
+      state.categories = Array.from(categories);
+      // 方法二
+      // let productarray = payload;
+      // productarray.forEach(item => {
+      //   if (state.categories.indexOf(item.category) == -1) {
+      //     state.categories.push(item.category);
+      //   }
+      // });
+      // return state.categories;
     },
 
     PRODUCT_TITLE(state, payload) {
@@ -324,21 +390,76 @@ export default new Vuex.Store({
     //       }
     //     });
     // },
-    //----- 取得所有產品清單 -----
-    // getProducts(context) {
-    //   context.commit("ISLOADING", true);
-    //   const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
-    //   axios.get(url).then(response => {
-    //     context.commit("PRODUCTS", response.data.products);
-    //     context.commit(
-    //       "PAGETOTAL",
-    //       Math.ceil(response.data.products.length / 10)
-    //     ); //取得產品總頁數
-    //     context.commit("CATEGORIES", response.data.products); //分類
-    //     context.commit("ISLOADING", false);
-    //     // console.log(response);
-    //   });
-    // }
+    // ----- 取得所有產品清單 -----
+    getProducts(context) {
+      context.commit("ISLOADING", true);
+      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
+      axios.get(url).then(response => {
+        context.commit("PRODUCTS", response.data.products);
+        context.commit(
+          "PAGETOTAL",
+          Math.ceil(response.data.products.length / 10)
+        ); //取得產品總頁數
+        context.commit("CATEGORIES", response.data.products); //分類
+        context.commit("ISLOADING", false);
+        console.log(response);
+      });
+    },
+    //----- 分類切換 -----
+    categorySwitch(context, payload) {
+      context.commit("PAGENOW", 1);
+      window.scroll(0, 0);
+      context.commit("CATEGORY_SWITCH", payload);
+      // context.dispatch("pageProducts");
+      context.commit("CATEGORIES_HANDLER", false);
+    },
+    //     // ----- 產品分類及分頁 -----
+    //     // pageProducts(context) {
+    //     //   let tmpProduct = [];
+    //     //   const nowPage = context.state.page.pageNow;
+    //     //   const start = nowPage * 10 - 10;
+    //     //   const end = nowPage * 10;
+    //     //   if (context.state.categorySwitch === "全部") {
+    //     //     context.commit(
+    //     //       "PAGETOTAL",
+    //     //       Math.ceil(context.state.products.length / 10)
+    //     //     );
+    //     //     tmpProduct = context.state.products.slice(start, end);
+    //     //   } else {
+    //     //     context.state.products.forEach(element => {
+    //     //       if (element.category == context.state.categorySwitch) {
+    //     //         tmpProduct.push(element);
+    //     //       }
+    //     //     });
+    //     //     context.commit("PAGETOTAL", Math.ceil(tmpProduct.length / 10));
+    //     //     tmpProduct = tmpProduct.slice(start, end);
+    //     //   }
+    //     //   context.commit("PAGEPRODUCTS", tmpProduct);
+    //     // },
+
+    //     // ----- 分頁切換 -----
+    //     changePage(context, payload) {
+    //       let page = 1;
+    //       window.scroll(0, 0);
+    //       if (payload == "pre") {
+    //         page = Number(context.state.page.pageNow) - 1;
+    //       } else if (payload == "next") {
+    //         page = Number(context.state.page.pageNow) + 1;
+    //       } else {
+    //         page = payload;
+    //       }
+    //       context.commit("PAGENOW", page);
+    //       // context.dispatch("pageProducts");
+    //     },
+    //     //----- 開啟產品詳情模型 -----
+    //     openModal(context, payload) {
+    //       context.commit("MODAL_HANDLER", true);
+    //       context.dispatch("getProduct", payload);
+    //     },
+    //     //----- 關閉產品詳情模型 -----
+    //     closeModal(context) {
+    //       context.commit("MODAL_HANDLER", false);
+    //     },
     // ----- 更新警示語 -----
     updateMessage(context, { message, status }) {
       const timestamp = Math.floor(new Date() / 1000);
@@ -629,64 +750,7 @@ export default new Vuex.Store({
 //     categoriesHandler(context, status) {
 //       context.commit("CATEGORIES_HANDLER", status);
 //     },
-//     // ----- 產品分類及分頁 -----
-//     // pageProducts(context) {
-//     //   let tmpProduct = [];
-//     //   const nowPage = context.state.page.pageNow;
-//     //   const start = nowPage * 10 - 10;
-//     //   const end = nowPage * 10;
-//     //   if (context.state.categorySwitch === "全部") {
-//     //     context.commit(
-//     //       "PAGETOTAL",
-//     //       Math.ceil(context.state.products.length / 10)
-//     //     );
-//     //     tmpProduct = context.state.products.slice(start, end);
-//     //   } else {
-//     //     context.state.products.forEach(element => {
-//     //       if (element.category == context.state.categorySwitch) {
-//     //         tmpProduct.push(element);
-//     //       }
-//     //     });
-//     //     context.commit("PAGETOTAL", Math.ceil(tmpProduct.length / 10));
-//     //     tmpProduct = tmpProduct.slice(start, end);
-//     //   }
-//     //   context.commit("PAGEPRODUCTS", tmpProduct);
-//     // },
-//     //----- 分類切換 -----
-//     categorySwitch(context, payload) {
-//       context.commit("PAGENOW", 1);
-//       window.scroll(0, 0);
-//       context.commit("CATEGORY_SWITCH", payload);
-//       // context.dispatch("pageProducts");
-//       context.commit("CATEGORIES_HANDLER", false);
-//     },
-//     // ----- 分頁切換 -----
-//     changePage(context, payload) {
-//       let page = 1;
-//       window.scroll(0, 0);
-//       if (payload == "pre") {
-//         page = Number(context.state.page.pageNow) - 1;
-//       } else if (payload == "next") {
-//         page = Number(context.state.page.pageNow) + 1;
-//       } else {
-//         page = payload;
-//       }
-//       context.commit("PAGENOW", page);
-//       // context.dispatch("pageProducts");
-//     },
-//     //----- 開啟產品詳情模型 -----
-//     openModal(context, payload) {
-//       context.commit("MODAL_HANDLER", true);
-//       context.dispatch("getProduct", payload);
-//     },
-//     //----- 關閉產品詳情模型 -----
-//     closeModal(context) {
-//       context.commit("MODAL_HANDLER", false);
-//     },
-//     //----- 切換橫布條 -----
-//     bannerChange(context, payload) {
-//       context.commit("BANNER_HANDLER", payload);
-//     },
+
 //     //----- 取得購物車清單 -----
 //     getCart(context) {
 //       context.commit("LOADING", true);

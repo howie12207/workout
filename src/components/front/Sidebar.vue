@@ -14,35 +14,59 @@
       </div>
       <transition name="fade">
         <div class="search" v-if="menuShow">
-          <input type="text" placeholder="輸入關鍵字" />
-          <a href>
+          <input type="text" placeholder="輸入關鍵字" v-model="search" />
+          <a href="#" @click.prevent="clearSearch">
             <i class="fas fa-times"></i>
           </a>
         </div>
       </transition>
       <transition name="fade">
         <nav class="category" v-if="menuShow">
-          <a href="#">
+          <a
+            href="#"
+            @click.prevent="categorySwitch('全部')"
+            :class="{'active':$store.state.categorySwitch==='全部'}"
+          >
             <img src="../../assets/All.jpg" alt="全部" />
             <p>全部</p>
           </a>
-          <a href="#">
+          <a
+            href="#"
+            @click.prevent="categorySwitch('亞洲')"
+            :class="{'active':$store.state.categorySwitch==='亞洲'}"
+          >
             <img src="../../assets/Asia.jpg" alt="亞洲" />
             <p>亞洲</p>
           </a>
-          <a href="#">
+          <a
+            href="#"
+            @click.prevent="categorySwitch('歐洲')"
+            :class="{'active':$store.state.categorySwitch==='歐洲'}"
+          >
             <img src="../../assets/Europe.jpg" alt="歐洲" />
             <p>歐洲</p>
           </a>
-          <a href="#">
+          <a
+            href="#"
+            @click.prevent="categorySwitch('美洲')"
+            :class="{'active':$store.state.categorySwitch==='美洲'}"
+          >
             <img src="../../assets/America.jpg" alt="美洲" />
             <p>美洲</p>
           </a>
-          <a href="#">
+          <a
+            href="#"
+            @click.prevent="categorySwitch('非洲')"
+            :class="{'active':$store.state.categorySwitch==='非洲'}"
+          >
             <img src="../../assets/Africa.jpg" alt="非洲" />
             <p>非洲</p>
           </a>
-          <a href="#">
+          <a
+            href="#"
+            @click.prevent="categorySwitch('大洋洲')"
+            :class="{'active':$store.state.categorySwitch==='大洋洲'}"
+          >
             <img src="../../assets/Oceania.png" alt="大洋洲" />
             <p>大洋洲</p>
           </a>
@@ -63,11 +87,25 @@ export default {
     },
     categories() {
       return this.$store.state.categories;
+    },
+    search: {
+      get() {
+        return this.$store.state.search;
+      },
+      set(value) {
+        this.$store.commit("SEARCH", value);
+      }
     }
   },
   methods: {
     menushow() {
       this.$store.commit("MENUSHOW", !this.menuShow);
+    },
+    categorySwitch(category) {
+      this.$store.dispatch("categorySwitch", category);
+    },
+    clearSearch() {
+      this.$store.commit("SEARCH", "");
     }
   }
 };
@@ -128,13 +166,12 @@ export default {
     > .category {
       display: flex;
       flex-wrap: wrap;
-      //   flex-direction: column;
       justify-content: space-around;
       > a {
         position: relative;
         margin: line(1);
         box-shadow: 0 0 5px $red;
-        transform: translateY(0px);
+        transform: scale(1);
         transition: 0.6s;
         > img {
           width: 150px;
@@ -157,7 +194,7 @@ export default {
         }
       }
       > a:hover {
-        transform: translateY(10px);
+        transform: scale(0.9);
       }
       > a:hover img {
         opacity: 0.5;
@@ -175,5 +212,8 @@ export default {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+.active {
+  outline: 3px solid red;
 }
 </style>

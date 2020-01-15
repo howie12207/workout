@@ -7,14 +7,11 @@
       :key="i"
     >
       {{ item.message }}
-      <button
-        type="button"
-        class="close"
-        @click="removeMessage(i)"
-        aria-label="Close"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
+      <a href="#" @click.prevent="removeMessage(i)">
+        <span>
+          <i class="fas fa-times"></i>
+        </span>
+      </a>
     </div>
   </div>
 </template>
@@ -56,7 +53,8 @@ export default {
 };
 </script>
 
-<style scope>
+<style lang="scss" scope>
+@import "../assets/variable.scss";
 .message-alert {
   position: fixed;
   max-width: 50%;
@@ -65,17 +63,26 @@ export default {
   z-index: 1100;
 }
 .message-alert .success {
-  background-color: #55aa00;
+  background-color: #28a745;
   padding: 10px;
   border-radius: 30px;
+  color: white;
 }
 .message-alert .false {
-  background-color: #ff8888;
+  background-color: #dc3545;
   padding: 10px;
   border-radius: 30px;
+  color: white;
 }
-.message-alert button {
+.message-alert a {
+  @extend %abutton;
   padding: 0;
   border: none;
+  display: inline-block;
+  color: white;
+  transition: 0.6s;
+}
+.message-alert a:hover {
+  color: $red;
 }
 </style>

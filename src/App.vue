@@ -1,14 +1,16 @@
 <template>
   <div id="app">
     <router-view />
+    <Totop />
     <Footer />
   </div>
 </template>
 
 <script>
 import Footer from "./components/Footer.vue";
+import Totop from "./components/Totop.vue";
 export default {
-  components: { Footer }
+  components: { Footer, Totop }
 };
 </script>
 <style lang="scss">

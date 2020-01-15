@@ -1,6 +1,6 @@
 <template>
   <div href class="totop">
-    <a href="#" class="container" click.prevent="backTop" v-if="btnFlag">
+    <a href="#" class="container" @click.prevent="backTop" v-if="btnFlag">
       <i class="fas fa-sort-up"></i>Top
     </a>
   </div>
@@ -61,6 +61,7 @@ export default {
   color: $red;
   > .container {
     @extend %abutton;
+    color: $red;
     width: 50px;
     height: 50px;
     background-color: #ccc;
@@ -70,12 +71,17 @@ export default {
     justify-content: center;
     border-radius: 50%;
     transition: 0.6s;
-    transform: translateY(0);
+    > i {
+      transform: translateY(5px);
+      transition: 0.6s;
+    }
   }
   > .container:hover {
     background-color: black;
     color: white;
-    transform: translateY(-10px);
+    > i {
+      transform: translateY(-5px);
+    }
   }
 }
 </style>

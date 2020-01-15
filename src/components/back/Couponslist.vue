@@ -2,7 +2,7 @@
   <div class="couponslist">
     <loading :active.sync="isLoading"></loading>
     <div class="container">
-      <button class="createBtn" @click="ShowModal(true)">建立新優惠券</button>
+      <button class="createBtn" @click="modalshow(true)">建立新優惠券</button>
       <table>
         <caption>優惠券列表</caption>
         <thead>
@@ -24,7 +24,7 @@
             <td v-if="item.is_enabled" style="color:green;">啟用</td>
             <td v-else style="color:red;">未啟用</td>
             <td>
-              <button @click="ShowModal(false, item)">編輯</button>
+              <button @click="modalshow(false, item)">編輯</button>
               <button @click="delModal(item)">刪除</button>
             </td>
           </tr>
@@ -32,9 +32,9 @@
       </table>
     </div>
     <!-- <Pagination :pagination="pagination" @emitchangePage="getProductslist" /> -->
-    <div class="modal" :class="{ showModal: showModal }">
+    <div class="modal" :class="{ 'modalShow': modalShow }">
       <div class="container">
-        <a href="#" class="closeBtn" @click.prevent="closeModal">
+        <a href="#" class="closeBtn" @click.prevent="modalClose">
           <i class="fas fa-times-circle"></i>
         </a>
         <form>
@@ -59,14 +59,14 @@
           </div>
           <div class="modalBtn">
             <button @click.prevent="updateCoupon">確認</button>
-            <button @click.prevent="closeModal">取消</button>
+            <button @click.prevent="modalClose">取消</button>
           </div>
         </form>
       </div>
     </div>
-    <div class="delmodal" :class="{ showModal: delshowModal }">
+    <div class="delmodal" :class="{ modalShow: delmodalShow }">
       <div class="container">
-        <a href="#" class="closeBtn" @click.prevent="closedelModal">
+        <a href="#" class="closeBtn" @click.prevent="delmodalClose">
           <i class="fas fa-times-circle"></i>
         </a>
         <h3>刪除優惠券</h3>
@@ -76,7 +76,7 @@
         </p>
         <div class="modalBtn">
           <button @click="delCoupon">確認</button>
-          <button @click="closedelModal">取消</button>
+          <button @click="delmodalClose">取消</button>
         </div>
       </div>
     </div>
@@ -88,14 +88,16 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Couponslist",
   computed: {
-    ...mapGetters(["isLoading", "showModal", "delshowModal"]),
+    ...mapGetters(["isLoading", "modalShow"]),
+    delmodalShow() {
+      return this.$store.state.delmodalShow;
+    },
     coupons() {
       return this.$store.state.coupons;
     },
     coupon() {
       return this.$store.state.coupon;
     },
-
     title: {
       get() {
         return this.$store.state.coupon.title;
@@ -139,15 +141,18 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["updateCoupon", "closeModal", "getCoupons", "delCoupon"]),
-    ShowModal(isNew, item) {
-      this.$store.dispatch("showModal", { isNew, item });
+    ...mapActions(["updateCoupon", "getCoupons", "delCoupon"]),
+    modalshow(isNew, item) {
+      this.$store.dispatch("modalShow", { isNew, item });
+    },
+    modalClose() {
+      this.$store.commit("modalShow", false);
     },
     delModal(item) {
       this.$store.dispatch("delModal", item);
     },
-    closedelModal() {
-      this.$store.commit("DELSHOWMODAL", false);
+    delmodalClose() {
+      this.$store.commit("DELMODALSHOW", false);
     }
   },
   created() {
@@ -161,6 +166,7 @@ export default {
   width: 100%;
   color: #8d2f23;
   font-family: "Noto Serif TC", serif;
+  min-height: calc(100vh - 160px);
 }
 .couponslist .container {
   width: 95%;
@@ -287,7 +293,7 @@ textarea {
   top: -5px;
   right: -5px;
 }
-.showModal {
+.modalShow {
   display: flex;
 }
 // span.strong {

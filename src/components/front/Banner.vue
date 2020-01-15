@@ -2,7 +2,7 @@
   <div class="banner">
     <swiper :options="swiperOption">
       <swiper-slide v-for="(item, index) in banner" :key="index">
-        <a href="#" @click.prevent="openModal(item.id)">
+        <a href="#" @click.prevent="seeMore(item.to)">
           <div class="img">
             <img :src="item.src" alt />
           </div>
@@ -42,8 +42,8 @@ export default {
     };
   },
   methods: {
-    openModal(id) {
-      this.$store.dispatch("openModal", id);
+    seeMore(id) {
+      this.$store.dispatch("seeMore", id);
     }
   }
 };

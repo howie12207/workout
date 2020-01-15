@@ -1,31 +1,34 @@
 <template>
   <div class="product">
+    <loading :active.sync="isLoading"></loading>
+    <Alert />
     <Header />
     <Banner />
     <Sidebar />
     <Main />
-    <Totop />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Header from "../Header.vue";
+import Alert from "../AlertMessage.vue";
 import Banner from "./Banner.vue";
 import Sidebar from "./Sidebar.vue";
 import Main from "./Main.vue";
-import Totop from "../Totop.vue";
 export default {
   name: "Product",
-  components: { Header, Banner, Sidebar, Main, Totop },
+  components: { Header, Alert, Banner, Sidebar, Main },
   computed: {
-    ...mapGetters(["products"])
+    ...mapGetters(["products", "isLoading"])
   },
   methods: {
-    ...mapActions(["getProducts"])
+    ...mapActions(["getProducts", "getStar", "getCart"])
   },
   created() {
     this.getProducts();
+    this.getStar();
+    this.getCart();
   }
 };
 </script>

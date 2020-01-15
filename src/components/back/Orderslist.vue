@@ -42,9 +42,11 @@ import Pagination from "./Pagination.vue";
 export default {
   name: "Orderlist",
   computed: {
-    ...mapGetters(["orders", "isLoading"])
+    ...mapGetters(["isLoading"]),
+    orders() {
+      return this.$store.state.orders;
+    }
   },
-
   components: { Pagination },
   data() {
     return {

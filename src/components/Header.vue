@@ -9,10 +9,11 @@
           <h1>BestTrip</h1>
         </div>
       </router-link>
-      <div class="menu">
+      <div class="menu" v-clickout="navClose">
         <div class="menuIcon">
-          <a href="#" class="menu" @click.prevent="$store.commit('NAVSHOW', !navShow)">
-            <i class="fas fa-bars"></i>
+          <a href="#" class="menu" @click.prevent="navshow">
+            <i class="fas fa-bars" v-if="!navShow"></i>
+            <i class="fas fa-times" v-else></i>
           </a>
         </div>
         <nav class="nav" :class="{ navShow: navShow }">
@@ -31,6 +32,14 @@ export default {
   name: "Header",
   computed: {
     ...mapGetters(["navShow"])
+  },
+  methods: {
+    navshow() {
+      this.$store.commit("NAVSHOW", !this.navShow);
+    },
+    navClose() {
+      this.$store.commit("NAVSHOW", false);
+    }
   }
 };
 </script>
@@ -153,5 +162,12 @@ export default {
       }
     }
   }
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

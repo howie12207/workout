@@ -50,6 +50,7 @@ export default new Vuex.Store({
     orders: [],
     coupons: [],
     coupon: {},
+    code: "",
     pagination: {},
     banner: [
       {
@@ -178,6 +179,7 @@ export default new Vuex.Store({
     CARTSHOW(state, payload) {
       state.cartShow = payload;
     },
+    // --- 訂單 ---
     CUSTOMER_NAME(state, payload) {
       state.customer.user.name = payload;
     },
@@ -198,6 +200,12 @@ export default new Vuex.Store({
     },
     CARTLISTSHOW(state, payload) {
       state.cartlistShow = payload;
+    },
+    CODE(state, payload) {
+      state.code = payload;
+    },
+    ORDERID(state, payload) {
+      state.orderId = payload;
     },
 
     PRODUCT_TITLE(state, payload) {
@@ -425,25 +433,23 @@ export default new Vuex.Store({
     // ----- 套用優惠券 -----
     submitCoupon(context) {
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/coupon`;
-      axios
-        .post(url, { data: { code: context.state.couponCode } })
-        .then(response => {
-          if (response.data.success) {
-            // console.log(response);
-            context.dispatch("getCart");
-            context.dispatch("updateMessage", {
-              message: "優惠券套用成功",
-              status: "success"
-            });
-          } else {
-            // console.log(response);
-            context.dispatch("getCart");
-            context.dispatch("updateMessage", {
-              message: response.data.message,
-              status: "false"
-            });
-          }
-        });
+      axios.post(url, { data: { code: context.state.code } }).then(response => {
+        if (response.data.success) {
+          // console.log(response);
+          context.dispatch("getCart");
+          context.dispatch("updateMessage", {
+            message: "優惠券套用成功",
+            status: "success"
+          });
+        } else {
+          // console.log(response);
+          context.dispatch("getCart");
+          context.dispatch("updateMessage", {
+            message: response.data.message,
+            status: "false"
+          });
+        }
+      });
     },
     // ----- 送出訂單 -----
     submitOrder(context) {

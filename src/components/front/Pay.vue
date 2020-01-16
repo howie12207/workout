@@ -1,5 +1,5 @@
 <template>
-  <div class="checkout">
+  <div class="pay">
     <Alert />
     <Header />
     <ProgressBar />
@@ -27,7 +27,7 @@
           </tr>
         </tfoot>
       </table>
-      <table class="info">
+      <table class="info" v-if="order.user">
         <caption>顧客資訊</caption>
         <tbody>
           <tr>
@@ -55,7 +55,7 @@
       </table>
       <div class="btn">
         <button @click="pay" v-if="!order.is_paid">確認付款</button>
-        <button @click="toHome" v-else>返回產品列表</button>
+        <button @click="toProducts" v-else>返回產品列表</button>
       </div>
     </div>
   </div>
@@ -69,7 +69,7 @@ export default {
   name: "Pay",
   components: { Header, ProgressBar },
   methods: {
-    ...mapActions(["toHome"]),
+    ...mapActions(["toProducts"]),
     getOrder() {
       this.$store.dispatch("getOrder", this.orderId);
     },
@@ -79,7 +79,6 @@ export default {
   },
   created() {
     this.$store.commit("ORDERID", this.$route.params.orderId);
-    // console.log(this.$route.params.orderId);
     this.getOrder();
   },
   computed: {
@@ -94,19 +93,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.checkout {
+@import "../../assets/variable.scss";
+.pay {
   width: 100%;
   font-family: "Noto Serif TC", serif;
   color: #8d2f23;
-  min-height: calc(100vh - 110px);
+  min-height: calc(100vh - 100px);
 }
-.checkout .container {
+.pay .container {
   width: 90%;
   max-width: 600px;
   margin: 10px auto 0;
 }
 
-.checkout .container table {
+.pay .container table {
   width: 100%;
   text-align: left;
 }
@@ -154,10 +154,23 @@ td.green {
 }
 // ----- 付款按鈕 -----
 
-.checkout .btn {
+.pay .btn {
   display: flex;
   justify-content: flex-end;
   margin: 20px 0;
+  > button {
+    padding: line(0.5) line(1);
+    background-color: $red;
+    color: white;
+    border: 1px solid $red;
+    border-radius: 5px;
+    transform: translateY(0);
+    transition: 0.7s;
+  }
+  > button:hover {
+    transform: translateY(3px);
+    cursor: pointer;
+  }
 }
 
 .textright {

@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <header class="container">
-      <router-link to class="logo">
+      <router-link to="/" class="logo">
         <div class="pic">
           <img src="../assets/logo.png" alt="Logo" />
         </div>
@@ -17,9 +17,12 @@
           </a>
         </div>
         <nav class="nav" :class="{ navShow: navShow }">
-          <router-link to="/">首頁</router-link>
-          <router-link to="/about">關於我們</router-link>
-          <router-link to="/product">旅遊景點</router-link>
+          <router-link to="/" :class="{'active':$route.name=='home'}">首頁</router-link>
+          <router-link to="/about" :class="{'active':$route.name=='about'}">關於我們</router-link>
+          <router-link
+            to="/product"
+            :class="{'active':$route.name=='product' ||$route.name=='productid' || $route.name=='checkout' ||$route.name=='pay'}"
+          >旅遊景點</router-link>
         </nav>
       </div>
     </header>
@@ -76,6 +79,9 @@ export default {
           color: white;
           position: relative;
           text-align: center;
+        }
+        > a.active {
+          color: $yellow;
         }
         > a:hover {
           color: $yellow;
@@ -144,6 +150,15 @@ export default {
             width: 80px !important;
             padding: 0 !important;
           }
+          > a.active:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: -5px;
+            border-bottom: 2px solid $yellow;
+          }
           > a:after {
             content: "";
             position: absolute;
@@ -163,6 +178,7 @@ export default {
     }
   }
 }
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;

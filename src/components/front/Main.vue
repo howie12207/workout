@@ -287,6 +287,8 @@ export default {
           justify-content: space-around;
           > .linethrough {
             position: relative;
+            transform: scale(1);
+            transition: 0.7s;
           }
           > .linethrough:after {
             content: "";
@@ -313,6 +315,9 @@ export default {
     }
     > .item:hover .linethrough:after {
       right: 0 !important;
+    }
+    > .item:hover .linethrough {
+      transform: scale(0.9) !important;
     }
     > .item:hover .special {
       opacity: 1 !important;

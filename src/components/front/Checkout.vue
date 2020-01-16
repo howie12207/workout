@@ -65,15 +65,16 @@
         </transition>
         <div class="coupon">
           <label for="coupon">輸入test獲得優惠</label>
-          <input type="text" placeholder="輸入優惠碼" id="coupon" v-model="couponCode" />
-          <button @click="submitCoupon">套用優惠碼</button>
+          <div class="block">
+            <input type="text" placeholder="輸入優惠碼" id="coupon" v-model="code" />
+            <a href="#" @click.prevent="submitCoupon">套用優惠碼</a>
+          </div>
         </div>
       </div>
       <!-- ----- 購買人資訊 ----- -->
       <div class="info">
         <!-- v-slot="{ invalid }" 為搭配BTN未符合狀態禁用 只要任一位有不符合就會回傳true -->
         <ValidationObserver tag="form" v-slot="{ invalid }" @submit.prevent="submitOrder">
-          <h2>購買人資訊</h2>
           <ValidationProvider rules="required" v-slot="{ errors }" name="姓名">
             <label for="name">收件人姓名</label>
             <input
@@ -180,12 +181,12 @@ export default {
         this.$store.commit("CUSTOMER_MESSAGE", value);
       }
     },
-    couponCode: {
+    code: {
       get() {
         return "";
       },
       set(value) {
-        this.$store.commit("COUPONCODE", value);
+        this.$store.commit("CODE", value);
       }
     }
   },
@@ -210,95 +211,158 @@ export default {
 .cart {
   width: 100%;
   font-family: "Noto Serif TC", serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #8d2f23;
+  color: $red;
+  > .col-2 {
+    margin: line(1) auto;
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // ----- 購物車清單 -----
+    > .cartlist {
+      margin: line(1) auto;
+      > .toggleCart {
+        @extend %abutton;
+        text-align: center;
+        background-color: brown;
+        padding: line(1);
+        border-radius: 5px;
+        color: white;
+        display: inline-block;
+        width: 100%;
+        max-width: 800px;
+        box-sizing: border-box;
+      }
+      > .carttable {
+        margin: 10px 0 0;
+        width: 100%;
+        max-width: 800px;
+        th {
+          border-top: 1px solid #8d2f23;
+        }
+        th,
+        td {
+          padding: 10px 5px;
+          text-align: left;
+          border-bottom: 1px solid #8d2f23;
+        }
+        .edit,
+        .qty {
+          width: 10%;
+          text-align: center;
+        }
+        .delBtn {
+          @extend %abutton;
+          color: red;
+        }
+        .title,
+        .eachprice,
+        .itemprice {
+          width: 20%;
+        }
+      }
+      // ----- 優惠券 -----
+      > .coupon {
+        margin: line(1) 0;
+        > .block {
+          display: flex;
+          align-items: center;
+          font-size: 0;
+          > input {
+            margin: line(1) 0;
+            height: 30px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            width: 200px;
+            border-radius: 5px 0 0 5px;
+          }
+          > a {
+            @extend %abutton;
+            background-color: $red;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            color: white;
+            padding: line(0.5) line(1);
+            box-sizing: border-box;
+            border-radius: 0 5px 5px 0;
+          }
+          > input:focus ~ a {
+            background-color: $yellow;
+          }
+        }
+      }
+    }
+    // ----- 購買人資訊 -----
+    > .info {
+      margin: 0 auto;
+      > form {
+        display: flex;
+        flex-direction: column;
+        // align-items: center;
+        label {
+          font-size: 1.25rem;
+          line-height: 2rem;
+        }
+        input {
+          width: 100%;
+          box-sizing: border-box;
+        }
+        input.invalid {
+          border: 1px solid red;
+        }
+        .tips {
+          height: 1rem;
+          color: red;
+          margin: 5px 0 0 10px;
+        }
+        button.submit {
+          margin: line(1) 0;
+          align-self: flex-end;
+          padding: line(1) line(2);
+          font-size: 1.25rem;
+          box-sizing: border-box;
+          color: white;
+          background-color: $red;
+          border: 1px solid $red;
+          border-radius: 5px;
+          transform: translateY(0px);
+          transition: 0.7s;
+        }
+        button.disabled {
+          background-color: #fff;
+          color: #ddd;
+          pointer-events: none;
+          border-color: #ddd;
+        }
+        button:hover {
+          cursor: pointer;
+          transform: translateY(3px);
+        }
+      }
+    }
+  }
 }
-.cart .cartlist .toggleCart {
-  @extend %abutton;
-  display: block;
-  text-align: center;
-  background-color: brown;
-  padding: 20px 10px;
-  border-radius: 10px;
-  color: white;
-}
-// ----- 購物車清單 -----
-.cart .cartlist {
-  margin: 10px auto;
-  width: 95%;
-}
-.cart .cartlist .carttable {
-  margin: 10px 0 0;
-}
-.cart .cartlist .carttable th {
-  border-top: 1px solid #8d2f23;
-}
-.cart .cartlist .carttable th,
-.cart .cartlist .carttable td {
-  padding: 10px 5px;
-  text-align: left;
-  vertical-align: middle;
-  border-bottom: 1px solid #8d2f23;
-}
-.cart .cartlist .carttable .edit {
-  width: 10%;
-  text-align: center;
-}
-.cart .cartlist .carttable .delBtn {
-  text-decoration: none;
-  color: red;
-}
-.cart .cartlist .carttable .pic {
-  width: 20%;
-}
-.cart .cartlist .carttable .pic img {
-  width: 100%;
-  vertical-align: top;
-}
-.cart .cartlist .carttable .title {
-  width: 20%;
-}
-.cart .cartlist .carttable .eachprice {
-  width: 20%;
-}
-.cart .cartlist .carttable .qty {
-  width: 10%;
-  text-align: center;
-}
-.cart .cartlist .carttable .itemprice {
-  width: 20%;
-}
-
-// ----- 購買人資訊 -----
-.cart .info {
-  width: 95%;
-  margin: 30px auto;
-  display: flex;
-  flex-direction: column;
-}
-.cart .info h2 {
-  font-size: 2rem;
-  margin: 0 0 10px 0;
-}
-.cart .info input,
+input,
 textarea {
-  width: 80%;
+  border-radius: 5px;
+  padding: line(0.5) line(1);
+  border: 1px solid $red;
 }
-
-.cart .info button.submit {
-  margin: 20px 0 20px 50%;
-  width: 30%;
+input:focus {
+  border: 1px solid $yellow;
+}
+textarea:focus {
+  outline: none;
+  border: 1px solid $yellow;
+}
+label {
   display: block;
 }
-
-.cart .info .tips {
-  height: 1rem;
+.red {
   color: red;
-  margin: 5px 0 0 10px;
 }
-
 .text-align-right {
   text-align: right !important;
 }
@@ -308,33 +372,13 @@ textarea {
 .text-through {
   text-decoration: line-through;
 }
-.red {
-  color: red;
-}
-label {
-  display: block;
-  margin: 10px 0;
-}
-input.invalid {
-  border: 1px solid red;
-}
-button.disabled {
-  background-color: #fff;
-  color: #ddd;
-  pointer-events: none;
-  border-color: #ddd;
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: 0.5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
+
 @media screen and (min-width: 960px) {
   .cart .col-2 {
     width: 100%;
-    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
   }
   .cart .cartlist,
   .cart .info {

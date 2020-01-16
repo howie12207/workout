@@ -29,6 +29,7 @@ export default {
     this.getProducts();
     this.getStar();
     this.getCart();
+    scroll(0, 0);
   }
 };
 </script>

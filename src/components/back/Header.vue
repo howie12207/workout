@@ -1,10 +1,10 @@
 <template>
   <header class="header">
     <div class="container">
-      <a href="#" class="logo">
+      <router-link to="/login" class="logo">
         <img src="../../assets/logo.png" alt="logo" />
         <h2>BestTrip</h2>
-      </a>
+      </router-link>
       <nav class="nav">
         <button @click="logout">登出</button>
       </nav>

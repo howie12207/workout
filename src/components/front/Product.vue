@@ -3,9 +3,7 @@
     <loading :active.sync="isLoading"></loading>
     <Alert />
     <Header />
-    <Banner />
-    <Sidebar />
-    <Main />
+    <router-view></router-view>
   </div>
 </template>
 
@@ -13,12 +11,9 @@
 import { mapGetters, mapActions } from "vuex";
 import Header from "../Header.vue";
 import Alert from "../AlertMessage.vue";
-import Banner from "./Banner.vue";
-import Sidebar from "./Sidebar.vue";
-import Main from "./Main.vue";
 export default {
   name: "Product",
-  components: { Header, Alert, Banner, Sidebar, Main },
+  components: { Header, Alert },
   computed: {
     ...mapGetters(["products", "isLoading"])
   },
@@ -27,9 +22,9 @@ export default {
   },
   created() {
     this.getProducts();
-    this.getStar();
-    this.getCart();
-    scroll(0, 0);
+    // this.getStar();
+    // this.getCart();
+    // scroll(0, 0);
   }
 };
 </script>

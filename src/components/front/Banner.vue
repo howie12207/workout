@@ -6,13 +6,11 @@
           <div class="img">
             <img :src="item.src" alt />
           </div>
-          <div class="txt">
-            <p>{{ item.title }}</p>
-          </div>
         </a>
       </swiper-slide>
-      <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
+
+    <div></div>
   </div>
 </template>
 
@@ -33,11 +31,7 @@ export default {
           delay: 4000,
           disableOnInteraction: false
         },
-        effect: "fade",
-        pagination: {
-          el: ".swiper-pagination",
-          dynamicBullets: true
-        }
+        effect: "fade"
       }
     };
   },
@@ -51,44 +45,35 @@ export default {
 
 <style lang="scss" scoped>
 .banner {
+  font-family: "Noto Serif TC", serif;
   > .swiper-container {
-    // width: 960px;
-    width: 100%;
-    margin: 0 auto;
-    img {
-      width: 100%;
-      height: 300px;
-      vertical-align: top;
-    }
-    .txt {
-      position: absolute;
-      width: 80%;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      margin: auto;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      font-size: 2rem;
-      font-weight: 900;
-      line-height: 2.5rem;
-    }
-  }
-}
-
-@media screen and (min-width: 960px) {
-  .banner {
-    > .swiper-container {
+    // max-width: 1200px;
+    // width: 100%;
+    width: 1200px;
+    height: 600px;
+    > .swiper-wrapper {
+      margin: 0 auto;
       img {
+        width: 100%;
         height: 600px;
+        vertical-align: top;
       }
       .txt {
-        font-size: 2.5rem;
-        line-height: 4rem;
+        position: absolute;
+        width: 80%;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 2rem;
+        font-weight: 900;
+        line-height: 2.5rem;
       }
     }
   }

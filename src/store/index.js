@@ -54,41 +54,61 @@ export default new Vuex.Store({
     pagination: {},
     banner: [
       {
-        id: 0,
-        title: "舊金山必去20大景點！沒去過別說你來過舊金山！",
-        src: require("../assets/USA.jpg"),
-        alt: "USA",
+        src: require("../assets/shake.jpg"),
+        alt: "shake",
+        to: ""
+      },
+      {
+        src: require("../assets/whey.jpg"),
+        alt: "whey",
         to: "-LyPTx445DlNFFqSjLbG"
       },
       {
-        id: 1,
-        title: "2020櫻花季日本賞櫻行程！景點、交通、行程...一次搞定",
-        src: require("../assets/Japan.jpg"),
-        alt: "Japan",
-        to: "-LyPNcvtbjLy5J-2bnVJ"
-      },
-      {
-        id: 2,
-        title: "暢遊浪漫水都「威尼斯」",
-        src: require("../assets/Italia.jpg"),
-        alt: "Italia",
-        to: "-LyPPeo9SKru4vO1RQ66"
-      },
-      {
-        id: 3,
-        title:
-          "「峇里島」這裡不是天堂，卻讓人迷失，在這美麗原始的小島，享受寧靜的片刻!",
-        src: require("../assets/Bali.jpg"),
-        alt: "Bali",
+        src: require("../assets/clothes.jpg"),
+        alt: "clothes",
         to: "-LybqeLb3XDP1tUqtvRB"
       },
       {
-        id: 4,
-        title:
-          "紐西蘭自助旅行│紐西蘭南島皇后鎮絕對不可錯過的Skyline、Gondola纜車、小雪橇滑板車Luge",
-        src: require("../assets/NewZealand.jpg"),
-        alt: "NewZealand",
-        to: ""
+        src: require("../assets/barbell.jpg"),
+        alt: "barbell",
+        to: "-LyPNcvtbjLy5J-2bnVJ"
+      },
+      {
+        src: require("../assets/course.jpg"),
+        alt: "course",
+        to: "-LyPPeo9SKru4vO1RQ66"
+      }
+    ],
+    bannerSec: [
+      {
+        tag: "揮灑汗水",
+        src:
+          "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1577850402294.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=p81yB4LMiXSZ2J2l3knZ3g7yeBWjicWkcWSjenxCTEu5HSC1FJceKCfqZXfXmcrfGhwzVTMqOtcdWclA9jHn5GEuAK1opJD8cml7cXT88FHNlYrIOktIz1Kt5QJtApzk1iEJGb7cyj7Tp3FuEwH3Q0h7xg2lpDSDXgrtzkjZmz%2FBxJho1oJhYDtTrZlbux7e%2FUocokd8Oo%2FXo7Jpg7FSnqEpXwQ6WKPJ%2FX2wQ6KZ%2FHCVxmP1JsXFgrD1WL%2B19pN69pEth2YqEoXfCU59lEm6CkuunQPaEqcGn9Ha4PVYTUfW0qfZXtXT2zOzWbolgwx1FKep3%2BRdKbPW5PzcGxX9Jg%3D%3D",
+        description: "戴上拳擊手套盡情發洩吧情緒。"
+      },
+      {
+        tag: "心律監測",
+        src:
+          "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579239809084.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=EMZ3oOIcuyUV%2Bu1kGQ4170yN6Bxpno31C7J4RhxO4UG5YX4C0ET5yrcyRCl1B3wYIX0dcuNb6emxS2DsM1z4RsT%2BDvCMvvVqy56NCDZBDwm0wldu3v7UUvj3JgrYYHgl2YBtB73BD8SwzwenKN1Su%2FeeBK8pb65%2FoSTeDy9A8704FHrlNsKgHu06EBxZOUZJzcJdD9PX4lh%2FbGqc6lnGWY6GuZ8NzYhFDEcfV4NNbJlKc8yA4Vi0CsTBCNSnhXO2CeDEhRcdCpfp%2FRiNAuktejcpA4HD%2BqzESYFUygKGOHXPY3Ne6IK64ZEeVKaRne5Q%2FMGuCQ%2FKHlvyE9G7wi4yPg%3D%3D",
+        description: "配備多種搭配運動計步功能以及通話撥話等功能。"
+      },
+      {
+        tag: "補充能量",
+        src:
+          "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579240011072.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=fYRG1ZC%2BkP80eeIoPgNzlLeyNaSCknRCJmAoexm0hGnNHaZKzUvXIH1%2BhG84iH3wrRwtbO%2FgSXe42dThq9NlRyLdarmOnuuFyCcCLwV8FLCwqDG5mB9lQFSuBwOcB%2FO%2BBupWvjrF2GdHw%2FjnDB7pxJRgsFJVi1sc13PxOokix4nlnWFCQ52uFYfQRNTUSjdkFXy8lW3NKyvb0vvWoNcwMca%2Bi6aJMTwc7kKhNT4qC51mOioCsuxkPecmm8bHjonzer7Mi6a5hi9IAplUkSijJ3gn0SpW26l5bnRZRfiqU4r63fRSHA0bw9WX7oUqDzzkja8Sxg4Qp5BEEZklQEeKRQ%3D%3D",
+        description: "運動前、運動完方便補充能量。"
+      },
+      {
+        tag: "音樂世界",
+        src:
+          "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1577850512423.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=LiDuiZtTIAgZEXRZQt5lzirseXSVArkTV0cYOU4%2BiRpDBTR0Csgs%2FaNP4t5uxKHXaz6TeTa3UObV83axcKHm2brYPjpQ6DprAYM9WlnOnxmPzvRaqXEG1gTtc7Ohsqjl3QghRQD3Dc7YPYWyqf%2B1VXj5ZpkJaVhteg4%2BtQwIEZV6giM6FIDFj0U%2BmeMnC8KF%2FErV%2BrYrbI4vlo%2BRRvkabHp1jbAXFBRIek%2Bcxo2hPWgeWBFc8ehIdOiJw%2B3gSTx0HOH3fwmOK7OHMGNlwR5CCzhiXHpV9N4tcKkwmg5jDbuHrCtjhcQ6mkcFVc2CIHL3dT6GZaXm0rk8pXwXx7NaxA%3D%3D",
+        description: "運動不再單調乏味"
+      },
+      {
+        tag: "放鬆神器",
+        src:
+          "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579240712272.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=A%2FrN2uuSDdE5ANApxYbqekhxA8gbM37gTpdARuzz8Y9qBwURDKNZNstn3oJlym7TjqoiOsxKz7WWw%2BiO%2Bw9Ty6gR2PeH7TJmqfyRENvTo3qY7GKdcSbyvwN4UnZ7oEDxEvdoFzukHWR6VLEgsa%2BX%2B%2FGZLpld1l1%2BCtCKg3%2FTkml%2Fq%2BFYysxDGXmvbChKFIfzqix8k9Dj7vFwsdzJH9CEwOEv5mS%2Bpyj2pjlPO%2FZrP0as3XsarTpIwGXyRxU23PZr69S7uvJiQYBZ3gdQqDxWaPaMwMCGD8H%2BTv6v8tNBZ0CJom9QtVhUyIXFWqLK5WUJCGdh%2F9RZPL1NQ4uqW838gQ%3D%3D",
+        description: "運動完痠痛?使用它來好好放鬆吧。"
       }
     ]
   },
@@ -758,6 +778,39 @@ export default new Vuex.Store({
     },
     cart(state) {
       return state.cart;
+    },
+    star(state) {
+      return state.star;
+    },
+    oldder(state) {
+      let tmp = [];
+      tmp.push(state.products[0]);
+      tmp.push(state.products[1]);
+      tmp.push(state.products[2]);
+      tmp.push(state.products[3]);
+      tmp.push(state.products[4]);
+      tmp.push(state.products[5]);
+      return tmp;
+    },
+    newer(state) {
+      let tmp = [];
+      tmp.push(state.products[6]);
+      tmp.push(state.products[7]);
+      tmp.push(state.products[8]);
+      tmp.push(state.products[9]);
+      tmp.push(state.products[10]);
+      tmp.push(state.products[11]);
+      return tmp;
+    },
+    beginner(state) {
+      let tmp = [];
+      tmp.push(state.products[12]);
+      tmp.push(state.products[13]);
+      tmp.push(state.products[14]);
+      tmp.push(state.products[15]);
+      tmp.push(state.products[16]);
+      tmp.push(state.products[17]);
+      return tmp;
     }
   },
   modules: {}

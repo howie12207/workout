@@ -1,9 +1,9 @@
 $red: #842b00;
 $yellow: #ffd306;
 %abutton {
-  display: block;
+  display: inline-block;
   text-decoration: none;
 }
-@function line($count: 1, $baselineheight: 10px) {
+@function line($count: 1, $baselineheight: 8px) {
   @return $baselineheight * $count;
 }

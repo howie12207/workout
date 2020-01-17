@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 import Home from "../components/front/Home.vue";
 import About from "../components/front/About.vue";
 import Product from "../components/front/Product.vue";
+import Main from "../components/front/Main.vue";
+import Sort from "../components/front/Sort.vue";
 import ProductId from "../components/front/ProductId.vue";
 import Checkout from "../components/front/Checkout.vue";
 import Pay from "../components/front/Pay.vue";
@@ -31,8 +33,19 @@ const routes = [
   },
   {
     path: "/product",
-    name: "product",
-    component: Product
+    component: Product,
+    children: [
+      {
+        path: "",
+        name: "main",
+        component: Main
+      },
+      {
+        path: "sort",
+        name: "sort",
+        component: Sort
+      }
+    ]
   },
   {
     path: "/product/:productId",

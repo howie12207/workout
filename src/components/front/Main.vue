@@ -7,17 +7,25 @@
         <div class="pic">
           <img src="../../assets/new.jpg" alt="new" />
         </div>
-        <div class="txt">新品上市</div>
+        <div class="txt">特價商品</div>
       </div>
       <div class="section">
-        <div class="item" v-for="(item,index) in newer" :key="index">
-          <a href="#" class="pic" v-if="item">
+        <div class="item" v-for="(item,index) in sales" :key="index">
+          <a href="#" class="pic" v-if="item" @click.prevent="seeMore(item.id)">
             <div class="mask">
               <div class="icon">
-                <a href="#">
+                <a
+                  href="#"
+                  class="star"
+                  @click.prevent.stop="removeStar(item)"
+                  v-if="changeStar(item)"
+                >
+                  <i class="fas fa-heart"></i>
+                </a>
+                <a href="#" @click.prevent.stop="addStar(item)" v-else>
                   <i class="far fa-heart"></i>
                 </a>
-                <a href="#">
+                <a href="#" @click.prevent.stop="addCart(item.id)">
                   <i class="fas fa-cart-plus"></i>
                 </a>
               </div>
@@ -25,13 +33,20 @@
             <img :src="item.imageUrl" alt="course" />
           </a>
           <div class="txt" v-if="item">
-            <a href="#" class="title">{{ item.title }}</a>
+            <a href="#" class="title" @click.prevent="seeMore(item.id)">{{ item.title }}</a>
             <p class="description">{{ item.description }}</p>
-            <p class="price">
+            <p class="price" v-if="item.origin_price===item.price">
+              <span></span>
+              <span class="special">{{ item.price|currency }}</span>
+            </p>
+            <p class="price" v-else>
               <span class="origin">{{ item.origin_price |currency }}</span>
               <span class="special">{{ item.price|currency }}</span>
             </p>
           </div>
+        </div>
+        <div class="item more" v-if="sales.length<8">
+          <router-link to="/product/sales">查看更多</router-link>
         </div>
       </div>
     </div>
@@ -44,13 +59,21 @@
       </div>
       <div class="section">
         <div class="item" v-for="(item,index) in beginner" :key="index">
-          <a href="#" class="pic" v-if="item">
+          <a href="#" class="pic" v-if="item" @click="seeMore(item.id)">
             <div class="mask">
               <div class="icon">
-                <a href="#">
+                <a
+                  href="#"
+                  class="star"
+                  @click.prevent.stop="removeStar(item)"
+                  v-if="changeStar(item)"
+                >
+                  <i class="fas fa-heart"></i>
+                </a>
+                <a href="#" @click.prevent.stop="addStar(item)" v-else>
                   <i class="far fa-heart"></i>
                 </a>
-                <a href="#">
+                <a href="#" @click.prevent.stop="addCart(item.id)">
                   <i class="fas fa-cart-plus"></i>
                 </a>
               </div>
@@ -58,9 +81,13 @@
             <img :src="item.imageUrl" alt="course" />
           </a>
           <div class="txt" v-if="item">
-            <a href="#" class="title">{{ item.title }}</a>
+            <a href="#" class="title" @click="seeMore(item.id)">{{ item.title }}</a>
             <p class="description">{{ item.description }}</p>
-            <p class="price">
+            <p class="price" v-if="item.origin_price===item.price">
+              <span></span>
+              <span class="special">{{ item.price|currency }}</span>
+            </p>
+            <p class="price" v-else>
               <span class="origin">{{ item.origin_price |currency }}</span>
               <span class="special">{{ item.price|currency }}</span>
             </p>
@@ -73,17 +100,25 @@
         <div class="pic">
           <img src="../../assets/old.jpg" alt="old" />
         </div>
-        <div class="txt">老手必備</div>
+        <div class="txt">老手專區</div>
       </div>
       <div class="section">
         <div class="item" v-for="(item,index) in oldder" :key="index">
-          <a href="#" class="pic" v-if="item">
+          <a href="#" class="pic" v-if="item" @click.prevent="seeMore(item.id)">
             <div class="mask">
               <div class="icon">
-                <a href="#">
+                <a
+                  href="#"
+                  class="star"
+                  @click.prevent.stop="removeStar(item)"
+                  v-if="changeStar(item)"
+                >
+                  <i class="fas fa-heart"></i>
+                </a>
+                <a href="#" @click.prevent.stop="addStar(item)" v-else>
                   <i class="far fa-heart"></i>
                 </a>
-                <a href="#">
+                <a href="#" @click.prevent.stop="addCart(item.id)">
                   <i class="fas fa-cart-plus"></i>
                 </a>
               </div>
@@ -91,9 +126,13 @@
             <img :src="item.imageUrl" alt="course" />
           </a>
           <div class="txt" v-if="item">
-            <a href="#" class="title">{{ item.title }}</a>
+            <a href="#" class="title" @click.prevent="seeMore(item.id)">{{ item.title }}</a>
             <p class="description">{{ item.description }}</p>
-            <p class="price">
+            <p class="price" v-if="item.origin_price===item.price">
+              <span></span>
+              <span class="special">{{ item.price|currency }}</span>
+            </p>
+            <p class="price" v-else>
               <span class="origin">{{ item.origin_price |currency }}</span>
               <span class="special">{{ item.price|currency }}</span>
             </p>
@@ -113,56 +152,18 @@ export default {
   name: "Main",
   components: { Banner, BannerSec },
   computed: {
-    ...mapGetters(["newer", "beginner", "oldder", "products", "cart"])
-    //     starShow() {
-    //       return this.$store.state.starShow;
-    //     },
-    //     cartShow() {
-    //       return this.$store.state.cartShow;
-    //     },
-    //     star() {
-    //       return this.$store.state.star;
-    //     },
-    //     search() {
-    //       return this.$store.state.search;
-    //     },
-    //     pageProducts() {
-    //       let vm = this;
-    //       const nowPage = this.$store.state.page.pageNow;
-    //       const str = nowPage * 9 - 9;
-    //       const end = nowPage * 9;
-    //       let tmpProduct = this.$store.state.products;
-    //       if (vm.$store.state.categorySwitch !== "全部") {
-    //         tmpProduct = tmpProduct.filter(function(item) {
-    //           return item.category.match(vm.$store.state.categorySwitch);
-    //         });
-    //       }
-    //       tmpProduct = tmpProduct.filter(function(item) {
-    //         return item.title.match(vm.$store.state.search);
-    //       });
-    //       this.$store.commit("PAGETOTAL", Math.ceil(tmpProduct.length / 10));
-    //       tmpProduct = tmpProduct.slice(str, end);
-    //       return tmpProduct;
-    //     }
+    ...mapGetters(["newer", "beginner", "oldder", "products", "cart"]),
+    sales() {
+      let tmp = this.$store.getters.sales;
+      if (tmp.length === 8) {
+        tmp.splice(8);
+      } else {
+        tmp.splice(7);
+      }
+      return tmp;
+    }
   },
   methods: {
-    //     starClose() {
-    //       this.$store.commit("STARSHOW", false);
-    //       // console.log("1");
-    //     },
-    //     starshow() {
-    //       this.$store.commit("STARSHOW", !this.starShow);
-    //     },
-    //     cartClose() {
-    //       this.$store.commit("CARTSHOW", false);
-    //       // console.log("1");
-    //     },
-    //     cartshow() {
-    //       this.$store.commit("CARTSHOW", !this.cartShow);
-    //     },
-    //     categorySwitch(category) {
-    //       this.$store.dispatch("categorySwitch", category);
-    //     },
     seeMore(page) {
       this.$store.dispatch("seeMore", page);
     },
@@ -187,6 +188,7 @@ export default {
     }
   },
   created() {
+    this.$store.dispatch("getProducts");
     //     this.$store.commit("CARTSHOW", false);
     //     this.$store.commit("STARSHOW", false);
     //     this.$store.commit("NAVSHOW", false);
@@ -217,6 +219,7 @@ a {
           width: 280px;
           height: 600px;
           vertical-align: top;
+          object-fit: cover;
         }
       }
       > .txt {
@@ -228,9 +231,9 @@ a {
         right: 24px;
         background-color: rgba(255, 255, 255, 0.6);
         width: 80px;
-        height: 240px;
+        height: 200px;
         writing-mode: vertical-lr;
-        font-size: 3rem;
+        font-size: 2rem;
         letter-spacing: 8px;
         color: $red;
       }
@@ -240,7 +243,8 @@ a {
       flex-wrap: wrap;
       > .item {
         width: 200px;
-        margin: line(1) 0 line(1) line(2);
+        margin: line(1) 0 line(1) line(1);
+        padding: line(1);
         > .pic {
           position: relative;
           > .mask {
@@ -283,6 +287,7 @@ a {
             height: 200px;
             vertical-align: top;
             border-radius: 8px;
+            object-fit: cover;
           }
         }
         > .txt {
@@ -295,7 +300,7 @@ a {
             text-decoration: underline;
           }
           > .description {
-            color: #ccc;
+            color: #999;
           }
           > .price {
             display: flex;
@@ -310,8 +315,27 @@ a {
           }
         }
       }
-      > .item:hover .mask {
-        opacity: 1;
+      > .item:hover {
+        .mask {
+          opacity: 1;
+        }
+      }
+      > .item:hover {
+        border-radius: 8px;
+        box-shadow: 0 0 3px black;
+      }
+      > .more {
+        width: 200px;
+        margin: line(1) 0 line(1) line(1);
+        padding: line(1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2rem;
+        > a {
+          color: $red;
+          padding: line(2);
+        }
       }
     }
   }

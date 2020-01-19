@@ -1,7 +1,7 @@
 <template>
   <div class="banner">
     <swiper :options="swiperOption">
-      <swiper-slide v-for="(item, index) in banner" :key="index">
+      <swiper-slide v-for="(item) in banner" :key="item.to">
         <a href="#" @click.prevent="seeMore(item.to)">
           <div class="pic">
             <img :src="item.src" alt />
@@ -12,7 +12,6 @@
           </div>
         </a>
       </swiper-slide>
-      <div class="swiper-pagination" slot="pagination"></div>
       <div class="swiper-button-prev" slot="button-prev"></div>
       <div class="swiper-button-next" slot="button-next"></div>
     </swiper>
@@ -31,12 +30,8 @@ export default {
     return {
       swiperOption: {
         slidesPerView: 4,
-        loop: true,
+        loop: false,
         // spaceBetween: 30,
-        scrollbar: {
-          el: ".swiper-scrollbar",
-          hide: false
-        },
         navigation: {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev"
@@ -47,6 +42,7 @@ export default {
   methods: {
     seeMore(id) {
       this.$store.dispatch("seeMore", id);
+      console.log(id);
     }
   }
 };
@@ -78,6 +74,7 @@ a {
           width: 280px;
           height: 240px;
           vertical-align: top;
+          object-fit: cover;
         }
       }
     }
@@ -94,10 +91,10 @@ a {
         color: white;
       }
       > .title {
-        padding: line(1);
+        padding: line(1) line(1) 0 line(2);
         box-sizing: border-box;
         height: 48px;
-        width: 192px;
+        width: 232px;
         color: black;
       }
     }

@@ -43,40 +43,40 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/variable.scss";
 .pagination {
-  text-align: center;
-  margin: 20px 0;
-  font-size: 0;
-}
-.pagination a {
-  box-sizing: border-box;
-  display: inline-block;
-  background-color: #fff;
-  padding: 5px 8px;
-  border-top: 1px solid #8d2f23;
-  border-right: 1px solid #8d2f23;
-  border-bottom: 1px solid #8d2f23;
-  text-decoration: none;
-  color: #8d2f23;
-  transition: 0.5s;
-  font-size: 1.25rem;
-}
-.pagination a:hover,
-.pagination .active {
-  background-color: #8d2f23;
-  color: white;
-}
-.pagination a:first-child {
-  border-left: 1px solid #8d2f23;
-  border-radius: 5px 0 0 5px;
-}
-.pagination a:last-child {
-  border-radius: 0 5px 5px 0;
-}
-.pagination a.disabled {
-  background-color: #fff;
-  color: #ddd;
-  pointer-events: none;
-  //   border-color: #ddd;
+  margin: line(2) 0;
+  > nav {
+    display: flex;
+    justify-content: center;
+    font-size: 0;
+    > a {
+      @extend %abutton;
+      padding: line(1);
+      border-top: 1px solid $red;
+      border-right: 1px solid $red;
+      border-bottom: 1px solid $red;
+      color: $red;
+      transition: 0.8s;
+      font-size: 1rem;
+    }
+    > a:first-child {
+      border-left: 1px solid $red;
+      border-radius: 8px 0 0 8px;
+    }
+    > a:last-child {
+      border-radius: 0 8px 8px 0;
+    }
+    > a:hover,
+    > .active {
+      background-color: $red;
+      color: white;
+    }
+    > a.disabled {
+      background-color: #fff;
+      color: #ddd;
+      pointer-events: none;
+    }
+  }
 }
 </style>

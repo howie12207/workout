@@ -24,7 +24,9 @@ export default new Vuex.Store({
       pageTotal: 1
     },
     categories: [],
-    categorySwitch: "全部",
+    categorySwitch: "",
+    sort: "",
+    sequence: "timeold",
     products: [],
     product: { category: "" },
     search: "",
@@ -56,27 +58,27 @@ export default new Vuex.Store({
       {
         src: require("../assets/shake.jpg"),
         alt: "shake",
-        to: ""
+        to: "-LxULEc2iXOAYLYjlRRj"
       },
       {
         src: require("../assets/whey.jpg"),
         alt: "whey",
-        to: "-LyPTx445DlNFFqSjLbG"
+        to: "-LxUDhK_wBafnper1FoU"
       },
       {
         src: require("../assets/clothes.jpg"),
         alt: "clothes",
-        to: "-LybqeLb3XDP1tUqtvRB"
+        to: "-LyvgfKsRyuZRVvTgXRU"
       },
       {
         src: require("../assets/barbell.jpg"),
-        alt: "barbell",
-        to: "-LyPNcvtbjLy5J-2bnVJ"
+        alt: "dumbell",
+        to: "-LxUB8_TcXPic76dNZKn"
       },
       {
         src: require("../assets/course.jpg"),
         alt: "course",
-        to: "-LyPPeo9SKru4vO1RQ66"
+        to: "-Lyvj9zOvUF9ouXBiBpY"
       }
     ],
     bannerSec: [
@@ -84,33 +86,75 @@ export default new Vuex.Store({
         tag: "揮灑汗水",
         src:
           "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1577850402294.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=p81yB4LMiXSZ2J2l3knZ3g7yeBWjicWkcWSjenxCTEu5HSC1FJceKCfqZXfXmcrfGhwzVTMqOtcdWclA9jHn5GEuAK1opJD8cml7cXT88FHNlYrIOktIz1Kt5QJtApzk1iEJGb7cyj7Tp3FuEwH3Q0h7xg2lpDSDXgrtzkjZmz%2FBxJho1oJhYDtTrZlbux7e%2FUocokd8Oo%2FXo7Jpg7FSnqEpXwQ6WKPJ%2FX2wQ6KZ%2FHCVxmP1JsXFgrD1WL%2B19pN69pEth2YqEoXfCU59lEm6CkuunQPaEqcGn9Ha4PVYTUfW0qfZXtXT2zOzWbolgwx1FKep3%2BRdKbPW5PzcGxX9Jg%3D%3D",
-        description: "戴上拳擊手套盡情發洩吧情緒。"
+        description: "戴上拳擊手套盡情發洩吧情緒。",
+        to: "-LxUCcNLOR-RhKG2xcHm"
       },
       {
         tag: "心律監測",
         src:
-          "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579239809084.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=EMZ3oOIcuyUV%2Bu1kGQ4170yN6Bxpno31C7J4RhxO4UG5YX4C0ET5yrcyRCl1B3wYIX0dcuNb6emxS2DsM1z4RsT%2BDvCMvvVqy56NCDZBDwm0wldu3v7UUvj3JgrYYHgl2YBtB73BD8SwzwenKN1Su%2FeeBK8pb65%2FoSTeDy9A8704FHrlNsKgHu06EBxZOUZJzcJdD9PX4lh%2FbGqc6lnGWY6GuZ8NzYhFDEcfV4NNbJlKc8yA4Vi0CsTBCNSnhXO2CeDEhRcdCpfp%2FRiNAuktejcpA4HD%2BqzESYFUygKGOHXPY3Ne6IK64ZEeVKaRne5Q%2FMGuCQ%2FKHlvyE9G7wi4yPg%3D%3D",
-        description: "配備多種搭配運動計步功能以及通話撥話等功能。"
+          "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579420864114.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=QifVKK5jXnsIjKGDIb8LbZ5y5XivCWTfIvJu1JsvLeAUdKEF7uPkWXyXtgu5nYsX8D9fTYhBVoixHMEB1fvpFQLvV2cJJSpJouiJSxd1a8u8%2B0yIjZExKc%2FR4Rch%2FXbkVFN%2B8aFBdlnS78bTFUDqeGDEEsrwrtyt7HbES%2FjwuOuB9gcEOgt91%2BxNBtmDRSaC7E0ZM8%2B8e4vRFLfevPgQRb%2Fq91S%2B%2BlltQ3UHI3tQzefmbZyYPgYaBcyqpjAb6tN7F6fNE9KQmu8GRoJVbJetP5cWdUdyzLIbJzB51zaoleMfStfPG%2B1xt1qINdNGMJsTJOEZCYKxREx%2BRenBGavvTw%3D%3D",
+        description: "配備多種搭配運動計步功能以及通話撥話等功能。",
+        to: "-LxUJuHnZTrbQqCsMDC3"
       },
       {
         tag: "補充能量",
         src:
           "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579240011072.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=fYRG1ZC%2BkP80eeIoPgNzlLeyNaSCknRCJmAoexm0hGnNHaZKzUvXIH1%2BhG84iH3wrRwtbO%2FgSXe42dThq9NlRyLdarmOnuuFyCcCLwV8FLCwqDG5mB9lQFSuBwOcB%2FO%2BBupWvjrF2GdHw%2FjnDB7pxJRgsFJVi1sc13PxOokix4nlnWFCQ52uFYfQRNTUSjdkFXy8lW3NKyvb0vvWoNcwMca%2Bi6aJMTwc7kKhNT4qC51mOioCsuxkPecmm8bHjonzer7Mi6a5hi9IAplUkSijJ3gn0SpW26l5bnRZRfiqU4r63fRSHA0bw9WX7oUqDzzkja8Sxg4Qp5BEEZklQEeKRQ%3D%3D",
-        description: "運動前、運動完方便補充能量。"
+        description: "運動前、運動完方便補充能量。",
+        to: "-LxUGEe7UjuOj4rvDR8C"
       },
       {
         tag: "音樂世界",
         src:
           "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1577850512423.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=LiDuiZtTIAgZEXRZQt5lzirseXSVArkTV0cYOU4%2BiRpDBTR0Csgs%2FaNP4t5uxKHXaz6TeTa3UObV83axcKHm2brYPjpQ6DprAYM9WlnOnxmPzvRaqXEG1gTtc7Ohsqjl3QghRQD3Dc7YPYWyqf%2B1VXj5ZpkJaVhteg4%2BtQwIEZV6giM6FIDFj0U%2BmeMnC8KF%2FErV%2BrYrbI4vlo%2BRRvkabHp1jbAXFBRIek%2Bcxo2hPWgeWBFc8ehIdOiJw%2B3gSTx0HOH3fwmOK7OHMGNlwR5CCzhiXHpV9N4tcKkwmg5jDbuHrCtjhcQ6mkcFVc2CIHL3dT6GZaXm0rk8pXwXx7NaxA%3D%3D",
-        description: "運動不再單調乏味"
+        description: "運動不再單調乏味",
+        to: "-LxUD2R2ttgl5bY7aBe3"
       },
       {
         tag: "放鬆神器",
         src:
-          "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579240712272.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=A%2FrN2uuSDdE5ANApxYbqekhxA8gbM37gTpdARuzz8Y9qBwURDKNZNstn3oJlym7TjqoiOsxKz7WWw%2BiO%2Bw9Ty6gR2PeH7TJmqfyRENvTo3qY7GKdcSbyvwN4UnZ7oEDxEvdoFzukHWR6VLEgsa%2BX%2B%2FGZLpld1l1%2BCtCKg3%2FTkml%2Fq%2BFYysxDGXmvbChKFIfzqix8k9Dj7vFwsdzJH9CEwOEv5mS%2Bpyj2pjlPO%2FZrP0as3XsarTpIwGXyRxU23PZr69S7uvJiQYBZ3gdQqDxWaPaMwMCGD8H%2BTv6v8tNBZ0CJom9QtVhUyIXFWqLK5WUJCGdh%2F9RZPL1NQ4uqW838gQ%3D%3D",
-        description: "運動完痠痛?使用它來好好放鬆吧。"
+          "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579421054615.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=IUZ73GZfrlKUC5WbhVQr282agWhHL5nZoZDyY4X2iWeXhN031WAiwGaaW5ZwfwmB0DypSKdmYI%2BHe1YuFst5i8Vegdpwn0TugEJJaKeeks5ZrDcgBImjqgPIe5mCSY%2FeVy1KjKFbhisp7IWFgkWIIPsBdbJX8g%2BmPZrLJziNt%2FiPjW7VdBXMsrjZvXNyRVJ7ldM1GJJ9OkQ0clivRYAxWquV5e%2FBniJPlZXX2cnZLLzxg1EgAo2ozt%2FD24ZrEnSFOlGAtisDXMW46%2BNJIMgNy5zuM12uFSkfXRzIbui2oXZ0fDG90q4RxSVMjJ72%2BwHcBYWhVsYZJ7rmwcd9VRJgMw%3D%3D",
+        description: "運動完痠痛?使用它來好好放鬆吧。",
+        to: "-LxUKlOGVkBrGr8w7U7P"
       }
-    ]
+    ],
+    sortBanner: {
+      equipment: {
+        src: require("../assets/tools.jpg"),
+        alt: "健身器材",
+        title: "健身器材"
+      },
+      clothes: {
+        src: require("../assets/clothesbanner.jpg"),
+        alt: "運動服飾",
+        title: "運動服飾"
+      },
+      course: {
+        src: require("../assets/coursebanner.jpg"),
+        alt: "專業課程",
+        title: "專業課程"
+      },
+      accessory: {
+        src: require("../assets/accessorybanner.jpg"),
+        alt: "運動配件",
+        title: "運動配件"
+      },
+      gear: {
+        src: require("../assets/gearbanner.jpg"),
+        alt: "健身護具",
+        title: "健身護具"
+      },
+      boxing: {
+        src: require("../assets/boxingbanner.jpg"),
+        alt: "拳擊用品",
+        title: "拳擊用品"
+      },
+      nutrition: {
+        src: require("../assets/nutritionbanner.jpg"),
+        alt: "營養補充",
+        title: "營養補充"
+      }
+    }
   },
   mutations: {
     // --- Header ---
@@ -174,6 +218,12 @@ export default new Vuex.Store({
     },
     CATEGORYSWITCH(state, payload) {
       state.categorySwitch = payload;
+    },
+    SORT(state, payload) {
+      state.sort = payload;
+    },
+    SEQUENCE(state, payload) {
+      state.sequence = payload;
     },
     MENUSHOW(state, payload) {
       state.menuShow = payload;
@@ -308,13 +358,85 @@ export default new Vuex.Store({
         // console.log(response);
       });
     },
+    // ----- 取得當前分頁的分類 -----
+    getCategory(context, payload) {
+      let sort = "";
+      if (
+        payload === "equipment" ||
+        payload === "clothes" ||
+        payload === "course" ||
+        payload === "accessory" ||
+        payload === "gear" ||
+        payload === "boxing" ||
+        payload === "nutrition" ||
+        payload === "sales"
+      ) {
+        switch (payload) {
+          case "equipment":
+            sort = "健身器材";
+            break;
+          case "clothes":
+            sort = "運動服飾";
+            break;
+          case "course":
+            sort = "專業課程";
+            break;
+          case "accessory":
+            sort = "運動配件";
+            break;
+          case "gear":
+            sort = "健身護具";
+            break;
+          case "boxing":
+            sort = "拳擊用品";
+            break;
+          case "nutrition":
+            sort = "營養補充";
+            break;
+          case "sales":
+            sort = "特價商品";
+            break;
+        }
+        context.commit("SORT", payload);
+        context.commit("CATEGORYSWITCH", sort);
+      } else {
+        switch (payload) {
+          case "健身器材":
+            sort = "equipment";
+            break;
+          case "運動服飾":
+            sort = "clothes";
+            break;
+          case "專業課程":
+            sort = "course";
+            break;
+          case "運動配件":
+            sort = "accessory";
+            break;
+          case "健身護具":
+            sort = "gear";
+            break;
+          case "拳擊用品":
+            sort = "boxing";
+            break;
+          case "營養補充":
+            sort = "nutrition";
+            break;
+        }
+        context.commit("SORT", sort);
+        // console.log(sort, payload);
+        context.commit("CATEGORYSWITCH", payload);
+      }
+    },
     // ----- 分類切換 -----
     categorySwitch(context, payload) {
       context.commit("PAGENOW", 1); //初始化為第一頁
-      // window.scroll(0, 0); //將畫面移至最上面
-      context.commit("CATEGORYSWITCH", payload);
+      window.scroll(0, 0); //將畫面移至最上面
       context.commit("SEARCH", ""); //清空搜尋
-      context.commit("MENUSHOW", false); //將選單關閉
+      if (context.state.sort === payload) return;
+      context.dispatch("getCategory", payload);
+      router.push(`/product/${payload}`);
+      context.commit("SEQUENCE", "timeold");
     },
     // ----- 分頁切換 -----
     changePage(context, payload) {
@@ -332,7 +454,7 @@ export default new Vuex.Store({
     // ----- 查看產品細節 -----
     seeMore(context, payload) {
       context.commit("ISLOADING", true);
-      router.push(`/product/${payload}`);
+      router.push(`/product/${payload}`); //跳到產品頁
       context.commit("ISLOADING", false);
     },
     // ----- 取得個別產品內容 -----
@@ -346,12 +468,6 @@ export default new Vuex.Store({
         context.commit("PRODUCT", response.data.product); //將取得的產品塞入
         context.commit("ISLOADING", false);
       });
-    },
-    // ----- 返回產品頁 -----
-    toProducts(context) {
-      context.commit("ISLOADING", true);
-      router.push("/product");
-      context.commit("ISLOADING", false);
     },
     // ----- 取得觀察清單 -----
     getStar(context) {
@@ -723,6 +839,10 @@ export default new Vuex.Store({
         }
       });
     },
+    // ----- 更換頁面 -----
+    toPage(context, payload) {
+      router.push(`${payload}`);
+    },
     // ----- 更新警示語 -----
     updateMessage(context, { message, status }) {
       const timestamp = Math.floor(new Date() / 1000);
@@ -751,7 +871,7 @@ export default new Vuex.Store({
             context.commit("MESSAGES", tmp);
           }
         });
-      }, 5000);
+      }, 2000);
     }
   },
   getters: {
@@ -810,6 +930,17 @@ export default new Vuex.Store({
       tmp.push(state.products[15]);
       tmp.push(state.products[16]);
       tmp.push(state.products[17]);
+      return tmp;
+    },
+    // --- 整理出有特價的商品 ---
+    sales(state) {
+      // tmp.filter(function(item) {
+      //   return item.price === item.origin_price;
+      // });
+      let tmp = state.products;
+      tmp = tmp.filter(function(item) {
+        return !item.price.match(item.origin_price);
+      });
       return tmp;
     }
   },

@@ -3,6 +3,7 @@
     <loading :active.sync="isLoading"></loading>
     <Alert />
     <Header />
+    <Breadcrumbs />
     <ProgressBar />
     <!-- ----- 購物車清單 ----- -->
     <div class="col-2">
@@ -130,12 +131,13 @@
 
 <script>
 import Header from "../Header.vue";
+import Breadcrumbs from "./Breadcrumbs.vue";
 import ProgressBar from "./ProgressBar.vue";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Checkout",
-  components: { Header, ProgressBar },
+  components: { Header, ProgressBar, Breadcrumbs },
   computed: {
     ...mapGetters(["isLoading", "cart"]),
     cartlistShow() {

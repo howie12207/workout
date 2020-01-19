@@ -2,49 +2,143 @@
   <div class="sort">
     <loading :active.sync="isLoading"></loading>
     <div class="banner">
-      <img src="../../assets/tools.jpg" alt="訓練器材" />
-      <h2>訓練器材</h2>
+      <img :src="sortBanner.src" :alt="sortBanner.alt" />
+      <h2>{{sortBanner.title}}</h2>
+    </div>
+    <Breadcrumbs />
+    <div class="sequence">
+      <label for="sequence">排序:</label>
+      <select name id="sequence" v-model="sequence">
+        <option value="timeold" selected>上架時間 - 舊至新</option>
+        <option value="timenew">上架時間 - 新至舊</option>
+        <option value="pricelow">價格 - 低至高</option>
+        <option value="pricehigh">價格 - 高至低</option>
+      </select>
     </div>
     <div class="section">
-      <div class="item" v-for="(item,index) in oldder" :key="index">
-        <a href="#" class="pic" v-if="item">
-          <div class="mask">
+      <div class="item" v-for="(item,index) in pageProducts" :key="index">
+        <div class="pic" v-if="item" @click.prevent="seeMore(item.id)">
+          <a href="#" class="mask">
             <div class="icon">
-              <a href="#">
+              <a
+                href="#"
+                class="star"
+                @click.prevent.stop="removeStar(item)"
+                v-if="changeStar(item)"
+              >
+                <i class="fas fa-heart"></i>
+              </a>
+              <a href="#" @click.prevent.stop="addStar(item)" v-else>
                 <i class="far fa-heart"></i>
               </a>
-              <a href="#">
+              <a href="#" @click.prevent.stop="addCart(item.id)">
                 <i class="fas fa-cart-plus"></i>
               </a>
             </div>
-          </div>
+          </a>
           <img :src="item.imageUrl" alt="course" />
-        </a>
+        </div>
         <div class="txt" v-if="item">
-          <a href="#" class="title">{{ item.title }}</a>
+          <a href="#" class="title" @click.prevent="seeMore(item.id)">{{ item.title }}</a>
           <p class="description">{{ item.description }}</p>
-          <p class="price">
+          <p class="price" v-if="item.origin_price===item.price">
+            <span></span>
+            <span class="special">{{ item.price|currency }}</span>
+          </p>
+          <p class="price" v-else>
             <span class="origin">{{ item.origin_price |currency }}</span>
             <span class="special">{{ item.price|currency }}</span>
           </p>
         </div>
       </div>
     </div>
+    <Pagination />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import Breadcrumbs from "./Breadcrumbs.vue";
+import Pagination from "./Pagination.vue";
 export default {
   name: "Sort",
+  components: { Breadcrumbs, Pagination },
   computed: {
-    ...mapGetters(["products", "isLoading", "oldder"])
+    ...mapGetters(["products", "isLoading"]),
+    pageProducts() {
+      let vm = this;
+      const nowPage = this.$store.state.page.pageNow;
+      const str = nowPage * 16 - 16;
+      const end = nowPage * 16;
+      let tmpProduct = [];
+      tmpProduct = [...this.$store.getters.sales];
+      let sequence = this.$store.state.sequence;
+      // --- 找出類別 ---
+      tmpProduct = tmpProduct.filter(function(item) {
+        return item.category.match(vm.$store.state.categorySwitch);
+      });
+      // --- 找出關鍵字 ---
+      // tmpProduct = tmpProduct.filter(function(item) {
+      //   return item.title.match(vm.$store.state.search);
+      // });
+      // --- 排序 ---
+      if (sequence === "timenew") {
+        tmpProduct = tmpProduct.reverse();
+      } else if (sequence === "pricelow") {
+        tmpProduct.sort(function(a, b) {
+          return a.price - b.price;
+        });
+      } else if (sequence === "pricehigh") {
+        tmpProduct.sort(function(a, b) {
+          return b.price - a.price;
+        });
+      }
+      this.$store.commit("PAGETOTAL", Math.ceil(tmpProduct.length / 16));
+      tmpProduct = tmpProduct.slice(str, end);
+      return tmpProduct;
+    },
+    sortBanner() {
+      let sort = this.$store.state.sortBanner[this.$route.name];
+      return sort;
+    },
+    sequence: {
+      get() {
+        return this.$store.state.sequence;
+      },
+      set(value) {
+        this.$store.commit("SEQUENCE", value);
+      }
+    }
   },
   methods: {
-    ...mapActions(["getProducts", "getStar", "getCart"])
+    ...mapActions(["getProducts"]),
+    getCategory() {
+      this.$store.dispatch("getCategory", this.$router.history.current.name);
+    },
+    seeMore(page) {
+      this.$store.dispatch("seeMore", page);
+    },
+    addStar(item) {
+      this.$store.dispatch("addStar", item);
+    },
+    removeStar(id) {
+      this.$store.dispatch("removeStar", id);
+    },
+    changeStar(item) {
+      const vm = this;
+      return vm.$store.state.star.some(el => {
+        const result = item.id === el.id;
+        return result;
+      });
+    },
+    addCart(id, qty = 1) {
+      this.$store.dispatch("addCart", { id, qty });
+    }
   },
   created() {
     this.getProducts();
+    this.getCategory();
+    scroll(0, 0);
     // this.getStar();
     // this.getCart();
     // scroll(0, 0);
@@ -66,6 +160,7 @@ a {
     img {
       width: 1200px;
       height: 400px;
+      object-fit: cover;
     }
     h2 {
       position: absolute;
@@ -76,6 +171,23 @@ a {
       color: white;
       font-size: 3rem;
       font-weight: 900;
+    }
+    h2:before {
+      content: "";
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      width: 8px;
+      height: 80px;
+      background-color: $red;
+    }
+  }
+  > .sequence {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    > label {
+      margin: 0 line(1) 0 0;
     }
   }
   > .section {
@@ -101,6 +213,7 @@ a {
             position: absolute;
             top: 8px;
             right: 4px;
+            z-index: 10;
             > a {
               > i {
                 border-radius: 50%;
@@ -129,6 +242,7 @@ a {
           height: 200px;
           vertical-align: top;
           border-radius: 8px;
+          object-fit: cover;
         }
       }
       > .txt {
@@ -141,7 +255,7 @@ a {
           text-decoration: underline;
         }
         > .description {
-          color: #ccc;
+          color: #999;
         }
         > .price {
           display: flex;

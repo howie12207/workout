@@ -4,11 +4,7 @@
     <Alert />
     <Header />
     <div class="container">
-      <div class="back">
-        <a href="#" @click="toProducts">
-          <i class="fas fa-arrow-left"></i>返回
-        </a>
-      </div>
+      <Breadcrumbs />
       <div class="section">
         <div class="pic">
           <img :src="product.imageUrl" alt />
@@ -51,10 +47,11 @@
 <script>
 import Header from "../Header.vue";
 import Alert from "../AlertMessage.vue";
-import { mapGetters, mapActions } from "vuex";
+import Breadcrumbs from "./Breadcrumbs.vue";
+import { mapGetters } from "vuex";
 export default {
   name: "ProductId",
-  components: { Header, Alert },
+  components: { Header, Alert, Breadcrumbs },
   computed: {
     ...mapGetters(["isLoading", "product"]),
     qty: {
@@ -67,9 +64,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["toProducts"]),
     getProduct() {
       this.$store.dispatch("getProduct", this.$store.state.productId);
+    },
+    getCategory() {
+      this.$store.dispatch("getCategory", this.$store.state.product.category);
     },
     changeQty(num) {
       this.$store.dispatch("changeQty", num);
@@ -95,6 +94,9 @@ export default {
     this.$store.commit("PRODUCTID", this.$route.params.productId);
     this.getProduct();
     scroll(0, 0);
+  },
+  updated() {
+    this.getCategory();
   }
 };
 </script>

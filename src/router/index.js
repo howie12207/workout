@@ -5,6 +5,7 @@ import About from "../components/front/About.vue";
 import Product from "../components/front/Product.vue";
 import Main from "../components/front/Main.vue";
 import Sort from "../components/front/Sort.vue";
+import Sales from "../components/front/Sales.vue";
 import ProductId from "../components/front/ProductId.vue";
 import Checkout from "../components/front/Checkout.vue";
 import Pay from "../components/front/Pay.vue";
@@ -41,15 +42,50 @@ const routes = [
         component: Main
       },
       {
-        path: "sort",
-        name: "sort",
+        path: "equipment",
+        name: "equipment",
         component: Sort
+      },
+      {
+        path: "clothes",
+        name: "clothes",
+        component: Sort
+      },
+      {
+        path: "course",
+        name: "course",
+        component: Sort
+      },
+      {
+        path: "accessory",
+        name: "accessory",
+        component: Sort
+      },
+      {
+        path: "gear",
+        name: "gear",
+        component: Sort
+      },
+      {
+        path: "boxing",
+        name: "boxing",
+        component: Sort
+      },
+      {
+        path: "nutrition",
+        name: "nutrition",
+        component: Sort
+      },
+      {
+        path: "sales",
+        name: "sales",
+        component: Sales
       }
     ]
   },
   {
     path: "/product/:productId",
-    name: "productid",
+    name: "productId",
     component: ProductId
   },
   {

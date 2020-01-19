@@ -1,36 +1,36 @@
 <template>
   <div class="header">
-    <a href="#" class="logo">
+    <router-link to="/product" class="logo">
       <img src="../assets/logo.png" alt="logo" />
       <h2>健身趣</h2>
-    </a>
+    </router-link>
     <nav class="sort">
-      <a href="#">
-        <img src="../assets/dumbell.png" alt="dumbell" />
-        <h3>訓練器材</h3>
+      <a href="#" @click.prevent="categorySwitch('equipment')">
+        <img src="../assets/dumbell.png" alt="equipment" />
+        <h3>健身器材</h3>
       </a>
-      <a href="#">
+      <a href="#" @click.prevent="categorySwitch('clothes')">
         <img src="../assets/clothes.png" alt="clothes" />
         <h3>運動服飾</h3>
       </a>
-      <a href="#">
+      <a href="#" @click.prevent="categorySwitch('course')">
         <img src="../assets/coach.png" alt="course" />
         <h3>專業課程</h3>
       </a>
-      <a href="#">
+      <a href="#" @click.prevent="categorySwitch('accessory')">
         <img src="../assets/bag.png" alt="accessory" />
         <h3>運動配件</h3>
       </a>
-      <a href="#">
-        <img src="../assets/gloves.png" alt="gloves" />
+      <a href="#" @click.prevent="categorySwitch('gear')">
+        <img src="../assets/gloves.png" alt="gear" />
         <h3>健身護具</h3>
       </a>
-      <a href="#">
+      <a href="#" @click.prevent="categorySwitch('boxing')">
         <img src="../assets/boxing.png" alt="boxing" />
         <h3>拳擊用品</h3>
       </a>
-      <a href="#">
-        <img src="../assets/food.png" alt="food" />
+      <a href="#" @click.prevent="categorySwitch('nutrition')">
+        <img src="../assets/food.png" alt="nutrition" />
         <h3>營養補充</h3>
       </a>
     </nav>
@@ -59,11 +59,11 @@
           </li>
         </ul>
       </div>
-      <div class="cart">
-        <a href="#">
+      <div class="cart" v-if="cart.carts">
+        <a href="#" @click.prevent="toCheckout">
           <i class="fas fa-shopping-cart"></i>
         </a>
-        <span class="num" v-if="cart.carts">{{ cart.carts.length }}</span>
+        <span class="num" v-if="cart.carts.length">{{ cart.carts.length }}</span>
         <ul class="list cartlist" v-if="cart.carts">
           <li class="titlelist" v-if="cart.carts.length < 1">
             <span>目前購物車為空</span>
@@ -99,6 +99,12 @@ export default {
     // ...mapGetters(["navShow"])
   },
   methods: {
+    categorySwitch(category) {
+      this.$store.dispatch("categorySwitch", category);
+    },
+    clearSearch() {
+      this.$store.commit("SEARCH", "");
+    },
     removeStar(item) {
       this.$store.dispatch("removeStar", item);
     },
@@ -114,6 +120,9 @@ export default {
         const result = item.id === el.id;
         return result;
       });
+    },
+    toCheckout() {
+      this.$store.dispatch("toPage", "/checkout");
     }
     // navshow() {
     //   this.$store.commit("NAVSHOW", !this.navShow);
@@ -245,7 +254,7 @@ a {
         position: absolute;
         width: 300px;
         font-size: 1rem;
-        right: -4px;
+        right: -32px;
         top: 56px;
         background-color: #fff;
         padding: line(1) line(1);
@@ -254,7 +263,6 @@ a {
           display: flex;
           justify-content: space-between;
           > span {
-            font-size: 1.25rem;
             line-height: 1.5rem;
           }
           > a {

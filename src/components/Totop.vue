@@ -56,9 +56,10 @@ export default {
 @import "../assets/variable.scss";
 .totop {
   position: fixed;
-  bottom: 110px;
+  bottom: 10px;
   right: 10px;
   color: $red;
+  z-index: 10;
   > .container {
     @extend %abutton;
     color: $red;

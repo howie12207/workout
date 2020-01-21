@@ -1,5 +1,5 @@
 <template>
-  <div class="cart">
+  <div class="checkout">
     <loading :active.sync="isLoading"></loading>
     <Alert />
     <Header />
@@ -19,7 +19,7 @@
                 <th class="edit">編輯</th>
                 <th class="title">項目</th>
                 <th class="eachprice text-align-right">單價</th>
-                <th class="qty">人數</th>
+                <th class="qty">數量</th>
                 <th class="itemprice text-align-right">小計</th>
               </tr>
             </thead>
@@ -53,7 +53,7 @@
                 >總計</td>
                 <td
                   colspan="3"
-                  class="text-align-center"
+                  class="text-align-center red"
                   :class="{'text-through':cart.final_total != cart.total}"
                 >{{ cart.total | currency }}</td>
               </tr>
@@ -210,8 +210,10 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/variable.scss";
-.cart {
+.checkout {
+  max-width: 600px;
   width: 100%;
+  margin: 0 auto;
   font-family: "Noto Serif TC", serif;
   color: $red;
   > .col-2 {
@@ -308,8 +310,11 @@ export default {
           line-height: 2rem;
         }
         input {
-          width: 100%;
+          width: 80%;
           box-sizing: border-box;
+        }
+        textarea {
+          width: 80%;
         }
         input.invalid {
           border: 1px solid red;
@@ -363,7 +368,7 @@ label {
   display: block;
 }
 .red {
-  color: red;
+  color: red !important;
 }
 .text-align-right {
   text-align: right !important;
@@ -375,15 +380,20 @@ label {
   text-decoration: line-through;
 }
 
-@media screen and (min-width: 960px) {
-  .cart .col-2 {
-    width: 100%;
+@media screen and (min-width: 1200px) {
+  .checkout {
+    width: 1160px;
+    max-width: 1160px;
+  }
+
+  .checkout .col-2 {
+    width: 1160px;
     flex-direction: row;
     justify-content: center;
     align-items: flex-start;
   }
-  .cart .cartlist,
-  .cart .info {
+  .checkout .cartlist,
+  .checkout .info {
     width: 45%;
   }
 }

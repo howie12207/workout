@@ -16,6 +16,7 @@ export default new Vuex.Store({
       username: "",
       password: ""
     },
+    sidebarShow: false,
     menuShow: false,
     modalShow: false,
     delmodalShow: false,
@@ -93,7 +94,7 @@ export default new Vuex.Store({
         tag: "心律監測",
         src:
           "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579420864114.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=QifVKK5jXnsIjKGDIb8LbZ5y5XivCWTfIvJu1JsvLeAUdKEF7uPkWXyXtgu5nYsX8D9fTYhBVoixHMEB1fvpFQLvV2cJJSpJouiJSxd1a8u8%2B0yIjZExKc%2FR4Rch%2FXbkVFN%2B8aFBdlnS78bTFUDqeGDEEsrwrtyt7HbES%2FjwuOuB9gcEOgt91%2BxNBtmDRSaC7E0ZM8%2B8e4vRFLfevPgQRb%2Fq91S%2B%2BlltQ3UHI3tQzefmbZyYPgYaBcyqpjAb6tN7F6fNE9KQmu8GRoJVbJetP5cWdUdyzLIbJzB51zaoleMfStfPG%2B1xt1qINdNGMJsTJOEZCYKxREx%2BRenBGavvTw%3D%3D",
-        description: "配備多種搭配運動計步功能以及通話撥話等功能。",
+        description: "多種搭配運動計步功能以及通話撥話等功能。",
         to: "-LxUJuHnZTrbQqCsMDC3"
       },
       {
@@ -175,6 +176,10 @@ export default new Vuex.Store({
     LOGIN_PASSWORD(state, status) {
       state.login.password = status;
     },
+    // ---Header ---
+    SIDEBARSHOW(state, status) {
+      state.sidebarShow = status;
+    },
     // --- 產品 ---
     PRODUCTS(state, payload) {
       state.products = payload;
@@ -229,6 +234,11 @@ export default new Vuex.Store({
       state.menuShow = payload;
     },
     SEARCH(state, payload) {
+      // let specialKey =
+      //   "[`~!#$^&*()=|{}':;',\\[\\].<>/?~！#￥……&*（）——|{}【】‘；：”“'。，、？]‘'";
+      if (payload.indexOf("\\") != -1 || payload.indexOf("*") != -1) {
+        payload = "";
+      }
       state.search = payload;
     },
     PRODUCTID(state, payload) {
@@ -433,7 +443,7 @@ export default new Vuex.Store({
       context.commit("PAGENOW", 1); //初始化為第一頁
       window.scroll(0, 0); //將畫面移至最上面
       context.commit("SEARCH", ""); //清空搜尋
-      if (context.state.sort === payload) return;
+      if (router.history.current.name === payload) return;
       context.dispatch("getCategory", payload);
       router.push(`/product/${payload}`);
       context.commit("SEQUENCE", "timeold");
@@ -455,6 +465,7 @@ export default new Vuex.Store({
     seeMore(context, payload) {
       context.commit("ISLOADING", true);
       router.push(`/product/${payload}`); //跳到產品頁
+      context.dispatch("getProduct", payload);
       context.commit("ISLOADING", false);
     },
     // ----- 取得個別產品內容 -----
@@ -565,6 +576,22 @@ export default new Vuex.Store({
           });
         }
       });
+    },
+    // ----- 搜尋功能 -----
+    searching(context) {
+      router.push("/product/search");
+      context.commit("SIDEBARSHOW", false);
+    },
+    //----- 產品數量修改器 -----
+    changeQty(context, payload) {
+      if (context.state.amt <= 0) {
+        context.commit("QTY", 1);
+      } else if (context.state.amt >= 100) {
+        context.commit("QTY", 99);
+      } else {
+        let qty = Number(context.state.qty) + Number(payload);
+        context.commit("QTY", Number(qty));
+      }
     },
     // ----- 套用優惠券 -----
     submitCoupon(context) {

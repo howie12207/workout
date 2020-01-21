@@ -55,7 +55,7 @@
       </table>
       <div class="btn">
         <button @click="pay" v-if="!order.is_paid">確認付款</button>
-        <button @click="toProducts" v-else>返回產品列表</button>
+        <button @click="toPage" v-else>返回產品列表</button>
       </div>
     </div>
   </div>
@@ -64,17 +64,18 @@
 <script>
 import Header from "../Header.vue";
 import ProgressBar from "./ProgressBar.vue";
-import { mapActions } from "vuex";
 export default {
   name: "Pay",
   components: { Header, ProgressBar },
   methods: {
-    ...mapActions(["toProducts"]),
     getOrder() {
       this.$store.dispatch("getOrder", this.orderId);
     },
     pay() {
       this.$store.dispatch("pay", this.orderId);
+    },
+    toPage() {
+      this.$store.dispatch("toPage", "/product");
     }
   },
   created() {

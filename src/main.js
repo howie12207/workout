@@ -92,6 +92,13 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
+// ----- 隱藏Router報錯 -----
+const originalPush = router.__proto__.push;
+router.__proto__.push = function push(location, onResolve, onReject) {
+  if (onResolve || onReject)
+    return originalPush.call(this, location, onResolve, onReject);
+  return originalPush.call(this, location).catch(err => err);
+};
 
 // ----- Vee-validate規則中文化 -----
 for (let rule in rules) {

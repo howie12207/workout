@@ -1,10 +1,6 @@
 <template>
-  <div class="sort">
+  <div class="search">
     <loading :active.sync="isLoading"></loading>
-    <div class="banner">
-      <img :src="sortBanner.src" :alt="sortBanner.alt" />
-      <h2>{{sortBanner.title}}</h2>
-    </div>
     <Breadcrumbs />
     <div class="sequence">
       <label for="sequence">排序:</label>
@@ -15,7 +11,8 @@
         <option value="pricehigh">價格 - 高至低</option>
       </select>
     </div>
-    <div class="section">
+    <div class="empty" v-if="!pageProducts.length">查無' {{ search }} '相關資料</div>
+    <div class="section" v-else>
       <div class="item" v-for="(item,index) in pageProducts" :key="index">
         <div class="pic" v-if="item" @click.prevent="seeMore(item.id)">
           <a href="#" class="mask">
@@ -61,10 +58,13 @@ import { mapGetters, mapActions } from "vuex";
 import Breadcrumbs from "./Breadcrumbs.vue";
 import Pagination from "./Pagination.vue";
 export default {
-  name: "Sort",
+  name: "Search",
   components: { Breadcrumbs, Pagination },
   computed: {
     ...mapGetters(["products", "isLoading"]),
+    search() {
+      return this.$store.state.search;
+    },
     pageProducts() {
       let vm = this;
       const nowPage = this.$store.state.page.pageNow;
@@ -73,14 +73,10 @@ export default {
       let tmpProduct = [];
       tmpProduct = [...this.$store.state.products];
       let sequence = this.$store.state.sequence;
-      // --- 找出類別 ---
-      tmpProduct = tmpProduct.filter(function(item) {
-        return item.category.match(vm.$store.state.categorySwitch);
-      });
       // --- 找出關鍵字 ---
-      // tmpProduct = tmpProduct.filter(function(item) {
-      //   return item.title.match(vm.$store.state.search);
-      // });
+      tmpProduct = tmpProduct.filter(function(item) {
+        return item.title.match(vm.$store.state.search);
+      });
       // --- 排序 ---
       if (sequence === "timenew") {
         tmpProduct = tmpProduct.reverse();
@@ -96,10 +92,6 @@ export default {
       this.$store.commit("PAGETOTAL", Math.ceil(tmpProduct.length / 16));
       tmpProduct = tmpProduct.slice(str, end);
       return tmpProduct;
-    },
-    sortBanner() {
-      let sort = this.$store.state.sortBanner[this.$route.name];
-      return sort;
     },
     sequence: {
       get() {
@@ -151,38 +143,11 @@ export default {
 a {
   @extend %abutton;
 }
-.sort {
+.search {
   font-family: "Noto Serif TC", serif;
   width: 100%;
-  margin: 0 auto;
   max-width: 600px;
-  > .banner {
-    position: relative;
-    > img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-    > h2 {
-      position: absolute;
-      top: 100px;
-      left: 32px;
-      background-color: rgba(255, 255, 255, 0.4);
-      padding: line(3);
-      font-size: 1.5rem;
-      color: white;
-      font-weight: 900;
-    }
-    > h2:before {
-      content: "";
-      position: absolute;
-      top: 8px;
-      left: 8px;
-      width: 8px;
-      height: 60px;
-      background-color: $red;
-    }
-  }
+  margin: 0 auto;
   > .sequence {
     display: flex;
     justify-content: flex-end;
@@ -190,6 +155,11 @@ a {
     > label {
       margin: 0 line(1) 0 0;
     }
+  }
+  > .empty {
+    text-align: center;
+    font-size: 2rem;
+    line-height: 4rem;
   }
   > .section {
     display: flex;
@@ -271,26 +241,10 @@ a {
   }
 }
 @media screen and (min-width: 1200px) {
-  .sort {
-    max-width: 1160px;
+  .search {
     width: 1160px;
-    > .banner {
-      > img {
-        width: 1160px;
-        height: 400px;
-      }
-      > h2 {
-        top: 240px;
-        left: 80px;
-        font-size: 3rem;
-      }
-      > h2:before {
-        content: "";
-        height: 80px;
-      }
-    }
+    max-width: 1160px;
     > .section {
-      width: 1160px;
       > .item {
         width: 200px;
         margin: line(3) line(4);

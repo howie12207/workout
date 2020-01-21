@@ -23,7 +23,7 @@ export default {
   align-items: center;
   justify-content: center;
   text-align: center;
-  z-index: 9;
+  z-index: 2;
   position: relative;
 }
 .footer p {

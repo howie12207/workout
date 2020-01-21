@@ -1,11 +1,12 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../components/front/Home.vue";
-import About from "../components/front/About.vue";
+// import Home from "../components/front/Home.vue";
+// import About from "../components/front/About.vue";
 import Product from "../components/front/Product.vue";
 import Main from "../components/front/Main.vue";
 import Sort from "../components/front/Sort.vue";
 import Sales from "../components/front/Sales.vue";
+import Search from "../components/front/Search.vue";
 import ProductId from "../components/front/ProductId.vue";
 import Checkout from "../components/front/Checkout.vue";
 import Pay from "../components/front/Pay.vue";
@@ -20,18 +21,18 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "*",
-    redirect: "/"
+    redirect: "/product"
   },
-  {
-    path: "/",
-    name: "home",
-    component: Home
-  },
-  {
-    path: "/about",
-    name: "about",
-    component: About
-  },
+  // {
+  //   path: "/",
+  //   name: "home",
+  //   component: Home
+  // },
+  // {
+  //   path: "/about",
+  //   name: "about",
+  //   component: About
+  // },
   {
     path: "/product",
     component: Product,
@@ -80,6 +81,11 @@ const routes = [
         path: "sales",
         name: "sales",
         component: Sales
+      },
+      {
+        path: "search",
+        name: "search",
+        component: Search
       }
     ]
   },

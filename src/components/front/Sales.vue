@@ -144,32 +144,33 @@ a {
 }
 .sales {
   font-family: "Noto Serif TC", serif;
-  width: 1200px;
+  width: 100%;
+  max-width: 600px;
   margin: 0 auto;
   > .banner {
     position: relative;
     img {
-      width: 1200px;
-      height: 400px;
+      width: 100%;
+      height: 200px;
       object-fit: cover;
     }
-    h2 {
+    > h2 {
       position: absolute;
-      top: 240px;
-      left: 80px;
+      top: 100px;
+      left: 32px;
       background-color: rgba(255, 255, 255, 0.4);
       padding: line(3);
+      font-size: 1.5rem;
       color: white;
-      font-size: 3rem;
       font-weight: 900;
     }
-    h2:before {
+    > h2:before {
       content: "";
       position: absolute;
       top: 8px;
       left: 8px;
       width: 8px;
-      height: 80px;
+      height: 60px;
       background-color: $red;
     }
   }
@@ -185,19 +186,16 @@ a {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    // margin: 0 auto;
-    width: 1200px;
     > .item {
-      width: 200px;
-      margin: line(3) line(4);
+      width: 150px;
+      margin: line(1) line(1) 0 0;
       > .pic {
         position: relative;
         > .mask {
-          opacity: 0;
+          opacity: 1;
           position: absolute;
-          width: 200px;
-          height: 200px;
-          background-color: rgba(255, 255, 255, 0.4);
+          width: 150px;
+          height: 150px;
           transition: 0.8s;
           > .icon {
             color: white;
@@ -229,10 +227,11 @@ a {
           }
         }
         > img {
-          width: 200px;
-          height: 200px;
+          width: 150px;
+          height: 150px;
           vertical-align: top;
           border-radius: 8px;
+          object-fit: cover;
         }
       }
       > .txt {
@@ -260,8 +259,49 @@ a {
         }
       }
     }
-    > .item:hover .mask {
-      opacity: 1;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .sales {
+    width: 1160px;
+    max-width: 1160px;
+    > .banner {
+      > img {
+        width: 1160px;
+        height: 400px;
+      }
+      > h2 {
+        top: 240px;
+        left: 80px;
+        font-size: 3rem;
+      }
+      > h2:before {
+        content: "";
+        height: 80px;
+      }
+    }
+    > .section {
+      width: 1160px;
+      > .item {
+        width: 200px;
+        margin: line(3) line(4);
+        > .pic {
+          > .mask {
+            opacity: 0;
+            width: 200px;
+            height: 200px;
+            background-color: rgba(255, 255, 255, 0.4);
+          }
+          > img {
+            width: 200px;
+            height: 200px;
+          }
+        }
+      }
+      > .item:hover .mask {
+        opacity: 1;
+      }
     }
   }
 }

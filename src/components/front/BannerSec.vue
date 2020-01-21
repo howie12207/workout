@@ -28,10 +28,12 @@ export default {
   },
   data() {
     return {
+      fullWidth: 0,
       swiperOption: {
-        slidesPerView: 4,
+        slidesPerView: 2,
         loop: false,
-        // spaceBetween: 30,
+        notNextTick: true,
+        // spaceBetween: 0,
         navigation: {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev"
@@ -44,6 +46,21 @@ export default {
       this.$store.dispatch("seeMore", id);
       console.log(id);
     }
+  },
+  created() {
+    const vm = this;
+    this.fullWidth = window.innerWidth;
+    if (vm.fullWidth >= 1200) {
+      vm.swiperOption.slidesPerView = 4;
+    } else if (vm.fullWidth < 1200) {
+      vm.swiperOption.slidesPerView = 2;
+    }
+  },
+  mounted() {
+    const vm = this;
+    window.onresize = () => {
+      vm.fullWidth = window.innerWidth;
+    };
   }
 };
 </script>
@@ -55,24 +72,20 @@ a {
   display: inline-block;
 }
 .banner {
+  max-width: 600px;
+  width: 100%;
   margin: line(2) auto 0;
   font-family: "Noto Serif TC", serif;
-  // display: flex;
-  // justify-content: center;
   > .swiper-container {
-    // max-width: 1200px;
-    // width: 100%;
     display: flex;
     justify-content: center;
-    width: 1200px;
-    height: 300px;
     .swiper-slide {
       display: flex;
       justify-content: center;
       .pic {
         img {
-          width: 280px;
-          height: 240px;
+          width: 150px;
+          height: 150px;
           vertical-align: top;
           object-fit: cover;
         }
@@ -83,8 +96,8 @@ a {
       align-items: center;
       margin: line(1) 0;
       > .sort {
-        width: 48px;
-        height: 48px;
+        width: 32px;
+        // height: 48px;
         box-sizing: border-box;
         padding: line(1);
         background-color: $red;
@@ -93,9 +106,48 @@ a {
       > .title {
         padding: line(1) line(1) 0 line(2);
         box-sizing: border-box;
-        height: 48px;
-        width: 232px;
+        // height: 48px;
+        width: 118px;
         color: black;
+      }
+    }
+  }
+}
+@media screen and (min-width: 1200px) {
+  .banner {
+    max-width: 1160px;
+    width: 1160px;
+    height: 300px;
+    > .swiper-container {
+      .swiper-slide {
+        display: flex;
+        justify-content: center;
+        .pic {
+          img {
+            width: 280px;
+            height: 240px;
+          }
+        }
+      }
+      .txt {
+        display: flex;
+        align-items: center;
+        margin: line(1) 0;
+        > .sort {
+          width: 48px;
+          height: 48px;
+          box-sizing: border-box;
+          padding: line(1);
+          background-color: $red;
+          color: white;
+        }
+        > .title {
+          padding: line(1) line(1) 0 line(2);
+          box-sizing: border-box;
+          height: 48px;
+          width: 232px;
+          color: black;
+        }
       }
     }
   }

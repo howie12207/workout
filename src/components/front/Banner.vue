@@ -56,58 +56,58 @@ a {
 }
 .banner {
   font-family: "Noto Serif TC", serif;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
   > .swiper-container {
-    // max-width: 1200px;
-    // width: 100%;
-    width: 1200px;
-    height: 600px;
-    margin: 0 auto;
     > .swiper-wrapper {
+      max-height: 300px;
+      height: 200px;
       img {
         width: 100%;
-        height: 600px;
+        height: 100%;
         vertical-align: top;
         object-fit: cover;
-      }
-      .txt {
-        position: absolute;
-        width: 80%;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: auto;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        font-size: 2rem;
-        font-weight: 900;
-        line-height: 2.5rem;
       }
     }
   }
   > .txt {
-    display: flex;
-    width: 1200px;
-    margin: 0 auto;
-    border-bottom: 1px solid #ccc;
-    > .section {
-      width: 20%;
-      text-align: center;
-      position: relative;
-      padding: line(2);
-      box-sizing: border-box;
+    display: none;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .banner {
+    max-width: 1160px;
+    width: 1160px;
+    > .swiper-container {
+      > .swiper-wrapper {
+        max-height: 600px;
+        height: 600px;
+        img {
+        }
+      }
     }
-    > .section.active:before {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background-color: $red;
+    > .txt {
+      display: flex;
+      width: 1160px;
+      margin: 0 auto;
+      border-bottom: 1px solid #ccc;
+      > .section {
+        width: 20%;
+        text-align: center;
+        position: relative;
+        padding: line(2);
+        box-sizing: border-box;
+      }
+      > .section.active:before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background-color: $red;
+      }
     }
   }
 }

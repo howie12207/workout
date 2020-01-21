@@ -1,5 +1,5 @@
 <template>
-  <div class="productId">
+  <div class="productId" :key="$route.path">
     <loading :active.sync="isLoading"></loading>
     <Alert />
     <Header />
@@ -11,7 +11,7 @@
         </div>
         <div class="txt">
           <h2 class="title">
-            【 {{ product.title }} 】
+            『 {{ product.title }} 』
             <a
               href="#"
               class="star"
@@ -25,6 +25,7 @@
             </a>
           </h2>
           <h3 class="description">{{ product.description }}</h3>
+          <h3 class="intro">【 介紹 】</h3>
           <h3 class="content" v-html="product.content"></h3>
           <div v-if="product.price !== product.origin_price">
             <p class="linethrough">原價:{{ product.origin_price | currency }}</p>
@@ -33,9 +34,19 @@
           <div v-else>
             <p class="price">售價:{{ product.origin_price | currency }}</p>
           </div>
-          <select name id v-model="qty" class="qty">
-            <option :value="num" v-for="num in 10" :key="num">報名人數: {{ num }}人</option>
-          </select>
+          <div class="qty">
+            <p>數量</p>
+            <button @click="changeQty(-1)" :class="{ disabled: qty <= 1 }">-</button>
+            <input
+              type="text"
+              v-model="qty"
+              onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+              onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+              maxlength="2"
+            />
+            <button @click="changeQty(1)" :class="{ disabled: qty >= 99 }">+</button>
+            <span>{{ product.unit }}</span>
+          </div>
           <p class="total">小計:{{ (product.price * qty) | currency }}</p>
           <a href="#" class="addBtn" @click.prevent="addCart(product.id, qty)">加入購物車</a>
         </div>
@@ -44,7 +55,11 @@
   </div>
 </template>
 
+              
+
 <script>
+// onkeyup="this.value=this.value.replace(/^[^1-9]/g,'')"
+// onafterpaste="this.value=this.value.replace(/^[^1-9]/g,'')"
 import Header from "../Header.vue";
 import Alert from "../AlertMessage.vue";
 import Breadcrumbs from "./Breadcrumbs.vue";
@@ -103,15 +118,16 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/variable.scss";
+
 .productId {
   min-height: calc(100vh - 110px);
-  margin: 0 0 10px;
+  margin: 0 auto line(1);
+  width: 100%;
+  max-width: 600px;
   > .container {
-    max-width: 1200px;
-    width: 95%;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     margin: 0 auto;
     > .back {
       display: flex;
@@ -138,9 +154,13 @@ export default {
     > .section {
       display: flex;
       flex-direction: column;
+      width: 100%;
+      align-items: center;
       > .pic {
         > img {
-          width: 100%;
+          width: 300px;
+          height: 300px;
+          object-fit: cover;
           vertical-align: top;
         }
       }
@@ -150,7 +170,7 @@ export default {
         line-height: 1.5rem;
         > .title {
           font-size: 1.5rem;
-          line-height: 2rem;
+          line-height: 3rem;
           color: $red;
           font-weight: 900;
           > a {
@@ -161,7 +181,13 @@ export default {
         }
         > .description {
           font-size: 1.25rem;
+          line-height: 2rem;
           color: $yellow;
+        }
+        > .intro {
+          color: $red;
+          font-size: 1.25rem;
+          line-height: 2;
         }
         .linethrough {
           text-decoration: line-through;
@@ -172,11 +198,24 @@ export default {
           line-height: 2rem;
         }
         > .qty {
-          width: 300px;
-          padding: line(0.5) line(1);
-        }
-        > .qty:focus {
-          outline: 1px solid $red;
+          > button {
+            border: 1px solid $red;
+            background-color: #fff;
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            box-sizing: border-box;
+            font-weight: 800;
+          }
+          > input {
+            color: $red;
+            width: 160px;
+            height: 50px;
+            box-sizing: border-box;
+            border: 1px solid $red;
+            font-size: 1.5rem;
+            text-align: center;
+          }
         }
         > .total {
           align-self: flex-end;
@@ -206,15 +245,28 @@ export default {
     }
   }
 }
-
-@media screen and(min-width:960px) {
+button.disabled {
+  background-color: #fff;
+  color: #ddd;
+  pointer-events: none;
+  border-color: #ddd;
+}
+@media screen and (min-width: 1200px) {
   .productId {
+    width: 1160px;
+    max-width: 1160px;
     > .container {
       > .section {
         display: flex;
         flex-direction: row;
         > .pic {
           width: 50%;
+          display: flex;
+          justify-content: center;
+          > img {
+            width: 500px;
+            height: 500px;
+          }
         }
         > .txt {
           margin: 0 line(2);

@@ -202,57 +202,52 @@ a {
   @extend %abutton;
 }
 .main {
-  width: 1200px;
+  max-width: 600px;
+  width: 100%;
   margin: 0 auto;
   font-family: "Noto Serif TC", serif;
   > .container {
-    width: 1200px;
-    height: 640px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    // align-items: center;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     > .sort {
-      position: relative;
       > .pic {
-        > img {
-          width: 280px;
-          height: 600px;
-          vertical-align: top;
-          object-fit: cover;
-        }
+        display: none;
       }
       > .txt {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        top: 32px;
-        right: 24px;
-        background-color: rgba(255, 255, 255, 0.6);
-        width: 80px;
-        height: 200px;
-        writing-mode: vertical-lr;
-        font-size: 2rem;
-        letter-spacing: 8px;
+        position: relative;
         color: $red;
+        line-height: 2rem;
+        font-size: 1.25rem;
+        margin: line(1);
+        padding: 0 0 0 line(2);
+      }
+      > .txt:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 4px;
+        background-color: $red;
       }
     }
     > .section {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
+      margin: 0 auto;
       > .item {
-        width: 200px;
-        margin: line(1) 0 line(1) line(1);
-        padding: line(1);
+        width: 150px;
+        margin: line(1) line(1) line(1) 0;
         > .pic {
           position: relative;
           > .mask {
-            opacity: 0;
             position: absolute;
-            width: 200px;
-            height: 200px;
-            background-color: rgba(255, 255, 255, 0.4);
+            width: 150px;
+            height: 150px;
             transition: 0.8s;
             > .icon {
               color: white;
@@ -283,8 +278,8 @@ a {
             }
           }
           > img {
-            width: 200px;
-            height: 200px;
+            width: 150px;
+            height: 150px;
             vertical-align: top;
             border-radius: 8px;
             object-fit: cover;
@@ -316,25 +311,90 @@ a {
         }
       }
       > .item:hover {
-        .mask {
-          opacity: 1;
-        }
-      }
-      > .item:hover {
         border-radius: 8px;
         box-shadow: 0 0 3px black;
       }
       > .more {
-        width: 200px;
-        margin: line(1) 0 line(1) line(1);
-        padding: line(1);
+        width: 150px;
+        margin: line(1) line(1) line(1) 0;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 2rem;
+        font-size: 1.5rem;
         > a {
           color: $red;
           padding: line(2);
+        }
+      }
+    }
+  }
+}
+@media screen and (min-width: 1200px) {
+  .main {
+    width: 1160px;
+    max-width: 1160px;
+    > .container {
+      flex-direction: row;
+      align-items: center;
+      height: 640px;
+      > .sort {
+        position: relative;
+        > .pic {
+          display: block;
+          > img {
+            width: 280px;
+            height: 600px;
+            vertical-align: top;
+            object-fit: cover;
+          }
+        }
+        > .txt {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          top: 32px;
+          right: 24px;
+          background-color: rgba(255, 255, 255, 0.6);
+          width: 80px;
+          height: 200px;
+          writing-mode: vertical-lr;
+          font-size: 2rem;
+          letter-spacing: 8px;
+        }
+      }
+      > .section {
+        > .item {
+          width: 200px;
+          margin: line(1) 0 line(1) line(0.5);
+          padding: line(1);
+          > .pic {
+            position: relative;
+            > .mask {
+              opacity: 0;
+              width: 200px;
+              height: 200px;
+              background-color: rgba(255, 255, 255, 0.4);
+            }
+            > img {
+              width: 200px;
+              height: 200px;
+              vertical-align: top;
+              border-radius: 8px;
+              object-fit: cover;
+            }
+          }
+        }
+        > .item:hover {
+          .mask {
+            opacity: 1;
+          }
+        }
+        > .more {
+          width: 200px;
+          margin: line(1) 0 line(1) line(0.5);
+          padding: line(1);
+          font-size: 2rem;
         }
       }
     }

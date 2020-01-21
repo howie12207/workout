@@ -55,11 +55,7 @@
   </div>
 </template>
 
-              
-
 <script>
-// onkeyup="this.value=this.value.replace(/^[^1-9]/g,'')"
-// onafterpaste="this.value=this.value.replace(/^[^1-9]/g,'')"
 import Header from "../Header.vue";
 import Alert from "../AlertMessage.vue";
 import Breadcrumbs from "./Breadcrumbs.vue";
@@ -74,6 +70,7 @@ export default {
         return this.$store.state.qty;
       },
       set(value) {
+        value = value.replace(/\D/g, "");
         this.$store.commit("QTY", value);
       }
     }

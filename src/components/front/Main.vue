@@ -209,7 +209,6 @@ a {
   > .container {
     display: flex;
     flex-direction: column;
-    // align-items: center;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     > .sort {

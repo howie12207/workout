@@ -69,7 +69,7 @@ export default new Vuex.Store({
       {
         src: require("../assets/clothes.jpg"),
         alt: "clothes",
-        to: "-LyvgfKsRyuZRVvTgXRU"
+        to: "-LyvhuXJY-gZLIbYhuPS"
       },
       {
         src: require("../assets/barbell.jpg"),
@@ -680,12 +680,6 @@ export default new Vuex.Store({
         }
       });
     },
-    // ----- 返回主頁 -----
-    toHome(context) {
-      context.commit("ISLOADING", true);
-      router.push("/");
-      context.commit("ISLOADING", false);
-    },
     // ----- 登出 -----
     logout() {
       const url = `${process.env.VUE_APP_APIPATH}/logout`;
@@ -869,6 +863,7 @@ export default new Vuex.Store({
     // ----- 更換頁面 -----
     toPage(context, payload) {
       router.push(`${payload}`);
+      context.commit("PAGENOW", 1);
     },
     // ----- 更新警示語 -----
     updateMessage(context, { message, status }) {

@@ -99,6 +99,7 @@
             v-model="search"
             @keyup.enter="searching"
             @keyup.esc="clearsearch"
+            @keyup="btnup"
           />
           <a href="#" @click.prevent="searching">
             <i class="fas fa-search"></i>
@@ -171,6 +172,13 @@ export default {
         return this.$store.state.search;
       },
       set(value) {
+        // ----- 限制特殊符號 -----
+        value = value
+          .replace(
+            /[`~!@#$%^&*()_\-+=<>?:"{}|,./;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘’，。、]/g,
+            ""
+          )
+          .replace(/\s/g, "");
         this.$store.commit("SEARCH", value);
       }
     }
@@ -208,6 +216,15 @@ export default {
     },
     toCheckout() {
       this.$store.dispatch("toPage", "/checkout");
+    },
+    // ----- 限制特殊符號 -----
+    btnup(e) {
+      e.target.value = e.target.value
+        .replace(
+          /[`~!@#$%^&*()_\-+=<>?:"{}|,./;'\\[\]·~！@#￥%……&*（）——\-+={}|《》？：“”【】、；‘’，。、]/g,
+          ""
+        )
+        .replace(/\s/g, "");
     }
   },
   created() {
@@ -299,7 +316,7 @@ a {
     display: flex;
     align-items: center;
     border-bottom: 1px solid #eee;
-    z-index: 2;
+    z-index: 11;
     > .menu {
       color: $red;
       margin: 0 line(2);

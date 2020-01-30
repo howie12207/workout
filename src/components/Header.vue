@@ -1,160 +1,224 @@
 <template>
   <div class="header">
-    <div class="mask" v-if="sidebarShow "></div>
-    <transition name="move">
-      <div class="sidebar" v-if="sidebarShow">
-        <a href="#" class="closeBtn" @click.prevent="sidebarshow(false)">
-          <i class="fas fa-times"></i>
-        </a>
-        <label for="searchbox" class="searchbox">商品搜尋</label>
-        <div class="searchbar">
-          <input
-            type="text"
-            id="searchbox"
-            placeholder="請輸入關鍵字.."
-            v-model="search"
-            @keyup.enter="searching"
-            @keyup.esc="clearsearch"
-          />
-          <a href="#" @click.prevent="searching">
-            <i class="fas fa-search"></i>
+    <!-- 前台 -->
+    <template v-if="$route.path.indexOf('admin')==-1">
+      <!-- 小尺寸 -->
+      <div class="mask" v-if="sidebarShow "></div>
+      <transition name="move">
+        <!-- 側邊欄 -->
+        <div class="sidebar" v-if="sidebarShow">
+          <a href="#" class="closeBtn" @click.prevent="sidebarshow(false)">
+            <i class="fas fa-times"></i>
           </a>
+          <label for="searchbox" class="searchbox">商品搜尋</label>
+          <div class="searchbar">
+            <input
+              type="text"
+              id="searchbox"
+              placeholder="請輸入關鍵字.."
+              v-model="search"
+              @keyup.enter="searching"
+              @keyup.esc="clearsearch"
+            />
+            <a href="#" @click.prevent="searching">
+              <i class="fas fa-search"></i>
+            </a>
+          </div>
+          <h2>商品分類</h2>
+          <nav class="sort">
+            <a href="#" @click.prevent="categorySwitch('equipment')">
+              <h3>健身器材</h3>
+              <i class="fas fa-angle-right"></i>
+            </a>
+            <a href="#" @click.prevent="categorySwitch('clothes')">
+              <h3>運動服飾</h3>
+              <i class="fas fa-angle-right"></i>
+            </a>
+            <a href="#" @click.prevent="categorySwitch('course')">
+              <h3>專業課程</h3>
+              <i class="fas fa-angle-right"></i>
+            </a>
+            <a href="#" @click.prevent="categorySwitch('accessory')">
+              <h3>運動配件</h3>
+              <i class="fas fa-angle-right"></i>
+            </a>
+            <a href="#" @click.prevent="categorySwitch('gear')">
+              <h3>健身護具</h3>
+              <i class="fas fa-angle-right"></i>
+            </a>
+            <a href="#" @click.prevent="categorySwitch('boxing')">
+              <h3>拳擊用品</h3>
+              <i class="fas fa-angle-right"></i>
+            </a>
+            <a href="#" @click.prevent="categorySwitch('nutrition')">
+              <h3>營養補充</h3>
+              <i class="fas fa-angle-right"></i>
+            </a>
+          </nav>
         </div>
-        <h2>商品分類</h2>
+      </transition>
+      <!-- 大尺寸 -->
+      <div class="container">
+        <a href="#" class="menu" @click.prevent="sidebarshow(true)">
+          <i class="fas fa-bars"></i>
+        </a>
+        <!-- LOGO -->
+        <router-link to="/product" class="logo">
+          <img src="../assets/logo.png" alt="logo" />
+          <h2>健身趣</h2>
+        </router-link>
+        <!-- 分類 -->
         <nav class="sort">
           <a href="#" @click.prevent="categorySwitch('equipment')">
+            <img src="../assets/dumbell.png" alt="equipment" />
             <h3>健身器材</h3>
-            <i class="fas fa-angle-right"></i>
           </a>
           <a href="#" @click.prevent="categorySwitch('clothes')">
+            <img src="../assets/clothes.png" alt="clothes" />
             <h3>運動服飾</h3>
-            <i class="fas fa-angle-right"></i>
           </a>
           <a href="#" @click.prevent="categorySwitch('course')">
+            <img src="../assets/coach.png" alt="course" />
             <h3>專業課程</h3>
-            <i class="fas fa-angle-right"></i>
           </a>
           <a href="#" @click.prevent="categorySwitch('accessory')">
+            <img src="../assets/bag.png" alt="accessory" />
             <h3>運動配件</h3>
-            <i class="fas fa-angle-right"></i>
           </a>
           <a href="#" @click.prevent="categorySwitch('gear')">
+            <img src="../assets/gloves.png" alt="gear" />
             <h3>健身護具</h3>
-            <i class="fas fa-angle-right"></i>
           </a>
           <a href="#" @click.prevent="categorySwitch('boxing')">
+            <img src="../assets/boxing.png" alt="boxing" />
             <h3>拳擊用品</h3>
-            <i class="fas fa-angle-right"></i>
           </a>
           <a href="#" @click.prevent="categorySwitch('nutrition')">
+            <img src="../assets/food.png" alt="nutrition" />
             <h3>營養補充</h3>
-            <i class="fas fa-angle-right"></i>
+          </a>
+        </nav>
+        <!-- 小圖示 -->
+        <div class="icon">
+          <div class="search">
+            <input
+              type="text"
+              placeholder="請輸入關鍵字.."
+              v-model="search"
+              @keyup.enter="searching"
+              @keyup.esc="clearsearch"
+              @keyup="btnup"
+            />
+            <a href="#" @click.prevent="searching">
+              <i class="fas fa-search"></i>
+            </a>
+          </div>
+          <div class="star">
+            <i class="fas fa-heart"></i>
+            <span class="num" v-if="star.length">{{ star.length }}</span>
+            <ul class="list starlist">
+              <li class="titlelist" v-if="star.length < 1">
+                <span>目前沒有觀察名單</span>
+              </li>
+              <li class="titlelist" v-else>
+                <span>觀察清單</span>
+              </li>
+              <li v-for="(item, index) in star" :key="index">
+                <a href="#" class="delBtn" @click.prevent="removeStar(item)">
+                  <i class="fas fa-heart"></i>
+                </a>
+                <a href="#" @click.prevent="seeMore(item.id)">
+                  <span class="title">{{ item.title }}</span>
+                  <span class="price">{{ item.price | currency }}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="cart" v-if="cart.carts">
+            <a href="#" @click.prevent="toCheckout">
+              <i class="fas fa-shopping-cart"></i>
+            </a>
+            <span class="num" v-if="cart.carts.length">{{ cart.carts.length }}</span>
+            <ul class="list cartlist" v-if="cart.carts">
+              <li class="titlelist" v-if="cart.carts.length < 1">
+                <span>目前購物車為空</span>
+              </li>
+              <li class="titlelist" v-else>
+                <span>購物車</span>
+                <router-link to="/checkout" class="txt">
+                  <span>結帳</span>
+                </router-link>
+              </li>
+              <li v-for="(item, index) in cart.carts" :key="index">
+                <a href="#" class="delBtn" @click.prevent="removeCart(item.id)">
+                  <i class="far fa-trash-alt"></i>
+                </a>
+                <a href="#" @click.prevent="seeMore(item.product.id)">
+                  <span class="title">{{ item.product.title }}</span>
+                  <span class="qty">{{ item.qty }}{{ item.product.unit }}</span>
+                  <span class="price">{{ item.final_total | currency }}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </template>
+    <!-- 後台 -->
+    <template v-else>
+      <!-- 小尺寸 -->
+      <div class="mask" v-if="sidebarShow "></div>
+      <transition name="move">
+        <!-- 側邊欄 -->
+        <div class="sidebar" v-if="sidebarShow">
+          <a href="#" class="closeBtn" @click.prevent="sidebarshow(false)">
+            <i class="fas fa-times"></i>
+          </a>
+          <h2>管理員</h2>
+          <nav class="sort">
+            <a href="#" @click.prevent="toPage('/admin/productslist')">
+              <h3>產品列表</h3>
+              <i class="fas fa-angle-right"></i>
+            </a>
+            <a href="#" @click.prevent="toPage('/admin/orderslist')">
+              <h3>訂單列表</h3>
+              <i class="fas fa-angle-right"></i>
+            </a>
+            <a href="#" @click.prevent="toPage('/admin/couponslist')">
+              <h3>優惠券列表</h3>
+              <i class="fas fa-angle-right"></i>
+            </a>
+            <a href="#" @click.prevent="logout">
+              <h3>登出</h3>
+            </a>
+          </nav>
+        </div>
+      </transition>
+      <!-- 大尺寸 -->
+      <div class="container containerback">
+        <a href="#" class="menu" @click.prevent="sidebarshow(true)">
+          <i class="fas fa-bars"></i>
+        </a>
+        <router-link to="/product" class="logo">
+          <img src="../assets/logo.png" alt="logo" />
+          <h2>健身趣</h2>
+        </router-link>
+        <nav class="sort">
+          <a href="#" @click.prevent="toPage('/admin/productslist')">
+            <h3>產品列表</h3>
+          </a>
+          <a href="#" @click.prevent="toPage('/admin/orderslist')">
+            <h3>訂單列表</h3>
+          </a>
+          <a href="#" @click.prevent="toPage('/admin/couponslist')">
+            <h3>優惠券</h3>
+          </a>
+          <a href="#" @click.prevent="logout">
+            <h3>登出</h3>
           </a>
         </nav>
       </div>
-    </transition>
-    <div class="container">
-      <a href="#" class="menu" @click.prevent="sidebarshow(true)">
-        <i class="fas fa-bars"></i>
-      </a>
-      <router-link to="/product" class="logo">
-        <img src="../assets/logo.png" alt="logo" />
-        <h2>健身趣</h2>
-      </router-link>
-      <nav class="sort">
-        <a href="#" @click.prevent="categorySwitch('equipment')">
-          <img src="../assets/dumbell.png" alt="equipment" />
-          <h3>健身器材</h3>
-        </a>
-        <a href="#" @click.prevent="categorySwitch('clothes')">
-          <img src="../assets/clothes.png" alt="clothes" />
-          <h3>運動服飾</h3>
-        </a>
-        <a href="#" @click.prevent="categorySwitch('course')">
-          <img src="../assets/coach.png" alt="course" />
-          <h3>專業課程</h3>
-        </a>
-        <a href="#" @click.prevent="categorySwitch('accessory')">
-          <img src="../assets/bag.png" alt="accessory" />
-          <h3>運動配件</h3>
-        </a>
-        <a href="#" @click.prevent="categorySwitch('gear')">
-          <img src="../assets/gloves.png" alt="gear" />
-          <h3>健身護具</h3>
-        </a>
-        <a href="#" @click.prevent="categorySwitch('boxing')">
-          <img src="../assets/boxing.png" alt="boxing" />
-          <h3>拳擊用品</h3>
-        </a>
-        <a href="#" @click.prevent="categorySwitch('nutrition')">
-          <img src="../assets/food.png" alt="nutrition" />
-          <h3>營養補充</h3>
-        </a>
-      </nav>
-      <div class="icon">
-        <div class="search">
-          <input
-            type="text"
-            placeholder="請輸入關鍵字.."
-            v-model="search"
-            @keyup.enter="searching"
-            @keyup.esc="clearsearch"
-            @keyup="btnup"
-          />
-          <a href="#" @click.prevent="searching">
-            <i class="fas fa-search"></i>
-          </a>
-        </div>
-        <div class="star">
-          <i class="fas fa-heart"></i>
-          <span class="num" v-if="star.length">{{ star.length }}</span>
-          <ul class="list starlist">
-            <li class="titlelist" v-if="star.length < 1">
-              <span>目前沒有觀察名單</span>
-            </li>
-            <li class="titlelist" v-else>
-              <span>觀察清單</span>
-            </li>
-            <li v-for="(item, index) in star" :key="index">
-              <a href="#" class="delBtn" @click.prevent="removeStar(item)">
-                <i class="fas fa-heart"></i>
-              </a>
-              <a href="#" @click.prevent="seeMore(item.id)">
-                <span class="title">{{ item.title }}</span>
-                <span class="price">{{ item.price | currency }}</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="cart" v-if="cart.carts">
-          <a href="#" @click.prevent="toCheckout">
-            <i class="fas fa-shopping-cart"></i>
-          </a>
-          <span class="num" v-if="cart.carts.length">{{ cart.carts.length }}</span>
-          <ul class="list cartlist" v-if="cart.carts">
-            <li class="titlelist" v-if="cart.carts.length < 1">
-              <span>目前購物車為空</span>
-            </li>
-            <li class="titlelist" v-else>
-              <span>購物車</span>
-              <router-link to="/checkout" class="txt">
-                <span>結帳</span>
-              </router-link>
-            </li>
-            <li v-for="(item, index) in cart.carts" :key="index">
-              <a href="#" class="delBtn" @click.prevent="removeCart(item.id)">
-                <i class="far fa-trash-alt"></i>
-              </a>
-              <a href="#" @click.prevent="seeMore(item.product.id)">
-                <span class="title">{{ item.product.title }}</span>
-                <span class="qty">{{ item.qty }}{{ item.product.unit }}</span>
-                <span class="price">{{ item.final_total | currency }}</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -185,6 +249,14 @@ export default {
   },
   methods: {
     ...mapActions(["searching"]),
+    logout() {
+      this.$store.dispatch("logout");
+      this.$store.commit("SIDEBARSHOW", false);
+    },
+    toPage(page) {
+      this.$store.dispatch("toPage", page);
+      this.$store.commit("SIDEBARSHOW", false);
+    },
     clearsearch() {
       this.$store.commit("SEARCH", "");
     },
@@ -523,16 +595,16 @@ a {
   .header {
     max-width: 1160px;
     width: 1160px;
-    .mask {
+    > .mask {
       display: none;
     }
-    .sidebar {
+    > .sidebar {
       display: none;
     }
-    .searchBlock {
+    > .searchBlock {
       display: none;
     }
-    .container {
+    > .container {
       height: 120px;
       > .menu {
         display: none;
@@ -542,6 +614,9 @@ a {
         > img {
           width: 80px;
           height: 80px;
+        }
+        > h2 {
+          display: block;
         }
       }
       > .sort {
@@ -573,6 +648,11 @@ a {
             top: 80px !important;
           }
         }
+      }
+    }
+    > .containerback {
+      > .sort {
+        margin: 0 0 0 auto;
       }
     }
   }

@@ -14,7 +14,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for=" item in orders " :key="item.id" :class="{'paid':item.is_paid}">
+          <tr v-for=" item in pagelist " :key="item.id" :class="{'paid':item.is_paid}">
             <td>{{ item.create_at | date }}</td>
             <td>{{ item.user.email }}</td>
             <td>
@@ -32,19 +32,29 @@
         </tbody>
       </table>
     </div>
-    <Pagination :pagination="pagination" @changePage="getOrders" />
+    <Pagination />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import Pagination from "./Pagination.vue";
+import Pagination from "../Pagination.vue";
 export default {
   name: "Orderlist",
   computed: {
     ...mapGetters(["isLoading"]),
     orders() {
       return this.$store.state.orders;
+    },
+    pagelist() {
+      const nowPage = this.$store.state.page.pageNow;
+      const str = nowPage * 10 - 10;
+      const end = nowPage * 10;
+      let tmplist = [];
+      tmplist = [...this.$store.state.orders];
+      this.$store.commit("PAGETOTAL", Math.ceil(tmplist.length / 10));
+      tmplist = tmplist.slice(str, end);
+      return tmplist;
     }
   },
   components: { Pagination },
@@ -63,47 +73,70 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/variable.scss";
 .orderslist {
-  width: 95%;
-  margin: 0 auto;
-  overflow: hidden;
-}
-.orderslist caption {
-  text-align: left;
-  font-size: 1.5rem;
-  color: #8d2f23;
-  margin: 90.66px 0 20px;
-  position: relative;
-  padding: 0 0 10px;
-}
-
-.orderslist caption:after {
-  content: "";
-  background-color: #8d2f23;
   width: 100%;
-  height: 2px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
-
-td,
-th {
-  padding: 8px 5px;
-}
-thead th {
-  text-align: left;
-}
-thead tr {
-  background-color: #ffe8e8;
-}
-tbody tr {
-  background-color: #eee;
-}
-tbody tr.paid {
-  background-color: rgb(162, 209, 164);
+  max-width: 600px;
+  margin: 0 auto;
+  min-height: calc(100vh - 188px);
+  // 主畫面
+  > .container {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(90vh - 228px);
+    width: 95%;
+    margin: 0 auto;
+    > table {
+      width: 100%;
+      > caption {
+        text-align: left;
+        font-size: 1.5rem;
+        line-height: 3rem;
+        color: $red;
+        position: relative;
+        margin: 0 0 line(2) 0;
+      }
+      > caption:after {
+        content: "";
+        background-color: $red;
+        width: 100%;
+        height: 2px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+      td,
+      th {
+        padding: line(1);
+      }
+      thead th {
+        text-align: left;
+      }
+      thead tr {
+        background-color: #ffe8e8;
+        border: 1px solid $red;
+      }
+      tbody tr {
+        background-color: #eee;
+        border: 1px solid $red;
+      }
+      tbody tr.paid {
+        background-color: rgb(162, 209, 164);
+      }
+    }
+  }
 }
 .right {
   text-align: right;
+}
+@media screen and (min-width: 1200px) {
+  .orderslist {
+    width: 1160px;
+    max-width: 1160px;
+    min-height: calc(100vh - 228px);
+    > .container {
+      min-height: calc(90vh - 228px);
+    }
+  }
 }
 </style>

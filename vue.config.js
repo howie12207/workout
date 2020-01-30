@@ -1,3 +1,3 @@
 module.exports = {
-  publicPath: "/demo7/"
+  publicPath: "/workout/"
 };

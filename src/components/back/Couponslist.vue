@@ -20,7 +20,7 @@
             <td>{{ item.title }}</td>
             <td>{{ item.code }}</td>
             <td>{{ item.percent }}</td>
-            <td>{{ item.date | date }}</td>
+            <td>{{ item.due_date | date }}</td>
             <td v-if="item.is_enabled" style="color:green;">啟用</td>
             <td v-else style="color:red;">未啟用</td>
             <td>
@@ -31,8 +31,8 @@
         </tbody>
       </table>
     </div>
-    <!-- <Pagination :pagination="pagination" @emitchangePage="getProductslist" /> -->
-    <div class="modal" :class="{ 'modalShow': modalShow }">
+    <Pagination />
+    <div class="modal" v-if="modalShow">
       <div class="container">
         <a href="#" class="closeBtn" @click.prevent="modalClose">
           <i class="fas fa-times-circle"></i>
@@ -46,7 +46,7 @@
           <label for="percent">折扣百分比</label>
           <input type="text" id="percent" placeholder="請輸入折扣百分比" v-model="percent" />
           <label for="date">到期日</label>
-          <input type="date" v-model="date" id="date" />
+          <input type="text" v-model.lazy="date" id="date" placeholder="格式: 2020/1/1" />
           <div>
             <input
               type="checkbox"
@@ -64,14 +64,14 @@
         </form>
       </div>
     </div>
-    <div class="delmodal" :class="{ modalShow: delmodalShow }">
+    <div class="delmodal" v-if="delmodalShow">
       <div class="container">
         <a href="#" class="closeBtn" @click.prevent="delmodalClose">
           <i class="fas fa-times-circle"></i>
         </a>
         <h3>刪除優惠券</h3>
         <p>
-          確認是否刪除產品「
+          確認是否刪除優惠券「
           <span class="strong">{{ coupon.title }}</span>」
         </p>
         <div class="modalBtn">
@@ -85,8 +85,10 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import Pagination from "../Pagination.vue";
 export default {
   name: "Couponslist",
+  components: { Pagination },
   computed: {
     ...mapGetters(["isLoading", "modalShow"]),
     delmodalShow() {
@@ -124,12 +126,26 @@ export default {
     },
     date: {
       get() {
-        return this.$store.state.coupon.date;
+        let tmp = this.$store.state.coupon.due_date;
+        // return {};
+        if (tmp != undefined) {
+          const date = new Date(tmp * 1000);
+          return date.toLocaleDateString();
+        } else {
+          return "";
+        }
       },
       set(value) {
+        console.log(value);
         let timestamp = Math.floor(new Date(value) / 1000);
         this.$store.commit("COUPON_DATE", timestamp);
       }
+      // get() {
+      //   return this.$store.state.coupon.date;
+      // },
+      // set(value) {
+      //   this.$store.commit("COUPON_DATE", value);
+      // }
     },
     is_enabled: {
       get() {
@@ -146,7 +162,7 @@ export default {
       this.$store.dispatch("modalShow", { isNew, item });
     },
     modalClose() {
-      this.$store.commit("modalShow", false);
+      this.$store.commit("MODALSHOW", false);
     },
     delModal(item) {
       this.$store.dispatch("delModal", item);
@@ -162,141 +178,196 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/variable.scss";
 .couponslist {
   width: 100%;
-  color: #8d2f23;
-  font-family: "Noto Serif TC", serif;
-  min-height: calc(100vh - 160px);
+  max-width: 600px;
+  margin: 0 auto;
+  min-height: calc(100vh - 188px);
+  // 主畫面
+  > .container {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    margin: 0 auto;
+    min-height: calc(90vh - 228px);
+    > .createBtn {
+      align-self: flex-end;
+    }
+    > table {
+      > caption {
+        text-align: left;
+        font-size: 1.5rem;
+        line-height: 3rem;
+        color: $red;
+        position: relative;
+        margin: 0 0 line(2) 0;
+      }
+      > caption:after {
+        content: "";
+        background-color: #8d2f23;
+        width: 100%;
+        height: 2px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+      td,
+      th {
+        padding: line(1);
+      }
+      thead th {
+        text-align: left;
+      }
+      tbody tr:nth-of-type(odd) {
+        background-color: #ffe8e8;
+      }
+      thead tr,
+      tbody tr:nth-of-type(even) {
+        background-color: #fff2f2;
+      }
+    }
+  }
+  // 編輯產品模型
+  > .modal {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 101;
+    > .container {
+      width: 300px;
+      background-color: #eee;
+      box-shadow: 0 0 10px $red;
+      border-radius: 8px;
+      position: relative;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      > .closeBtn {
+        font-size: 2rem;
+        position: absolute;
+        color: $red;
+        top: -5px;
+        right: -5px;
+      }
+      > form {
+        width: 90%;
+        margin: line(2) auto;
+        overflow: auto;
+        > h3 {
+          margin: 0 0 line(1) 0;
+          font-size: 1.5rem;
+          line-height: 2rem;
+          border-bottom: 2px solid $red;
+          font-weight: 600;
+        }
+        > input[type="text"],
+        textarea {
+          width: 100%;
+          margin: line(1) 0;
+          border-radius: 8px;
+          box-sizing: border-box;
+          padding: line(0.5) line(1);
+          outline: none;
+          border: 1px solid $red;
+        }
+        > input:focus[type="text"],
+        textarea:focus {
+          border: 1px solid $yellow;
+        }
+        > .modalBtn {
+          margin: line(1) 0 0 0;
+          display: flex;
+          justify-content: space-around;
+          > button {
+            width: 40%;
+          }
+        }
+      }
+    }
+  }
+  // 刪除產品模型
+  > .delmodal {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 101;
+    > .container {
+      width: 300px;
+      background-color: #eee;
+      box-shadow: 0 0 10px #8d2f23;
+      border-radius: 10px;
+      padding: 20px;
+      box-sizing: border-box;
+      position: relative;
+      > .closeBtn {
+        font-size: 2rem;
+        position: absolute;
+        color: $red;
+        top: -5px;
+        right: -5px;
+      }
+      > h3 {
+        margin: 0 0 line(1) 0;
+        font-size: 1.5rem;
+        line-height: 2rem;
+        border-bottom: 2px solid $red;
+        font-weight: 600;
+      }
+      > .modalBtn {
+        margin: line(1) 0 0 0;
+        display: flex;
+        justify-content: space-around;
+        > button {
+          width: 40%;
+        }
+      }
+    }
+  }
 }
-.couponslist .container {
-  width: 95%;
-  margin: 10px auto;
-  display: flex;
-  flex-direction: column;
+.right {
+  text-align: right;
 }
-.couponslist .container .createBtn {
-  align-self: flex-end;
-  margin: 10px 0;
+span.strong {
+  color: red;
 }
-.couponslist .container caption {
-  text-align: left;
-  font-size: 1.5rem;
-  margin: 0 0 10px;
-  // padding: 0 0 10px;
-  // position: relative;
+button {
+  border: 1px solid $red;
+  background-color: #fff;
+  color: $red;
+  border-radius: 8px;
+  transition: 0.6s;
 }
-
-// .couponslist caption:after {
-//   content: "";
-//   background-color: #8d2f23;
-//   width: 100%;
-//   height: 2px;
-//   position: absolute;
-//   bottom: 0;
-//   left: 0;
-// }
-
-tr {
-  border-bottom: 1px solid #ccc;
+button:hover {
+  background-color: $red;
+  color: white;
+  cursor: pointer;
 }
-
-td,
-th {
-  padding: 8px 5px;
+@media screen and (min-width: 1200px) {
+  .couponslist {
+    width: 1160px;
+    max-width: 1160px;
+    min-height: calc(100vh - 228px);
+    > .container {
+      min-height: calc(90vh - 228px);
+    }
+    > .modal {
+      > .container {
+        width: 600px;
+      }
+    }
+  }
 }
-
-.textcenter {
-  text-align: center;
-}
-.textleft {
-  text-align: left;
-}
-
-.modal,
-.delmodal {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-  top: 0;
-  left: 0;
-  display: none;
-  justify-content: center;
-  align-items: center;
-}
-.modal .container {
-  width: 300px;
-  height: 500px;
-  background-color: #eee;
-  box-shadow: 0 0 10px #8d2f23;
-  border-radius: 10px;
-  position: relative;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-}
-.modal .container form {
-  width: 90%;
-  margin: 20px auto;
-  overflow: auto;
-}
-.container h3 {
-  margin-bottom: 10px;
-  padding: 0 0 5px 0;
-  font-size: 1.5rem;
-  border-bottom: 2px solid #8d2f23;
-}
-.modal .container form label:not(.is_enabled) {
-  display: block;
-}
-.modal .container form input {
-  margin: 5px 0;
-}
-.modal .container form input:focus[type="text"],
-.modal .container form textarea:focus {
-  box-shadow: 0 0 5px #8d2f23;
-}
-.modal .container form input[type="text"],
-textarea {
-  width: 100%;
-  margin: 5px 0;
-  border-radius: 10px;
-  box-sizing: border-box;
-  padding: 3px 10px;
-  outline: none;
-  border: 1px solid #8d2f23;
-}
-.container .modalBtn {
-  display: flex;
-  justify-content: space-around;
-}
-.container .modalBtn button {
-  width: 40%;
-  margin-top: 10px;
-}
-.delmodal .container {
-  width: 300px;
-  background-color: #eee;
-  box-shadow: 0 0 10px #8d2f23;
-  border-radius: 10px;
-  padding: 20px;
-  box-sizing: border-box;
-  position: relative;
-}
-.closeBtn {
-  align-self: flex-end;
-  padding: 0;
-  border: none;
-  font-size: 2rem;
-  position: absolute;
-  color: #8d2f23;
-  top: -5px;
-  right: -5px;
-}
-.modalShow {
-  display: flex;
-}
-// span.strong {
-//   color: red;
-// }
 </style>

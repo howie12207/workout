@@ -2,28 +2,20 @@
   <div class="dashboard">
     <Alert />
     <Header />
-    <div class="section">
-      <Sidebar />
-      <router-view></router-view>
-    </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Header from "./Header.vue";
-import Sidebar from "./Sidebar.vue";
+import Header from "../Header.vue";
 export default {
   name: "Dashboard",
-  components: { Header, Sidebar }
+  components: { Header }
 };
 </script>
 
 <style lang="scss" scoped>
 .dashboard {
-  width: 100%;
   font-family: "Noto Serif TC", serif;
-}
-.dashboard .section {
-  display: flex;
 }
 </style>

@@ -4,7 +4,7 @@
     <Alert />
     <Header />
     <div class="container">
-      <Breadcrumbs />
+      <Breadcrumb />
       <div class="section">
         <div class="pic">
           <img :src="product.imageUrl" alt />
@@ -58,11 +58,11 @@
 <script>
 import Header from "../Header.vue";
 import Alert from "../AlertMessage.vue";
-import Breadcrumbs from "./Breadcrumbs.vue";
+import Breadcrumb from "./Breadcrumb.vue";
 import { mapGetters } from "vuex";
 export default {
   name: "ProductId",
-  components: { Header, Alert, Breadcrumbs },
+  components: { Header, Alert, Breadcrumb },
   computed: {
     ...mapGetters(["isLoading", "product"]),
     qty: {

@@ -5,6 +5,7 @@
       <form @submit.prevent="login()">
         <fieldset>
           <legend>管理員登入</legend>
+          <label for="username">帳號</label>
           <input
             type="email"
             id="username"
@@ -13,16 +14,13 @@
             autofocus
             v-model="username"
           />
-          <input
-            type="password"
-            id="password"
-            placeholder="Password"
-            required
-            v-model="password"
-          />
-          <button type="submit">登入</button>
+          <label for="password">密碼</label>
+          <input type="password" id="password" placeholder="Password" required v-model="password" />
+          <div class="btn">
+            <button type="submit">登入</button>
+            <button @click.prevent="toPage()">返回產品列表</button>
+          </div>
           <div class="loginTips">{{ loginTips }}</div>
-          <button @click.prevent="toHome()">返回使用者畫面</button>
         </fieldset>
       </form>
     </div>
@@ -56,57 +54,83 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["login", "toHome"])
+    ...mapActions(["login"]),
+    toPage() {
+      this.$store.dispatch("toPage", "/product");
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/variable.scss";
 .login {
   height: 100vh;
   width: 100%;
-  background-color: #f5f5f5;
+  background: url("../../assets/login.jpg") center center no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: "Noto Serif TC", serif;
+  > .container {
+    width: 300px;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 8px;
+    > form {
+      > fieldset {
+        > legend {
+          font-size: 2rem;
+          line-height: 4rem;
+          text-align: center;
+          font-weight: 600;
+        }
+        > input {
+          padding: line(1);
+          width: 300px;
+          box-sizing: border-box;
+          border-radius: 8px;
+          outline: none;
+          border: 1px solid $red;
+          font-size: 1.5rem;
+        }
+        > input:focus {
+          border: 1px solid $yellow;
+        }
+        > label {
+          color: white;
+          font-size: 1.25rem;
+          line-height: 3rem;
+        }
+        > .btn {
+          display: flex;
+          margin: line(2) 0;
+          justify-content: space-around;
+          > button {
+            background-color: white;
+            color: $red;
+            border: 1px solid $red;
+            padding: line(1);
+            border-radius: line(1);
+            width: 45%;
+          }
+          > button:hover {
+            cursor: pointer;
+          }
+        }
+        > .loginTips {
+          color: red;
+          padding: 5px;
+          text-align: left;
+        }
+      }
+    }
+  }
 }
-.login .container {
-  text-align: center;
-  width: 360px;
-}
-.login .container fieldset {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #8d2f23;
-}
-.login .container legend {
-  padding: 20px 0;
-  font-size: 3rem;
-}
-.login input {
-  padding: 5px 15px;
-  width: 360px;
-  box-sizing: border-box;
-  margin: 30px 0;
-  border-radius: 10px;
-  outline-color: none;
-  outline: none;
-  border: 1px solid #8d2f23;
-  font-size: 1.5rem;
-}
-.login input:focus {
-  box-shadow: 0 0 5px #8d2f23;
-}
-.login button {
-  width: 360px;
-  font-size: 1.25rem;
-  margin: 30px 0;
-}
-.login .loginTips {
-  color: red;
-  padding: 5px;
-  text-align: left;
+@media screen and (min-width: 1200px) {
+  .login {
+    > .container {
+      padding: line(2);
+    }
+  }
 }
 </style>

@@ -15,8 +15,10 @@ import Dashboard from "../components/back/Dashboard.vue";
 import Productslist from "../components/back/Productslist.vue";
 import Orderslist from "../components/back/Orderslist.vue";
 import Couponslist from "../components/back/Couponslist.vue";
+import store from "../store";
 
 Vue.use(VueRouter);
+Vue.use(store);
 
 const routes = [
   {
@@ -36,73 +38,152 @@ const routes = [
   {
     path: "/product",
     component: Product,
+    meta: {
+      breadcrumb: [{ name: "產品介紹", link: "product" }]
+    },
     children: [
       {
         path: "",
         name: "main",
-        component: Main
+        component: Main,
+        meta: {
+          breadcrumb: [{ name: "產品介紹", link: "product" }]
+        }
       },
       {
         path: "equipment",
         name: "equipment",
-        component: Sort
+        component: Sort,
+        meta: {
+          breadcrumb: [
+            { name: "產品介紹", link: "/product" },
+            { name: "健身器材", link: "/product/equipment" }
+          ]
+        }
       },
       {
         path: "clothes",
         name: "clothes",
-        component: Sort
+        component: Sort,
+        meta: {
+          breadcrumb: [
+            { name: "產品介紹", link: "/product" },
+            { name: "運動服飾", link: "/product/clothes" }
+          ]
+        }
       },
       {
         path: "course",
         name: "course",
-        component: Sort
+        component: Sort,
+        meta: {
+          breadcrumb: [
+            { name: "產品介紹", link: "/product" },
+            { name: "專業課程", link: "/product/course" }
+          ]
+        }
       },
       {
         path: "accessory",
         name: "accessory",
-        component: Sort
+        component: Sort,
+        meta: {
+          breadcrumb: [
+            { name: "產品介紹", link: "/product" },
+            { name: "運動配件", link: "/product/accessory" }
+          ]
+        }
       },
       {
         path: "gear",
         name: "gear",
-        component: Sort
+        component: Sort,
+        meta: {
+          breadcrumb: [
+            { name: "產品介紹", link: "/product" },
+            { name: "健身護具", link: "/product/gear" }
+          ]
+        }
       },
       {
         path: "boxing",
         name: "boxing",
-        component: Sort
+        component: Sort,
+        meta: {
+          breadcrumb: [
+            { name: "產品介紹", link: "/product" },
+            { name: "拳擊用品", link: "/product/boxing" }
+          ]
+        }
       },
       {
         path: "nutrition",
         name: "nutrition",
-        component: Sort
+        component: Sort,
+        meta: {
+          breadcrumb: [
+            { name: "產品介紹", link: "/product" },
+            { name: "營養補充", link: "/product/nutrition" }
+          ]
+        }
       },
       {
         path: "sales",
         name: "sales",
-        component: Sales
+        component: Sales,
+        meta: {
+          breadcrumb: [
+            { name: "產品介紹", link: "/product" },
+            { name: "特價商品", link: "/product/sales" }
+          ]
+        }
       },
       {
         path: "search",
         name: "search",
-        component: Search
+        component: Search,
+        meta: {
+          breadcrumb: [
+            { name: "產品介紹", link: "/product" },
+            { name: "商品搜尋", link: "/product/search" }
+          ]
+        }
       }
     ]
   },
   {
     path: "/product/:productId",
     name: "productId",
-    component: ProductId
+    component: ProductId,
+    meta: {
+      breadcrumb: [
+        { name: "產品介紹", link: "/product" },
+        { name: "sort", link: "sort" },
+        { name: "title", link: "" }
+      ]
+    }
   },
   {
     path: "/checkout",
     name: "checkout",
-    component: Checkout
+    component: Checkout,
+    meta: {
+      breadcrumb: [
+        { name: "產品介紹", link: "/product" },
+        { name: "結帳", link: "/checkout" }
+      ]
+    }
   },
   {
     path: "/pay/:orderId",
     name: "pay",
-    component: Pay
+    component: Pay,
+    meta: {
+      breadcrumb: [
+        { name: "產品介紹", link: "/product" },
+        { name: "結帳", link: "/checkout" }
+      ]
+    }
   },
   {
     path: "/login",

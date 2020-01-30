@@ -55,7 +55,7 @@ export default new Vuex.Store({
     coupon: {},
     code: "",
     pagination: {},
-    banner: [
+    banner1: [
       {
         src: require("../assets/shake.jpg"),
         alt: "shake",
@@ -82,12 +82,12 @@ export default new Vuex.Store({
         to: "-Lyvj9zOvUF9ouXBiBpY"
       }
     ],
-    bannerSec: [
+    banner2: [
       {
-        tag: "揮灑汗水",
+        tag: "私人教練",
         src:
-          "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1577850402294.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=p81yB4LMiXSZ2J2l3knZ3g7yeBWjicWkcWSjenxCTEu5HSC1FJceKCfqZXfXmcrfGhwzVTMqOtcdWclA9jHn5GEuAK1opJD8cml7cXT88FHNlYrIOktIz1Kt5QJtApzk1iEJGb7cyj7Tp3FuEwH3Q0h7xg2lpDSDXgrtzkjZmz%2FBxJho1oJhYDtTrZlbux7e%2FUocokd8Oo%2FXo7Jpg7FSnqEpXwQ6WKPJ%2FX2wQ6KZ%2FHCVxmP1JsXFgrD1WL%2B19pN69pEth2YqEoXfCU59lEm6CkuunQPaEqcGn9Ha4PVYTUfW0qfZXtXT2zOzWbolgwx1FKep3%2BRdKbPW5PzcGxX9Jg%3D%3D",
-        description: "戴上拳擊手套盡情發洩吧情緒。",
+          "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579403007598.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=GTA7vtIA0W3pmD5%2BKf8XTeX65i0uDltIlk6p%2FMkrw8OKGWcbhw7FflpSQAk2SAtlqH%2Bxn8N4Io5VVnueFzHyIQb%2FWc5eeqh2xSHgzCXmkpLQQlCjvvQ3UpOJMgpaElzw8OeE5LXYwz4tPEG8NxMLIFsXmj69QDBtmzi8kondkZJWTaAtlPK8hIGLC%2BaU9woKUnfsDVt3xEiYiaqaKw1v3o3qBZd8tvZhkSxUQpKYLSHHuzla6VHlM%2FKt2pZJ%2Fg3l2PaIZ4hsPxCXXnUvp4FEEJq9%2BllVMBJ6hWQ%2BExisigOBNH%2BeklWD31Ss8JRu%2F4mNF%2Foayi2bQ2L0yzAmD184SA%3D%3D",
+        description: "專業1對1指導訓練，讓你突飛猛進",
         to: "-LxUCcNLOR-RhKG2xcHm"
       },
       {
@@ -96,6 +96,13 @@ export default new Vuex.Store({
           "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579420864114.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=QifVKK5jXnsIjKGDIb8LbZ5y5XivCWTfIvJu1JsvLeAUdKEF7uPkWXyXtgu5nYsX8D9fTYhBVoixHMEB1fvpFQLvV2cJJSpJouiJSxd1a8u8%2B0yIjZExKc%2FR4Rch%2FXbkVFN%2B8aFBdlnS78bTFUDqeGDEEsrwrtyt7HbES%2FjwuOuB9gcEOgt91%2BxNBtmDRSaC7E0ZM8%2B8e4vRFLfevPgQRb%2Fq91S%2B%2BlltQ3UHI3tQzefmbZyYPgYaBcyqpjAb6tN7F6fNE9KQmu8GRoJVbJetP5cWdUdyzLIbJzB51zaoleMfStfPG%2B1xt1qINdNGMJsTJOEZCYKxREx%2BRenBGavvTw%3D%3D",
         description: "多種搭配運動計步功能以及通話撥話等功能。",
         to: "-LxUJuHnZTrbQqCsMDC3"
+      },
+      {
+        tag: "放鬆神器",
+        src:
+          "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579421054615.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=IUZ73GZfrlKUC5WbhVQr282agWhHL5nZoZDyY4X2iWeXhN031WAiwGaaW5ZwfwmB0DypSKdmYI%2BHe1YuFst5i8Vegdpwn0TugEJJaKeeks5ZrDcgBImjqgPIe5mCSY%2FeVy1KjKFbhisp7IWFgkWIIPsBdbJX8g%2BmPZrLJziNt%2FiPjW7VdBXMsrjZvXNyRVJ7ldM1GJJ9OkQ0clivRYAxWquV5e%2FBniJPlZXX2cnZLLzxg1EgAo2ozt%2FD24ZrEnSFOlGAtisDXMW46%2BNJIMgNy5zuM12uFSkfXRzIbui2oXZ0fDG90q4RxSVMjJ72%2BwHcBYWhVsYZJ7rmwcd9VRJgMw%3D%3D",
+        description: "運動完痠痛?使用它來好好放鬆吧。",
+        to: "-LxUKlOGVkBrGr8w7U7P"
       },
       {
         tag: "補充能量",
@@ -112,11 +119,11 @@ export default new Vuex.Store({
         to: "-LxUD2R2ttgl5bY7aBe3"
       },
       {
-        tag: "放鬆神器",
+        tag: "懶人神器",
         src:
-          "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579421054615.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=IUZ73GZfrlKUC5WbhVQr282agWhHL5nZoZDyY4X2iWeXhN031WAiwGaaW5ZwfwmB0DypSKdmYI%2BHe1YuFst5i8Vegdpwn0TugEJJaKeeks5ZrDcgBImjqgPIe5mCSY%2FeVy1KjKFbhisp7IWFgkWIIPsBdbJX8g%2BmPZrLJziNt%2FiPjW7VdBXMsrjZvXNyRVJ7ldM1GJJ9OkQ0clivRYAxWquV5e%2FBniJPlZXX2cnZLLzxg1EgAo2ozt%2FD24ZrEnSFOlGAtisDXMW46%2BNJIMgNy5zuM12uFSkfXRzIbui2oXZ0fDG90q4RxSVMjJ72%2BwHcBYWhVsYZJ7rmwcd9VRJgMw%3D%3D",
-        description: "運動完痠痛?使用它來好好放鬆吧。",
-        to: "-LxUKlOGVkBrGr8w7U7P"
+          "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579275379515.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=i96vBsGjYooNUXdlc1G26hc3yTLn7hQttMTMy7qK3YWLCWlvkbg8yW0CMBNG7dsB8qq6v%2FycQ%2F%2FnjmgMAU3cdDjvAlIeRiMT6eitUHgzt%2FQ%2BLKyMI%2BpqGxXc6R%2Fr3EmpKU3MgGn1CiJeuz7Cum3XEfkfWBxbeOrbRqELz78Y4p4dyM%2B5Qhz%2FDUTo0IxbzW74OGVLMA5sDH1kA7fuHwRRa1MLzF3fiCogNfrgiF7w5rCWBMkNL1wfO9fKnrOZ800jaRiZbzCMHw7NsH3eEWXLL8Hc1DfBLBrJSIYcosGaAC%2Bhw9xDmV%2FJ01lBJqEsqwOjO2NbGaCgRjkxp260xcO4cw%3D%3D",
+        description: "按下開關輕鬆按摩",
+        to: "-Lyo8Ug-ydmWocOl881I"
       }
     ],
     sortBanner: {
@@ -335,7 +342,7 @@ export default new Vuex.Store({
       state.coupon.percent = payload;
     },
     COUPON_DATE(state, payload) {
-      state.coupon.date = payload;
+      state.coupon.due_date = payload;
     },
     COUPON_IS_ENABLED(state, payload) {
       state.coupon.is_enabled = payload;

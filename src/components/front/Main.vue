@@ -1,7 +1,7 @@
 <template>
   <div class="main">
-    <Banner />
-    <BannerSec />
+    <Banner v-if="fullWidth>=1200" />
+    <BannerS v-else />
     <div class="container">
       <div class="sort">
         <div class="pic">
@@ -147,10 +147,15 @@
 <script>
 import { mapGetters } from "vuex";
 import Banner from "./Banner.vue";
-import BannerSec from "./BannerSec.vue";
+import BannerS from "./BannerS.vue";
 export default {
   name: "Main",
-  components: { Banner, BannerSec },
+  components: { Banner, BannerS },
+  data() {
+    return {
+      fullWidth: 0
+    };
+  },
   computed: {
     ...mapGetters(["newer", "beginner", "oldder", "products", "cart"]),
     sales() {
@@ -189,9 +194,13 @@ export default {
   },
   created() {
     this.$store.dispatch("getProducts");
-    //     this.$store.commit("CARTSHOW", false);
-    //     this.$store.commit("STARSHOW", false);
-    //     this.$store.commit("NAVSHOW", false);
+  },
+  mounted() {
+    const vm = this;
+    vm.fullWidth = window.innerWidth;
+    window.onresize = () => {
+      vm.fullWidth = window.innerWidth;
+    };
   }
 };
 </script>

@@ -1,7 +1,17 @@
 <template>
-  <div class="bannerSec">
-    <swiper :options="swiperOption">
-      <swiper-slide v-for="(item) in banner" :key="item.to">
+  <div class="banner">
+    <swiper :options="swiperOption1" class="banner1">
+      <swiper-slide v-for="(item, index) in banner1" :key="index">
+        <a href="#" @click.prevent="seeMore(item.to)">
+          <div class="img">
+            <img :src="item.src" alt />
+          </div>
+        </a>
+      </swiper-slide>
+      <div class="swiper-pagination" slot="pagination"></div>
+    </swiper>
+    <swiper :options="swiperOption2" class="banner2">
+      <swiper-slide v-for="(item,index) in banner2" :key="index">
         <a href="#" @click.prevent="seeMore(item.to)">
           <div class="pic">
             <img :src="item.src" alt />
@@ -20,16 +30,52 @@
 
 <script>
 export default {
-  name: "BannerSec",
+  name: "BannerS",
   computed: {
-    banner() {
-      return this.$store.state.bannerSec;
+    banner1() {
+      return this.$store.state.banner1;
+    },
+    banner2() {
+      return this.$store.state.banner2;
     }
   },
   data() {
     return {
-      fullWidth: 0,
-      swiperOption: {
+      swiperOption1: {
+        spaceBetween: 30,
+        centeredSlides: true,
+        autoplay: {
+          delay: 4000,
+          disableOnInteraction: false
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+          renderBullet: function(index, className) {
+            var text = "";
+            switch (index) {
+              case 0:
+                text = "運動必備搖搖杯";
+                break;
+              case 1:
+                text = "訓練中補充營養";
+                break;
+              case 2:
+                text = "舒服涼爽好吊嘎";
+                break;
+              case 3:
+                text = "居家訓練真方便";
+                break;
+              case 4:
+                text = "團體課程動起來";
+                break;
+            }
+            return '<li class="' + className + '">' + text + "</li>";
+          }
+        },
+        effect: "fade"
+      },
+      swiperOption2: {
         slidesPerView: 2,
         loop: false,
         notNextTick: true,
@@ -44,39 +90,64 @@ export default {
   methods: {
     seeMore(id) {
       this.$store.dispatch("seeMore", id);
-      console.log(id);
     }
-  },
-  created() {
-    const vm = this;
-    this.fullWidth = window.innerWidth;
-    if (vm.fullWidth >= 1200) {
-      vm.swiperOption.slidesPerView = 4;
-    } else if (vm.fullWidth < 1200) {
-      vm.swiperOption.slidesPerView = 2;
-    }
-  },
-  mounted() {
-    const vm = this;
-    window.onresize = () => {
-      vm.fullWidth = window.innerWidth;
-    };
   }
 };
 </script>
 
 <style lang="scss">
-@import "../../assets/variable";
+@import "../../assets/variable.scss";
 a {
   @extend %abutton;
-  display: inline-block;
+  color: $red;
 }
-.bannerSec {
+
+.banner {
+  font-family: "Noto Serif TC", serif;
   max-width: 600px;
   width: 100%;
-  margin: line(2) auto;
-  font-family: "Noto Serif TC", serif;
-  > .swiper-container {
+  margin: 0 auto;
+  > .swiper-container.banner1 {
+    margin: 0 0 line(2) 0;
+    > .swiper-wrapper {
+      img {
+        width: 100%;
+        height: 250px;
+        vertical-align: top;
+        object-fit: cover;
+      }
+    }
+    div.swiper-pagination {
+      border-bottom: 1px solid #ccc;
+      color: $red;
+      display: none;
+    }
+    li.swiper-pagination-bullet {
+      width: 20%;
+      margin: 0 !important;
+      background: none;
+      position: relative;
+      padding: line(1) 0;
+      height: inherit;
+      opacity: 0.4;
+    }
+    li.swiper-pagination-bullet:hover {
+      opacity: 1;
+    }
+    .swiper-pagination-bullet-active {
+      opacity: 1 !important;
+    }
+    .swiper-pagination-bullet-active:after {
+      content: "";
+      position: absolute;
+      height: 3px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: $red;
+    }
+  }
+  > .swiper-container.banner2 {
     > .swiper-button-next {
       background-color: rgba(0, 0, 0, 0.4);
       background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M27%2C22L27%2C22L5%2C44l-2.1-2.1L22.8%2C22L2.9%2C2.1L5%2C0L27%2C22L27%2C22z'%20fill%3D'%23ffffff'%2F%3E%3C%2Fsvg%3E");
@@ -126,11 +197,21 @@ a {
   }
 }
 @media screen and (min-width: 1200px) {
-  .bannerSec {
+  .banner {
     max-width: 1160px;
     width: 1160px;
-    height: 300px;
-    > .swiper-container {
+    > .swiper-container.banner1 {
+      height: 645px;
+      > .swiper-wrapper {
+        img {
+          height: 600px;
+        }
+      }
+      div.swiper-pagination {
+        display: block;
+      }
+    }
+    > .swiper-container.banner2 {
       > .swiper-button-next {
         right: 10px;
         border-top-right-radius: 8px;

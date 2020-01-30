@@ -1,5 +1,5 @@
 <template>
-  <div class="pagination">
+  <div class="pagination" v-if="pageTotal>1">
     <nav>
       <a
         href="#"
@@ -43,7 +43,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/variable.scss";
+@import "../assets/variable.scss";
 .pagination {
   margin: line(2) 0;
   > nav {

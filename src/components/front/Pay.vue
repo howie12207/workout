@@ -2,6 +2,7 @@
   <div class="pay">
     <Alert />
     <Header />
+    <Breadcrumb />
     <ProgressBar />
     <div class="container">
       <table class="cartlist">
@@ -63,10 +64,11 @@
 
 <script>
 import Header from "../Header.vue";
+import Breadcrumb from "./Breadcrumb.vue";
 import ProgressBar from "./ProgressBar.vue";
 export default {
   name: "Pay",
-  components: { Header, ProgressBar },
+  components: { Header, ProgressBar, Breadcrumb },
   methods: {
     getOrder() {
       this.$store.dispatch("getOrder", this.orderId);
@@ -96,7 +98,9 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/variable.scss";
 .pay {
+  max-width: 600px;
   width: 100%;
+  margin: 0 auto;
   font-family: "Noto Serif TC", serif;
   color: #8d2f23;
   min-height: calc(100vh - 100px);
@@ -176,5 +180,12 @@ td.green {
 
 .textright {
   text-align: right !important;
+}
+
+@media screen and (min-width: 1200px) {
+  .pay {
+    width: 1160px;
+    max-width: 1160px;
+  }
 }
 </style>

@@ -4,9 +4,7 @@
     <div class="container">
       <button class="createBtn" @click="modalshow(true)">建立新產品</button>
       <table>
-        <caption>
-          產品列表
-        </caption>
+        <caption>產品列表</caption>
         <thead>
           <tr>
             <th style="width:100px;">分類</th>
@@ -17,7 +15,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in products" :key="item.id">
+          <tr v-for="item in pagelist" :key="item.id">
             <td>{{ item.category }}</td>
             <td>{{ item.title }}</td>
             <td class="right" v-if="item.price">{{ item.price | currency }}</td>
@@ -33,7 +31,7 @@
       </table>
     </div>
     <Pagination />
-    <div class="modal" :class="{ modalShow: modalShow }">
+    <div class="modal" v-if="modalShow">
       <div class="container">
         <a href="#" class="closeBtn" @click.prevent="closeModal">
           <i class="fas fa-times-circle"></i>
@@ -41,62 +39,21 @@
         <form>
           <h3>編輯產品</h3>
           <label for="title">產品名稱</label>
-          <input
-            type="text"
-            id="title"
-            placeholder="請輸入產品名稱"
-            v-model="title"
-          />
+          <input type="text" id="title" placeholder="請輸入產品名稱" v-model="title" />
           <label for="category">產品分類</label>
-          <input
-            type="text"
-            id="category"
-            placeholder="請輸入產品類別"
-            v-model="category"
-          />
+          <input type="text" id="category" placeholder="請輸入產品類別" v-model="category" />
           <label for="origin_price">產品原價</label>
-          <input
-            type="text"
-            id="origin_price"
-            placeholder="請輸入產品原價"
-            v-model="origin_price"
-          />
+          <input type="text" id="origin_price" placeholder="請輸入產品原價" v-model="origin_price" />
           <label for="price">產品售價</label>
-          <input
-            type="text"
-            id="price"
-            placeholder="請輸入產品售價"
-            v-model="price"
-          />
+          <input type="text" id="price" placeholder="請輸入產品售價" v-model="price" />
           <label for="unit">產品單位</label>
-          <input
-            type="text"
-            id="unit"
-            placeholder="請輸入產品單位"
-            v-model="unit"
-          />
+          <input type="text" id="unit" placeholder="請輸入產品單位" v-model="unit" />
           <label for="description">產品描述</label>
-          <input
-            type="text"
-            id="description"
-            placeholder="請輸入產品描述"
-            v-model="description"
-          />
+          <input type="text" id="description" placeholder="請輸入產品描述" v-model="description" />
           <label for="content">產品說明</label>
-          <textarea
-            id="content"
-            placeholder="請輸入產品說明"
-            v-model="content"
-            cols="10"
-            rows="5"
-          ></textarea>
+          <textarea id="content" placeholder="請輸入產品說明" v-model="content" cols="10" rows="5"></textarea>
           <label for="image">產品圖片</label>
-          <input
-            type="text"
-            id="image"
-            placeholder="請輸入產品圖片連結"
-            v-model="imageUrl"
-          />
+          <input type="text" id="image" placeholder="請輸入產品圖片連結" v-model="imageUrl" />
           <label for="file">
             或是上傳圖片
             <i class="fas fa-spinner fa-spin" v-if="fileUploading"></i>
@@ -120,7 +77,7 @@
         </form>
       </div>
     </div>
-    <div class="delmodal" :class="{ modalShow: delmodalShow }">
+    <div class="delmodal" v-if="delmodalShow">
       <div class="container">
         <a href="#" class="closeBtn" @click.prevent="closedelModal">
           <i class="fas fa-times-circle"></i>
@@ -128,8 +85,7 @@
         <h3>刪除產品</h3>
         <p>
           確認是否刪除產品「
-          <span class="strong">{{ product.title }}</span
-          >」
+          <span class="strong">{{ product.title }}</span>」
         </p>
         <div class="modalBtn">
           <button @click="delProduct">確認</button>
@@ -142,12 +98,22 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import Pagination from "./Pagination.vue";
+import Pagination from "../Pagination.vue";
 export default {
   name: "Productslist",
   components: { Pagination },
   computed: {
     ...mapGetters(["products", "modalShow", "product", "isLoading"]),
+    pagelist() {
+      const nowPage = this.$store.state.page.pageNow;
+      const str = nowPage * 10 - 10;
+      const end = nowPage * 10;
+      let tmplist = [];
+      tmplist = [...this.$store.state.products];
+      this.$store.commit("PAGETOTAL", Math.ceil(tmplist.length / 10));
+      tmplist = tmplist.slice(str, end);
+      return tmplist;
+    },
     title: {
       get() {
         return this.$store.state.product.title;
@@ -235,8 +201,8 @@ export default {
   },
   methods: {
     ...mapActions(["updateProduct", "delProduct"]),
-    getProductslist(page = 1) {
-      this.$store.dispatch("getProductslist", page);
+    getProducts() {
+      this.$store.dispatch("getProducts");
     },
     modalshow(isNew, item) {
       this.$store.dispatch("modalShow", { isNew, item });
@@ -283,161 +249,204 @@ export default {
     }
   },
   created() {
-    this.getProductslist();
+    this.getProducts();
   }
 };
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/variable.scss";
 .product {
-  width: calc(100% - 150px);
-  border-left: 1px solid #ccc;
-  // min-height: calc(100vh - 60px);
-  // height: 100%;
-}
-.product .container {
-  display: flex;
-  flex-direction: column;
-  width: 90%;
-  margin: 0 auto;
-}
-.product .createBtn {
-  align-self: flex-end;
-  margin: 30px 0;
-}
-.product caption {
-  text-align: left;
-  font-size: 1.5rem;
-  color: #8d2f23;
-  margin: 0 0 20px;
-  position: relative;
-  padding: 0 0 10px;
-}
-.product caption:after {
-  content: "";
-  background-color: #8d2f23;
   width: 100%;
-  height: 2px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
-td,
-th {
-  padding: 8px;
-}
-thead th {
-  text-align: left;
-}
-td button {
-  margin: 0 5px;
-  padding: 3px 5px;
-}
-tbody tr:nth-of-type(odd) {
-  background-color: #ffe8e8;
-}
-thead tr,
-tbody tr:nth-of-type(even) {
-  background-color: #fff2f2;
+  max-width: 600px;
+  margin: 0 auto;
+  min-height: calc(100vh - 188px);
+  // 主畫面
+  > .container {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    margin: 0 auto;
+    min-height: calc(90vh - 228px);
+    > .createBtn {
+      align-self: flex-end;
+    }
+    > table {
+      > caption {
+        text-align: left;
+        font-size: 1.5rem;
+        line-height: 3rem;
+        color: $red;
+        position: relative;
+        margin: 0 0 line(2) 0;
+      }
+      > caption:after {
+        content: "";
+        background-color: #8d2f23;
+        width: 100%;
+        height: 2px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+      td,
+      th {
+        padding: line(1);
+      }
+      thead th {
+        text-align: left;
+      }
+      tbody tr:nth-of-type(odd) {
+        background-color: #ffe8e8;
+      }
+      thead tr,
+      tbody tr:nth-of-type(even) {
+        background-color: #fff2f2;
+      }
+    }
+  }
+  // 編輯產品模型
+  > .modal {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 101;
+    > .container {
+      width: 300px;
+      height: 500px;
+      background-color: #eee;
+      box-shadow: 0 0 10px $red;
+      border-radius: 8px;
+      position: relative;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      > .closeBtn {
+        font-size: 2rem;
+        position: absolute;
+        color: $red;
+        top: -5px;
+        right: -5px;
+      }
+      > form {
+        width: 90%;
+        margin: line(2) auto;
+        overflow: auto;
+        > h3 {
+          margin: 0 0 line(1) 0;
+          font-size: 1.5rem;
+          line-height: 2rem;
+          border-bottom: 2px solid $red;
+          font-weight: 600;
+        }
+        > input[type="text"],
+        textarea {
+          width: 100%;
+          margin: line(1) 0;
+          border-radius: 8px;
+          box-sizing: border-box;
+          padding: line(0.5) line(1);
+          outline: none;
+          border: 1px solid $red;
+        }
+        > input:focus[type="text"],
+        textarea:focus {
+          border: 1px solid $yellow;
+        }
+        > .modalBtn {
+          margin: line(1) 0 0 0;
+          display: flex;
+          justify-content: space-around;
+          > button {
+            width: 40%;
+          }
+        }
+      }
+    }
+  }
+  // 刪除產品模型
+  > .delmodal {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 101;
+    > .container {
+      width: 300px;
+      background-color: #eee;
+      box-shadow: 0 0 10px #8d2f23;
+      border-radius: 10px;
+      padding: 20px;
+      box-sizing: border-box;
+      position: relative;
+      > .closeBtn {
+        font-size: 2rem;
+        position: absolute;
+        color: $red;
+        top: -5px;
+        right: -5px;
+      }
+      > h3 {
+        margin: 0 0 line(1) 0;
+        font-size: 1.5rem;
+        line-height: 2rem;
+        border-bottom: 2px solid $red;
+        font-weight: 600;
+      }
+      > .modalBtn {
+        margin: line(1) 0 0 0;
+        display: flex;
+        justify-content: space-around;
+        > button {
+          width: 40%;
+        }
+      }
+    }
+  }
 }
 .right {
   text-align: right;
 }
-
-.modal,
-.delmodal {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-  top: 0;
-  left: 0;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 101;
-}
-.modal .container {
-  width: 300px;
-  height: 500px;
-  background-color: #eee;
-  box-shadow: 0 0 10px #8d2f23;
-  border-radius: 10px;
-  position: relative;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-}
-.modal .container form {
-  width: 90%;
-  margin: 20px auto;
-  overflow: auto;
-}
-.container h3 {
-  margin-bottom: 10px;
-  padding: 0 0 5px 0;
-  font-size: 1.5rem;
-  border-bottom: 2px solid #8d2f23;
-}
-.modal .container form label:not(.is_enabled) {
-  display: block;
-}
-.modal .container form input {
-  margin: 5px 0;
-}
-
-.modal .container form input:focus[type="text"],
-.modal .container form textarea:focus {
-  box-shadow: 0 0 5px #8d2f23;
-}
-.modal .container form input[type="text"],
-textarea {
-  width: 100%;
-  margin: 5px 0;
-  border-radius: 10px;
-  box-sizing: border-box;
-  padding: 3px 10px;
-  outline: none;
-  border: 1px solid #8d2f23;
-}
-
-.container .modalBtn {
-  display: flex;
-  justify-content: space-around;
-}
-.container .modalBtn button {
-  width: 40%;
-  margin-top: 10px;
-}
-.delmodal .container {
-  width: 300px;
-  background-color: #eee;
-  box-shadow: 0 0 10px #8d2f23;
-  border-radius: 10px;
-  padding: 20px;
-  box-sizing: border-box;
-  position: relative;
-}
-
-.closeBtn {
-  align-self: flex-end;
-  padding: 0;
-  border: none;
-  font-size: 2rem;
-  position: absolute;
-  color: #8d2f23;
-  top: -5px;
-  right: -5px;
-}
-.modalShow {
-  display: flex;
-}
 span.strong {
   color: red;
 }
-@media screen and (max-width: 800px) {
+button {
+  border: 1px solid $red;
+  background-color: #fff;
+  color: $red;
+  border-radius: 8px;
+  transition: 0.6s;
+}
+button:hover {
+  background-color: $red;
+  color: white;
+  cursor: pointer;
+}
+@media screen and (min-width: 1200px) {
   .product {
-    width: 100%;
+    width: 1160px;
+    max-width: 1160px;
+    min-height: calc(100vh - 228px);
+    > .container {
+      min-height: calc(90vh - 228px);
+    }
+    > .modal {
+      > .container {
+        width: 600px;
+        height: 700px;
+      }
+    }
   }
 }
 </style>

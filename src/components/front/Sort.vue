@@ -173,10 +173,11 @@ a {
         top: 100px;
         left: 32px;
         background-color: rgba(255, 255, 255, 0.4);
-        padding: line(3);
+        padding: line(3) line(1) line(3) line(3);
         font-size: 1.5rem;
         color: white;
         font-weight: 900;
+        letter-spacing: 8px;
       }
       > h2:before {
         content: "";
@@ -249,26 +250,31 @@ a {
           }
         }
         > .txt {
-          line-height: 1.25rem;
+          line-height: 20px;
           margin: line(1) 0 0;
           > .title {
             color: $red;
+            font-size: 15px;
+            font-weight: 600;
           }
           > .title:hover {
             text-decoration: underline;
           }
           > .description {
-            color: #999;
+            color: green;
+            font-size: 13px;
           }
           > .price {
             display: flex;
             justify-content: space-between;
             > .origin {
               text-decoration: line-through;
-              font-size: 0.9rem;
+              font-size: 12px;
+              color: #999;
             }
             > .special {
               color: red;
+              font-size: 14px;
             }
           }
         }

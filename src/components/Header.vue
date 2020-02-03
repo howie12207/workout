@@ -10,7 +10,7 @@
           <a href="#" class="closeBtn" @click.prevent="sidebarshow(false)">
             <i class="fas fa-times"></i>
           </a>
-          <label for="searchbox" class="searchbox">商品搜尋</label>
+          <label for="searchbox" class="searchbox">搜尋</label>
           <div class="searchbar">
             <input
               type="text"
@@ -120,14 +120,11 @@
               <li class="titlelist" v-if="star.length < 1">
                 <span>目前沒有觀察名單</span>
               </li>
-              <li class="titlelist" v-else>
-                <span>觀察清單</span>
-              </li>
               <li v-for="(item, index) in star" :key="index">
                 <a href="#" class="delBtn" @click.prevent="removeStar(item)">
                   <i class="fas fa-heart"></i>
                 </a>
-                <a href="#" @click.prevent="seeMore(item.id)">
+                <a href="#" @click.prevent="seeMore(item.id)" class="product">
                   <span class="title">{{ item.title }}</span>
                   <span class="price">{{ item.price | currency }}</span>
                 </a>
@@ -141,23 +138,26 @@
             <span class="num" v-if="cart.carts.length">{{ cart.carts.length }}</span>
             <ul class="list cartlist" v-if="cart.carts">
               <li class="titlelist" v-if="cart.carts.length < 1">
-                <span>目前購物車為空</span>
-              </li>
-              <li class="titlelist" v-else>
-                <span>購物車</span>
-                <router-link to="/checkout" class="txt">
-                  <span>結帳</span>
-                </router-link>
+                <span>目前購物車是空的</span>
               </li>
               <li v-for="(item, index) in cart.carts" :key="index">
                 <a href="#" class="delBtn" @click.prevent="removeCart(item.id)">
                   <i class="far fa-trash-alt"></i>
                 </a>
-                <a href="#" @click.prevent="seeMore(item.product.id)">
+                <a href="#" @click.prevent="seeMore(item.product.id)" class="product">
                   <span class="title">{{ item.product.title }}</span>
                   <span class="qty">{{ item.qty }}{{ item.product.unit }}</span>
                   <span class="price">{{ item.final_total | currency }}</span>
                 </a>
+              </li>
+              <li class="cartEnd" v-if="cart.carts.length">
+                <p class="total">
+                  總計:
+                  <span class="dollar">{{ cart.final_total | currency }}</span>
+                </p>
+                <router-link to="/checkout" class="txt">
+                  <span>結帳</span>
+                </router-link>
               </li>
             </ul>
           </div>
@@ -410,8 +410,10 @@ a {
         display: none;
         width: 80px;
         text-align: center;
-        padding: line(0.5) 0;
-        color: $red;
+        padding: line(0.5) 0 line(0.5) line(0.5);
+        letter-spacing: 4px;
+        color: green;
+        font-weight: 900;
       }
     }
     > .sort {
@@ -435,13 +437,19 @@ a {
           margin: 0 0 line(2);
         }
       }
-      > a:hover:after {
+      > a:after {
         content: "";
         position: absolute;
+        right: 50%;
+        left: 50%;
         bottom: -16px;
-        width: 100%;
         height: 3px;
         background-color: $red;
+        transition: 0.4s;
+      }
+      > a:hover:after {
+        left: 0;
+        right: 0;
       }
     }
     > .icon {
@@ -488,71 +496,81 @@ a {
           font-size: 1rem;
           color: white;
         }
-        > .cartlist {
-          display: none;
-        }
         > .starlist {
           width: 260px !important;
         }
         > .list {
-          border: 1px solid #fff3ee;
-          // border-top: 1px solid white;
+          border: 1px solid #eee;
           display: none;
           position: absolute;
           width: 300px;
           font-size: 1rem;
+          top: 80px;
           right: -16px;
-          top: 79px;
-          background-color: #fff3ee;
+          // background-color: #fff3ee;
+          background-color: #fff;
           padding: line(1) line(1);
           box-sizing: border-box;
+          box-shadow: 0 3px 3px rgba(255, 255, 255, 0.7);
           > .titlelist {
             display: flex;
-            justify-content: space-between;
-            > span {
-              line-height: 1.5rem;
-            }
-            > a {
-              background-color: $red;
-              padding: line(1);
-              box-sizing: border-box;
-              border-radius: 8px;
-              color: white;
-            }
+            padding: line(1) 0 0 0;
+            font-weight: 600;
           }
-          li {
+          > li {
             display: flex;
             align-items: center;
-            margin: line(1) 0 0;
             .delBtn {
               display: inline-block;
               color: red;
               width: 24px;
             }
-            a {
+            > a {
               display: flex;
               align-items: center;
-              transform: scale(1);
-              transition: 0.7s;
+              color: black;
+              transition: 0.5s;
+              line-height: 1.75rem;
               .title {
                 display: inline-block;
-                color: black;
                 width: 160px;
               }
               .qty {
                 display: inline-block;
                 width: 40px;
-                color: black;
               }
               .price {
                 display: inline-block;
-                color: red;
                 text-align: right;
                 width: 56px;
               }
             }
-            a:hover {
-              transform: scale(0.95);
+            > a.product:hover {
+              color: #00a5a8;
+            }
+          }
+          > li:not(:last-child) {
+            border-bottom: 1px dotted $red;
+          }
+          > .cartEnd {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            // margin: line(1) 0 0 0;
+            // padding: line(1) 0 0 0;
+            // border-top: 1px solid $red;
+            > .total {
+              line-height: 2rem;
+              > .dollar {
+                color: red;
+              }
+            }
+            > a {
+              background-color: $red;
+              padding: 0 line(2);
+              box-sizing: border-box;
+              border-radius: 8px;
+              color: white;
             }
           }
         }
@@ -565,7 +583,20 @@ a {
           height: 0;
           // background-color: #ccc;
           border-top: 12px solid transparent;
-          border-bottom: 12px solid #fff3ee;
+          border-bottom: 12px solid #eee;
+          border-right: 12px solid transparent;
+          border-left: 12px solid transparent;
+        }
+        > .list:after {
+          content: "";
+          position: absolute;
+          top: -23px;
+          right: 26px;
+          width: 0;
+          height: 0;
+          // background-color: #ccc;
+          border-top: 12px solid transparent;
+          border-bottom: 12px solid white;
           border-right: 12px solid transparent;
           border-left: 12px solid transparent;
         }
@@ -645,7 +676,7 @@ a {
         > a,
         div {
           > .list {
-            top: 80px !important;
+            // top: 80px !important;
           }
         }
       }

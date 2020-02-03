@@ -67,6 +67,9 @@ export default {
       cursor: pointer;
       color: $red;
     }
+    > li:not(:last-child):hover {
+      font-weight: 800;
+    }
     > li:last-child {
       cursor: default;
     }

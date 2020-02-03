@@ -79,6 +79,7 @@ export default {
         slidesPerView: 2,
         loop: false,
         notNextTick: true,
+        setWrapperSize: true,
         spaceBetween: 0,
         navigation: {
           nextEl: ".swiper-button-next",
@@ -106,7 +107,7 @@ a {
   font-family: "Noto Serif TC", serif;
   max-width: 600px;
   width: 100%;
-  margin: 0 auto;
+  margin: 0 auto line(2);
   > .swiper-container.banner1 {
     margin: 0 0 line(2) 0;
     > .swiper-wrapper {
@@ -121,13 +122,14 @@ a {
       border-bottom: 1px solid #ccc;
       color: $red;
       display: none;
+      font-size: 15px;
     }
     li.swiper-pagination-bullet {
       width: 20%;
       margin: 0 !important;
       background: none;
       position: relative;
-      padding: line(1) 0;
+      // padding: line(1) 0;
       height: inherit;
       opacity: 0.4;
     }
@@ -136,15 +138,16 @@ a {
     }
     .swiper-pagination-bullet-active {
       opacity: 1 !important;
+      color: green;
     }
     .swiper-pagination-bullet-active:after {
       content: "";
       position: absolute;
-      height: 3px;
+      height: 4px;
       left: 0;
       right: 0;
-      bottom: 0;
-      background-color: $red;
+      bottom: -1px;
+      background-color: green;
     }
   }
   > .swiper-container.banner2 {
@@ -186,12 +189,16 @@ a {
         padding: line(1);
         background-color: $red;
         color: white;
+        font-size: 14px;
+        line-height: 20px;
       }
       > .title {
         padding: line(1) line(1) 0 line(2);
         box-sizing: border-box;
         width: 118px;
         color: black;
+        font-size: 15px;
+        line-height: 20px;
       }
     }
   }
@@ -201,7 +208,7 @@ a {
     max-width: 1160px;
     width: 1160px;
     > .swiper-container.banner1 {
-      height: 645px;
+      height: 654px;
       > .swiper-wrapper {
         img {
           height: 600px;
@@ -209,20 +216,23 @@ a {
       }
       div.swiper-pagination {
         display: block;
+        line-height: 43px;
       }
     }
     > .swiper-container.banner2 {
       > .swiper-button-next {
-        right: 10px;
+        right: 0px;
         border-top-right-radius: 8px;
         border-bottom-right-radius: 8px;
+        background-color: transparent;
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M27%2C22L27%2C22L5%2C44l-2.1-2.1L22.8%2C22L2.9%2C2.1L5%2C0L27%2C22L27%2C22z'%20fill%3D'%23007aff'%2F%3E%3C%2Fsvg%3E");
       }
       > .swiper-button-prev {
-        left: 10px;
-        border-top-left-radius: 8px;
-        border-bottom-left-radius: 8px;
+        left: 0px;
+        background-color: transparent;
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M0%2C22L22%2C0l2.1%2C2.1L4.2%2C22l19.9%2C19.9L22%2C44L0%2C22L0%2C22L0%2C22z'%20fill%3D'%23007aff'%2F%3E%3C%2Fsvg%3E");
       }
-      height: 300px;
+      height: 310px;
       .swiper-slide {
         display: flex;
         justify-content: center;
@@ -238,17 +248,18 @@ a {
         align-items: center;
         margin: line(1) 0;
         > .sort {
-          width: 48px;
-          height: 48px;
+          width: 50px;
+          height: 50px;
           box-sizing: border-box;
-          padding: line(1);
+          padding: 5px;
           background-color: $red;
           color: white;
+          text-align: center;
         }
         > .title {
-          padding: line(1) line(1) 0 line(2);
+          padding: line(0.5) line(1) line(0.5) line(2);
           box-sizing: border-box;
-          height: 48px;
+          height: 50px;
           width: 232px;
           color: black;
         }

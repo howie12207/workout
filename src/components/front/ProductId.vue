@@ -10,33 +10,24 @@
           <img :src="product.imageUrl" alt />
         </div>
         <div class="txt">
-          <h2 class="title">
-            『 {{ product.title }} 』
-            <a
-              href="#"
-              class="star"
-              @click.prevent="removeStar(product)"
-              v-if="changeStar(product)"
-            >
-              <i class="fas fa-heart"></i>
-            </a>
-            <a href="#" class="star" @click.prevent="addStar(product)" v-else>
-              <i class="far fa-heart"></i>
-            </a>
-          </h2>
+          <h2 class="title">{{ product.title }}</h2>
           <h3 class="description">{{ product.description }}</h3>
-          <h3 class="intro">【 介紹 】</h3>
           <h3 class="content" v-html="product.content"></h3>
           <div v-if="product.price !== product.origin_price">
-            <p class="linethrough">原價:{{ product.origin_price | currency }}</p>
-            <p class="price">現在只要:{{ product.price | currency }}</p>
+            <span class="linethrough">原價: {{ product.origin_price | currency }}</span>
+            <span class="price">特價: {{ product.price | currency }}</span>
           </div>
           <div v-else>
-            <p class="price">售價:{{ product.origin_price | currency }}</p>
+            <p class="price">售價: {{ product.origin_price | currency }}</p>
           </div>
           <div class="qty">
-            <p>數量</p>
-            <button @click="changeQty(-1)" :class="{ disabled: qty <= 1 }">-</button>
+            <span class="amt">數量</span>
+            <a
+              href="#"
+              @click.prevent="changeQty(-1)"
+              class="qtyBtn"
+              :class="{ disabled: qty <= 1 }"
+            >-</a>
             <input
               type="text"
               v-model="qty"
@@ -44,11 +35,33 @@
               onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
               maxlength="2"
             />
-            <button @click="changeQty(1)" :class="{ disabled: qty >= 99 }">+</button>
-            <span>{{ product.unit }}</span>
+            <a
+              href="#"
+              @click.prevent="changeQty(1)"
+              class="qtyBtn"
+              :class="{ disabled: qty >= 99 }"
+            >+</a>
+            <span class="unit">{{ product.unit }}</span>
           </div>
-          <p class="total">小計:{{ (product.price * qty) | currency }}</p>
-          <a href="#" class="addBtn" @click.prevent="addCart(product.id, qty)">加入購物車</a>
+          <div class="icon">
+            <a
+              href="#"
+              class="star"
+              @click.prevent="removeStar(product)"
+              v-if="changeStar(product)"
+            >
+              <i class="fas fa-heart"></i>
+              <span>取消追蹤</span>
+            </a>
+            <a href="#" class="star" @click.prevent="addStar(product)" v-else>
+              <i class="far fa-heart"></i>
+              <span>加入追蹤</span>
+            </a>
+            <a href="#" class="addBtn" @click.prevent="addCart(product.id, qty)">
+              <i class="fas fa-cart-plus"></i>
+              <span>加入購物車</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -122,7 +135,8 @@ export default {
   width: 100%;
   max-width: 600px;
   > .container {
-    width: 100%;
+    // width: 100%;
+    width: 90%;
     display: flex;
     flex-direction: column;
     margin: 0 auto;
@@ -166,10 +180,11 @@ export default {
         flex-direction: column;
         line-height: 1.5rem;
         > .title {
-          font-size: 1.5rem;
-          line-height: 3rem;
+          font-size: 20px;
+          line-height: 30px;
           color: $red;
           font-weight: 900;
+          margin: 0 0 line(1);
           > a {
             @extend %abutton;
             display: inline-block;
@@ -177,72 +192,101 @@ export default {
           }
         }
         > .description {
-          font-size: 1.25rem;
-          line-height: 2rem;
-          color: $yellow;
+          padding: 0 0 0 line(4);
+          font-size: 1rem;
+          line-height: 1.5;
+          color: #00a5a8;
         }
-        > .intro {
-          color: $red;
-          font-size: 1.25rem;
-          line-height: 2;
+        > .content {
+          border-top: 1px solid #eee;
+          margin: line(1) 0 0;
+          padding: line(1) 0 0 line(4);
+          font-size: 13px;
         }
         .linethrough {
           text-decoration: line-through;
-          font-size: 1.25rem;
+          font-size: 14px;
+          line-height: 2;
         }
         .price {
           color: red;
-          line-height: 2rem;
+          line-height: 3rem;
+          font-size: 24px;
+          font-weight: 600;
+          margin: 0 0 0 line(2);
         }
         > .qty {
-          > button {
+          display: flex;
+          height: 48px;
+          border-top: 1px solid #eee;
+          padding: line(2) 0 0 0;
+
+          > .qtyBtn {
+            @extend %abutton;
+            height: 48px;
+            text-align: center;
+            line-height: 48px;
             border: 1px solid $red;
             background-color: #fff;
-            font-size: 1.5rem;
-            width: 50px;
-            height: 50px;
+            font-size: 36px;
+            width: 48px;
             box-sizing: border-box;
             font-weight: 800;
+          }
+          > .qtyBtn:nth-child(2) {
+            line-height: 40px;
+          }
+          > button:hover {
+            cursor: pointer;
           }
           > input {
             color: $red;
             width: 160px;
-            height: 50px;
+            height: 48px;
             box-sizing: border-box;
             border: 1px solid $red;
             font-size: 1.5rem;
             text-align: center;
           }
+          > .unit {
+            font-size: 24px;
+            align-self: center;
+            margin: 0 0 0 line(1);
+          }
         }
-        > .total {
-          align-self: flex-end;
-          color: red;
-          font-size: 1.5rem;
-          line-height: 2rem;
-        }
-        > .addBtn {
-          @extend %abutton;
-          align-self: flex-end;
-          padding: line(0.5) line(1);
-          margin: line(0.5) 0;
-          border-radius: 5px;
-          background-color: #fff;
-          border: 1px solid $red;
-          color: $red;
-          font-size: 1.25rem;
-          transform: translateY(0);
-          transition: 0.6s;
-        }
-        > .addBtn:hover {
-          background-color: $red;
-          color: white;
-          transform: translateY(5px);
+        > .icon {
+          margin: line(4) 0 0;
+          font-size: 18px;
+          text-align: center;
+          > .star {
+            background-color: #caa1aa;
+            color: white;
+            padding: line(1);
+            > i {
+              margin: 0 line(1) 0 0;
+            }
+          }
+          > .star:hover {
+            background-color: #eec8c1;
+          }
+          > .addBtn {
+            margin: 0 0 0 line(2);
+            background-color: #89a1bb;
+            color: white;
+            padding: line(1);
+            > i {
+              margin: 0 line(1) 0 0;
+            }
+          }
+          > .addBtn:hover {
+            background-color: #abc3dd;
+          }
         }
       }
     }
   }
 }
-button.disabled {
+.qtyBtn.disabled {
   background-color: #fff;
   color: #ddd;
   pointer-events: none;
@@ -253,13 +297,14 @@ button.disabled {
     width: 1160px;
     max-width: 1160px;
     > .container {
+      width: 100%;
       > .section {
-        display: flex;
         flex-direction: row;
         > .pic {
           width: 50%;
           display: flex;
           justify-content: center;
+          align-self: flex-start;
           > img {
             width: 500px;
             height: 500px;
@@ -268,6 +313,21 @@ button.disabled {
         > .txt {
           margin: 0 line(2);
           width: 50%;
+          align-self: flex-start;
+          > .qty {
+            > .amt {
+              margin: 0 line(2) 0 0;
+            }
+          }
+          > .icon {
+            text-align: left;
+            > .star {
+              padding: line(1) line(4);
+            }
+            > .addBtn {
+              padding: line(1) line(4);
+            }
+          }
         }
       }
     }

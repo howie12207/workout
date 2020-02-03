@@ -94,14 +94,14 @@ export default new Vuex.Store({
         tag: "心律監測",
         src:
           "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579420864114.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=QifVKK5jXnsIjKGDIb8LbZ5y5XivCWTfIvJu1JsvLeAUdKEF7uPkWXyXtgu5nYsX8D9fTYhBVoixHMEB1fvpFQLvV2cJJSpJouiJSxd1a8u8%2B0yIjZExKc%2FR4Rch%2FXbkVFN%2B8aFBdlnS78bTFUDqeGDEEsrwrtyt7HbES%2FjwuOuB9gcEOgt91%2BxNBtmDRSaC7E0ZM8%2B8e4vRFLfevPgQRb%2Fq91S%2B%2BlltQ3UHI3tQzefmbZyYPgYaBcyqpjAb6tN7F6fNE9KQmu8GRoJVbJetP5cWdUdyzLIbJzB51zaoleMfStfPG%2B1xt1qINdNGMJsTJOEZCYKxREx%2BRenBGavvTw%3D%3D",
-        description: "多種搭配運動計步功能以及通話撥話等功能。",
+        description: "多種搭配運動計步功能，以及通話撥話等功能。",
         to: "-LxUJuHnZTrbQqCsMDC3"
       },
       {
         tag: "放鬆神器",
         src:
           "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579421054615.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=IUZ73GZfrlKUC5WbhVQr282agWhHL5nZoZDyY4X2iWeXhN031WAiwGaaW5ZwfwmB0DypSKdmYI%2BHe1YuFst5i8Vegdpwn0TugEJJaKeeks5ZrDcgBImjqgPIe5mCSY%2FeVy1KjKFbhisp7IWFgkWIIPsBdbJX8g%2BmPZrLJziNt%2FiPjW7VdBXMsrjZvXNyRVJ7ldM1GJJ9OkQ0clivRYAxWquV5e%2FBniJPlZXX2cnZLLzxg1EgAo2ozt%2FD24ZrEnSFOlGAtisDXMW46%2BNJIMgNy5zuM12uFSkfXRzIbui2oXZ0fDG90q4RxSVMjJ72%2BwHcBYWhVsYZJ7rmwcd9VRJgMw%3D%3D",
-        description: "運動完痠痛?使用它來好好放鬆吧。",
+        description: "運動完痠痛，使用它來好好放鬆吧。",
         to: "-LxUKlOGVkBrGr8w7U7P"
       },
       {

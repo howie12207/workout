@@ -294,33 +294,38 @@ a {
           }
         }
         > .txt {
-          line-height: 1.25rem;
+          line-height: 20px;
           margin: line(1) 0 0;
           > .title {
             color: $red;
+            font-size: 15px;
+            font-weight: 600;
           }
           > .title:hover {
             text-decoration: underline;
           }
           > .description {
-            color: #999;
+            color: green;
+            font-size: 13px;
           }
           > .price {
             display: flex;
             justify-content: space-between;
             > .origin {
               text-decoration: line-through;
-              font-size: 0.9rem;
+              font-size: 12px;
+              color: #999;
             }
             > .special {
               color: red;
+              font-size: 14px;
             }
           }
         }
       }
       > .item:hover {
         border-radius: 8px;
-        box-shadow: 0 0 3px black;
+        // box-shadow: 0 0 3px black;
       }
       > .more {
         width: 150px;
@@ -344,14 +349,14 @@ a {
     > .container {
       flex-direction: row;
       align-items: center;
-      height: 640px;
+      height: 720px;
       > .sort {
         position: relative;
         > .pic {
           display: block;
           > img {
             width: 280px;
-            height: 600px;
+            height: 640px;
             vertical-align: top;
             object-fit: cover;
           }
@@ -364,14 +369,19 @@ a {
           top: 32px;
           right: 24px;
           background-color: rgba(255, 255, 255, 0.6);
-          width: 80px;
-          height: 200px;
+          width: 60px;
+          height: 180px;
           writing-mode: vertical-lr;
           font-size: 2rem;
           letter-spacing: 8px;
+          padding: 0;
+        }
+        > .txt:before {
+          width: 0;
         }
       }
       > .section {
+        justify-content: flex-start;
         > .item {
           width: 200px;
           margin: line(1) 0 line(1) line(0.5);

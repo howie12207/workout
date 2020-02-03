@@ -221,10 +221,10 @@ export default {
     width: 95%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    // align-items: center;
     // ----- 購物車清單 -----
     > .cartlist {
-      margin: line(1) auto;
+      // margin: line(1) auto;
       > .toggleCart {
         @extend %abutton;
         text-align: center;
@@ -300,13 +300,14 @@ export default {
     }
     // ----- 購買人資訊 -----
     > .info {
-      margin: 0 auto;
+      // margin: 0 auto;
       > form {
         display: flex;
         flex-direction: column;
         // align-items: center;
+
         label {
-          font-size: 1.25rem;
+          font-size: 1rem;
           line-height: 2rem;
         }
         input {
@@ -358,11 +359,11 @@ textarea {
   border: 1px solid $red;
 }
 input:focus {
-  border: 1px solid $yellow;
+  border: 1px solid #00a5a8;
 }
 textarea:focus {
   outline: none;
-  border: 1px solid $yellow;
+  border: 1px solid #00a5a8;
 }
 label {
   display: block;
@@ -395,6 +396,7 @@ label {
   .checkout .cartlist,
   .checkout .info {
     width: 45%;
+    margin: 0 auto;
   }
 }
 </style>

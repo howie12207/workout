@@ -1,12 +1,14 @@
 # 使用規格
 
 Vue CLI3  
-Vue RouterVuex  
+Vue Router  
+Vuex  
 SCSS  
 ESLint(airbnb)
 
 # 使用套件
 
+FontAwesome -> For Icon  
 Axios -> For AJAX  
 Vue-loading-overlay -> For Loading 畫面  
 Vue-awesome-swiper -> For 輪播畫面  

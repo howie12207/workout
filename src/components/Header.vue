@@ -63,7 +63,7 @@
           <i class="fas fa-bars"></i>
         </a>
         <!-- LOGO -->
-        <router-link to="/product" class="logo">
+        <router-link to="/login" class="logo">
           <img src="../assets/logo.png" alt="logo" />
           <h2>健身趣</h2>
         </router-link>

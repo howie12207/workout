@@ -16,7 +16,7 @@
           </tr>
         </thead>
         <tbody class="textcenter">
-          <tr v-for="item in coupons" :key="item.id">
+          <tr v-for="item in pagelist" :key="item.id">
             <td>{{ item.title }}</td>
             <td>{{ item.code }}</td>
             <td>{{ item.percent }}</td>
@@ -91,6 +91,16 @@ export default {
   components: { Pagination },
   computed: {
     ...mapGetters(["isLoading", "modalShow"]),
+    pagelist() {
+      const nowPage = this.$store.state.page.pageNow;
+      const str = nowPage * 10 - 10;
+      const end = nowPage * 10;
+      let tmplist = [];
+      tmplist = [...this.$store.state.coupons];
+      this.$store.commit("PAGETOTAL", Math.ceil(tmplist.length / 10));
+      tmplist = tmplist.slice(str, end);
+      return tmplist;
+    },
     delmodalShow() {
       return this.$store.state.delmodalShow;
     },
@@ -140,12 +150,6 @@ export default {
         let timestamp = Math.floor(new Date(value) / 1000);
         this.$store.commit("COUPON_DATE", timestamp);
       }
-      // get() {
-      //   return this.$store.state.coupon.date;
-      // },
-      // set(value) {
-      //   this.$store.commit("COUPON_DATE", value);
-      // }
     },
     is_enabled: {
       get() {

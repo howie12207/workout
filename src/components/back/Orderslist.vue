@@ -60,7 +60,7 @@ export default {
   components: { Pagination },
   data() {
     return {
-      pagination: {}
+      // pagination: {}
     };
   },
   methods: {
@@ -77,7 +77,7 @@ export default {
 .orderslist {
   width: 100%;
   max-width: 600px;
-  margin: 0 auto;
+  margin: 0 auto line(4);
   min-height: calc(100vh - 188px);
   // 主畫面
   > .container {

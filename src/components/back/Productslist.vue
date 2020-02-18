@@ -237,13 +237,11 @@ export default {
               "imageUrl",
               response.data.imageUrl
             );
-            console.log(response);
           } else {
             vm.$store.dispatch("updateMessage", {
               message: response.data.message,
               status: "false"
             });
-            console.log(response);
           }
         });
     }

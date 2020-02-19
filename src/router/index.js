@@ -1,7 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-// import Home from "../components/front/Home.vue";
-// import About from "../components/front/About.vue";
 import Product from "../components/front/Product.vue";
 import Main from "../components/front/Main.vue";
 import Sort from "../components/front/Sort.vue";
@@ -15,26 +13,10 @@ import Dashboard from "../components/back/Dashboard.vue";
 import Productslist from "../components/back/Productslist.vue";
 import Orderslist from "../components/back/Orderslist.vue";
 import Couponslist from "../components/back/Couponslist.vue";
-import store from "../store";
 
 Vue.use(VueRouter);
-Vue.use(store);
 
 const routes = [
-  {
-    path: "*",
-    redirect: "/product"
-  },
-  // {
-  //   path: "/",
-  //   name: "home",
-  //   component: Home
-  // },
-  // {
-  //   path: "/about",
-  //   name: "about",
-  //   component: About
-  // },
   {
     path: "/product",
     component: Product,
@@ -214,11 +196,16 @@ const routes = [
         meta: { requiresAuth: true }
       }
     ]
+  },
+  {
+    path: "*",
+    redirect: "/product"
   }
 ];
 
 const router = new VueRouter({
   routes,
+  base: process.env.BASE_URL,
   mode: "history"
 });
 

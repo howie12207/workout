@@ -8,30 +8,24 @@ button,
 input {
   outline: none;
 }
-// button {
-//   background-color: transparent;
-//   border: 2px solid #8d2f23;
-//   border-radius: 5px;
-//   color: #8d2f23;
-//   padding: 5px 10px;
-//   transform: translateY(0);
-//   transition: 0.6s;
-//   outline: none;
-// }
-// button:hover {
-//   cursor: pointer;
-//   background-color: #8d2f23;
-//   color: white;
-// }
+.fade-enter-active,
+.fade-leave-active {
+  transition: 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
 
-// input {
-//   padding: 5px 15px;
-//   box-sizing: border-box;
-//   border-radius: 5px;
-//   outline-color: none;
-//   outline: none;
-//   border: 1px solid #8d2f23;
-// }
-// input:focus {
-//   box-shadow: 0 0 5px #8d2f23;
-// }
+.textRight {
+  text-align: right !important;
+}
+.textCenter {
+  text-align: center !important;
+}
+.textThrough {
+  text-decoration: line-through !important;
+}
+.red {
+  color: red !important;
+}

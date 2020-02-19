@@ -1,15 +1,17 @@
 <template>
-  <div class="header">
+  <header class="header">
     <!-- 前台 -->
     <template v-if="$route.path.indexOf('admin')==-1">
-      <!-- 小尺寸 -->
-      <div class="mask" v-if="sidebarShow "></div>
+      <!-- 遮罩層 -->
+      <div class="mask" v-if="sidebarShow"></div>
       <transition name="move">
         <!-- 側邊欄 -->
         <div class="sidebar" v-if="sidebarShow">
+          <!-- 關閉按鈕 -->
           <a href="#" class="closeBtn" @click.prevent="sidebarshow(false)">
             <i class="fas fa-times"></i>
           </a>
+          <!-- 搜尋區 -->
           <label for="searchbox" class="searchbox">搜尋</label>
           <div class="searchbar">
             <input
@@ -19,12 +21,14 @@
               v-model="search"
               @keyup.enter="searching"
               @keyup.esc="clearsearch"
+              @keyup="btnup"
             />
             <a href="#" @click.prevent="searching">
               <i class="fas fa-search"></i>
             </a>
           </div>
           <h2>商品分類</h2>
+          <!-- 分類按鈕 -->
           <nav class="sort">
             <a href="#" @click.prevent="categorySwitch('equipment')">
               <h3>健身器材</h3>
@@ -57,8 +61,8 @@
           </nav>
         </div>
       </transition>
-      <!-- 大尺寸 -->
       <div class="container">
+        <!-- 小尺寸選單按鈕 -->
         <a href="#" class="menu" @click.prevent="sidebarshow(true)">
           <i class="fas fa-bars"></i>
         </a>
@@ -100,6 +104,7 @@
         </nav>
         <!-- 小圖示 -->
         <div class="icon">
+          <!-- 搜尋區 -->
           <div class="search">
             <input
               type="text"
@@ -113,6 +118,7 @@
               <i class="fas fa-search"></i>
             </a>
           </div>
+          <!-- 觀察名單 -->
           <div class="star">
             <i class="fas fa-heart"></i>
             <span class="num" v-if="star.length">{{ star.length }}</span>
@@ -121,6 +127,7 @@
                 <span>目前沒有觀察名單</span>
               </li>
               <li v-for="(item, index) in star" :key="index">
+                <!-- 取消觀察按鈕 -->
                 <a href="#" class="delBtn" @click.prevent="removeStar(item)">
                   <i class="fas fa-heart"></i>
                 </a>
@@ -131,6 +138,7 @@
               </li>
             </ul>
           </div>
+          <!-- 購物車 -->
           <div class="cart" v-if="cart.carts">
             <a href="#" @click.prevent="toCheckout">
               <i class="fas fa-shopping-cart"></i>
@@ -155,6 +163,7 @@
                   總計:
                   <span class="dollar">{{ cart.final_total | currency }}</span>
                 </p>
+                <!-- 結帳按鈕 -->
                 <router-link to="/checkout" class="txt">
                   <span>結帳</span>
                 </router-link>
@@ -166,15 +175,17 @@
     </template>
     <!-- 後台 -->
     <template v-else>
-      <!-- 小尺寸 -->
-      <div class="mask" v-if="sidebarShow "></div>
+      <!-- 遮罩層 -->
+      <div class="mask" v-if="sidebarShow"></div>
       <transition name="move">
         <!-- 側邊欄 -->
         <div class="sidebar" v-if="sidebarShow">
+          <!-- 關閉按鈕 -->
           <a href="#" class="closeBtn" @click.prevent="sidebarshow(false)">
             <i class="fas fa-times"></i>
           </a>
           <h2>管理員</h2>
+          <!-- 選單按鈕 -->
           <nav class="sort">
             <a href="#" @click.prevent="toPage('/admin/productslist')">
               <h3>產品列表</h3>
@@ -194,15 +205,17 @@
           </nav>
         </div>
       </transition>
-      <!-- 大尺寸 -->
       <div class="container containerback">
+        <!-- 小尺寸選單按鈕 -->
         <a href="#" class="menu" @click.prevent="sidebarshow(true)">
           <i class="fas fa-bars"></i>
         </a>
+        <!-- LOGO -->
         <router-link to="/product" class="logo">
           <img src="../assets/logo.png" alt="logo" />
           <h2>健身趣</h2>
         </router-link>
+        <!-- 選單 -->
         <nav class="sort">
           <a href="#" @click.prevent="toPage('/admin/productslist')">
             <h3>產品列表</h3>
@@ -219,7 +232,7 @@
         </nav>
       </div>
     </template>
-  </div>
+  </header>
 </template>
 
 <script>
@@ -279,13 +292,6 @@ export default {
     seeMore(page) {
       this.$store.dispatch("seeMore", page);
     },
-    changeStar(item) {
-      const vm = this;
-      return vm.$store.state.star.some(el => {
-        const result = item.id === el.id;
-        return result;
-      });
-    },
     toCheckout() {
       this.$store.dispatch("toPage", "/checkout");
     },
@@ -315,6 +321,7 @@ a {
   width: 100%;
   margin: 0 auto;
   position: relative;
+  // 遮罩層
   > .mask {
     position: fixed;
     top: 0;
@@ -324,6 +331,7 @@ a {
     z-index: 99;
     background-color: rgba(0, 0, 0, 0.7);
   }
+  // 側邊欄
   > .sidebar {
     position: fixed;
     top: 0;
@@ -334,6 +342,7 @@ a {
     background-color: #fff;
     padding: line(1) line(2);
     box-sizing: border-box;
+    // 關閉按鈕
     > .closeBtn {
       position: fixed;
       left: 248px;
@@ -341,6 +350,7 @@ a {
       color: white;
       font-size: 2rem;
     }
+    // 搜尋區
     > h2,
     > .searchbox {
       display: block;
@@ -365,6 +375,7 @@ a {
         color: $red;
       }
     }
+    // 分類按鈕
     > .sort {
       display: flex;
       flex-direction: column;
@@ -389,13 +400,14 @@ a {
     align-items: center;
     border-bottom: 1px solid #eee;
     z-index: 11;
+    // 菜單按鈕
     > .menu {
       color: $red;
       margin: 0 line(2);
       font-size: 1.75rem;
     }
+    // LOGO
     > .logo {
-      // --- logo ---
       @extend %abutton;
       display: flex;
       height: 100%;
@@ -416,9 +428,8 @@ a {
         font-weight: 900;
       }
     }
+    // 分類按鈕
     > .sort {
-      // --- 分類 ---
-      // display: flex;
       display: none;
       align-items: center;
       height: 100%;
@@ -452,15 +463,17 @@ a {
         right: 0;
       }
     }
+    // 小圖示
     > .icon {
-      // --- icon ---
       display: flex;
       align-items: center;
       justify-content: flex-end;
       height: 100%;
+      // 搜尋區
       > .search {
         display: none;
       }
+      // 觀察名單及購物車
       > a,
       div:not(.search) {
         @extend %abutton;
@@ -507,7 +520,6 @@ a {
           font-size: 1rem;
           top: 80px;
           right: -16px;
-          // background-color: #fff3ee;
           background-color: #fff;
           padding: line(1) line(1);
           box-sizing: border-box;
@@ -556,9 +568,6 @@ a {
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            // margin: line(1) 0 0 0;
-            // padding: line(1) 0 0 0;
-            // border-top: 1px solid $red;
             > .total {
               line-height: 2rem;
               > .dollar {
@@ -581,7 +590,6 @@ a {
           right: 26px;
           width: 0;
           height: 0;
-          // background-color: #ccc;
           border-top: 12px solid transparent;
           border-bottom: 12px solid #eee;
           border-right: 12px solid transparent;
@@ -594,7 +602,6 @@ a {
           right: 26px;
           width: 0;
           height: 0;
-          // background-color: #ccc;
           border-top: 12px solid transparent;
           border-bottom: 12px solid white;
           border-right: 12px solid transparent;
@@ -610,6 +617,7 @@ a {
     }
   }
 }
+// Transition
 .move-leave,
 .move-enter-to {
   transform: translateX(0);
@@ -626,20 +634,25 @@ a {
   .header {
     max-width: 1160px;
     width: 1160px;
+    // 遮罩層
     > .mask {
       display: none;
     }
+    // 側邊欄
     > .sidebar {
       display: none;
     }
+    // 搜尋區
     > .searchBlock {
       display: none;
     }
     > .container {
       height: 120px;
+      // 菜單按鈕
       > .menu {
         display: none;
       }
+      // LOGO
       > .logo {
         margin: 0 0 0 line(1);
         > img {
@@ -650,12 +663,15 @@ a {
           display: block;
         }
       }
+      // 分類按鈕
       > .sort {
         display: flex;
         margin: 0 auto 0 line(1);
       }
+      // 小圖示
       > .icon {
         align-items: flex-end;
+        // 搜尋區
         > .search {
           display: flex;
           align-items: center;
@@ -673,15 +689,11 @@ a {
             color: $red;
           }
         }
-        > a,
-        div {
-          > .list {
-            // top: 80px !important;
-          }
-        }
       }
     }
+    // 後台
     > .containerback {
+      // 分類按鈕
       > .sort {
         margin: 0 0 0 auto;
       }

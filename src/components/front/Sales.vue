@@ -2,11 +2,13 @@
   <div class="sales">
     <div class="container">
       <loading :active.sync="isLoading"></loading>
+      <!-- Banner -->
       <div class="banner">
         <img src="../../assets/sales.jpg" alt="特價商品" />
         <h2>特價商品</h2>
       </div>
       <Breadcrumb />
+      <!-- 排序方法 -->
       <div class="sequence">
         <label for="sequence">排序:</label>
         <select name id="sequence" v-model="sequence">
@@ -16,11 +18,14 @@
           <option value="pricehigh">價格 - 高至低</option>
         </select>
       </div>
+      <!-- 主區域 -->
       <div class="section">
-        <div class="item" v-for="(item,index) in pageProducts" :key="index">
+        <div class="item" v-for="(item, index) in pageProducts" :key="index">
+          <!-- 圖片 -->
           <div class="pic" v-if="item" @click.prevent="seeMore(item.id)">
             <a href="#" class="mask">
               <div class="icon">
+                <!-- 觀察名單按鈕 -->
                 <a
                   href="#"
                   class="star"
@@ -32,6 +37,7 @@
                 <a href="#" @click.prevent.stop="addStar(item)" v-else>
                   <i class="far fa-heart"></i>
                 </a>
+                <!-- 購物車按鈕 -->
                 <a href="#" @click.prevent.stop="addCart(item.id)">
                   <i class="fas fa-cart-plus"></i>
                 </a>
@@ -39,16 +45,19 @@
             </a>
             <img :src="item.imageUrl" alt="course" />
           </div>
+          <!-- 文字 -->
           <div class="txt" v-if="item">
-            <a href="#" class="title" @click.prevent="seeMore(item.id)">{{ item.title }}</a>
+            <a href="#" class="title" @click.prevent="seeMore(item.id)">{{
+              item.title
+            }}</a>
             <p class="description">{{ item.description }}</p>
-            <p class="price" v-if="item.origin_price===item.price">
+            <p class="price" v-if="item.origin_price === item.price">
               <span></span>
-              <span class="special">{{ item.price|currency }}</span>
+              <span class="special">{{ item.price | currency }}</span>
             </p>
             <p class="price" v-else>
-              <span class="origin">{{ item.origin_price |currency }}</span>
-              <span class="special">{{ item.price|currency }}</span>
+              <span class="origin">{{ item.origin_price | currency }}</span>
+              <span class="special">{{ item.price | currency }}</span>
             </p>
           </div>
         </div>
@@ -74,7 +83,7 @@ export default {
       let tmpProduct = [];
       tmpProduct = [...this.$store.getters.sales];
       let sequence = this.$store.state.sequence;
-      // --- 排序 ---
+      // 排序
       if (sequence === "timenew") {
         tmpProduct = tmpProduct.reverse();
       } else if (sequence === "pricelow") {
@@ -118,11 +127,7 @@ export default {
       this.$store.dispatch("removeStar", id);
     },
     changeStar(item) {
-      const vm = this;
-      return vm.$store.state.star.some(el => {
-        const result = item.id === el.id;
-        return result;
-      });
+      return this.$store.state.star.some(el => item.id === el.id);
     },
     addCart(id, qty = 1) {
       this.$store.dispatch("addCart", { id, qty });
@@ -132,9 +137,6 @@ export default {
     this.getProducts();
     this.getCategory();
     scroll(0, 0);
-    // this.getStar();
-    // this.getCart();
-    // scroll(0, 0);
   }
 };
 </script>
@@ -152,6 +154,7 @@ a {
   min-height: calc(100vh - 188px);
   .container {
     min-height: calc(90vh - 188px);
+    // Banner
     > .banner {
       position: relative;
       img {
@@ -180,6 +183,7 @@ a {
         background-color: $red;
       }
     }
+    // 排序方法
     > .sequence {
       display: flex;
       justify-content: flex-end;
@@ -188,6 +192,7 @@ a {
         margin: 0 line(1) 0 0;
       }
     }
+    // 主區域
     > .section {
       display: flex;
       flex-wrap: wrap;
@@ -195,6 +200,7 @@ a {
       > .item {
         width: 150px;
         margin: line(1) line(1) 0 0;
+        // 圖片
         > .pic {
           position: relative;
           > .mask {
@@ -240,6 +246,7 @@ a {
             object-fit: cover;
           }
         }
+        // 文字
         > .txt {
           line-height: 20px;
           margin: line(1) 0 0;
@@ -279,6 +286,7 @@ a {
     width: 1160px;
     max-width: 1160px;
     > .container {
+      // Banner
       > .banner {
         > img {
           width: 1160px;
@@ -294,11 +302,13 @@ a {
           height: 80px;
         }
       }
+      // 主區域
       > .section {
         width: 1160px;
         > .item {
           width: 200px;
           margin: line(3) line(4);
+          // 圖片
           > .pic {
             > .mask {
               opacity: 0;

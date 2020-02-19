@@ -45,10 +45,9 @@ export default {
         font-size: 14px;
       }
     }
-    // ---圓形---
+    // 圓形
     > li:after {
       content: "";
-      // font-size: 16px;
       position: absolute;
       bottom: -28px;
       left: 0;
@@ -75,12 +74,11 @@ export default {
         color: green;
       }
     }
-    // ---線條---
+    // 線條
     > li:not(:last-child):before {
       content: "";
       position: absolute;
       bottom: -16px;
-      // left: 40px;
       right: -48px;
       width: 64px;
       height: 1px;
@@ -89,7 +87,6 @@ export default {
     > li.active:before {
       background-color: green;
     }
-
     > li.active {
       > span {
         color: green;

@@ -3,7 +3,9 @@
     <loading :active.sync="isLoading"></loading>
     <div class="container">
       <table>
-        <caption>訂單列表</caption>
+        <caption>
+          訂單列表
+        </caption>
         <thead>
           <tr>
             <th>下單時間</th>
@@ -14,7 +16,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for=" item in pagelist " :key="item.id" :class="{'paid':item.is_paid}">
+          <tr
+            v-for="item in pagelist"
+            :key="item.id"
+            :class="{ paid: item.is_paid }"
+          >
             <td>{{ item.create_at | date }}</td>
             <td>{{ item.user.email }}</td>
             <td>
@@ -25,7 +31,7 @@
                 </li>
               </ul>
             </td>
-            <td class="right">{{ item.total | currency }}</td>
+            <td class="textRight">{{ item.total | currency }}</td>
             <td v-if="item.is_paid">已付款</td>
             <td v-else>未付款</td>
           </tr>
@@ -58,11 +64,6 @@ export default {
     }
   },
   components: { Pagination },
-  data() {
-    return {
-      // pagination: {}
-    };
-  },
   methods: {
     ...mapActions(["getOrders"])
   },
@@ -120,14 +121,12 @@ export default {
         background-color: #eee;
         border: 1px solid $red;
       }
+      // 已付款
       tbody tr.paid {
         background-color: rgb(162, 209, 164);
       }
     }
   }
-}
-.right {
-  text-align: right;
 }
 @media screen and (min-width: 1200px) {
   .orderslist {

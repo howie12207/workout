@@ -25,8 +25,10 @@ export default {
   text-align: center;
   z-index: 2;
   position: relative;
-}
-.footer p {
-  margin: line(1) 0;
+  > .container {
+    > p {
+      line-height: 30px;
+    }
+  }
 }
 </style>

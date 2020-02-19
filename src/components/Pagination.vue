@@ -1,6 +1,7 @@
 <template>
   <div class="pagination" v-if="pageTotal>1">
     <nav>
+      <!-- 前一頁 -->
       <a
         href="#"
         :class="{ disabled: pageNow == 1 }"
@@ -9,6 +10,7 @@
       >
         <i class="fa fa-chevron-left" aria-hidden="true"></i>
       </a>
+      <!-- 頁數 -->
       <a
         href="#"
         v-for="page in $store.state.page.pageTotal"
@@ -16,6 +18,7 @@
         :class="{ active: page == $store.state.page.pageNow }"
         @click.prevent="changePage(page)"
       >{{ page }}</a>
+      <!-- 下一頁 -->
       <a href="#" :class="{ disabled: pageNow == pageTotal }" @click.prevent="changePage('next')">
         <i class="fa fa-chevron-right" aria-hidden="true"></i>
       </a>
@@ -60,10 +63,12 @@ export default {
       transition: 0.8s;
       font-size: 1rem;
     }
+    // 前一頁
     > a:first-child {
       border-left: 1px solid $red;
       border-radius: 8px 0 0 8px;
     }
+    // 下一頁
     > a:last-child {
       border-radius: 0 8px 8px 0;
     }
@@ -72,6 +77,7 @@ export default {
       background-color: $red;
       color: white;
     }
+    // 禁止狀態
     > a.disabled {
       background-color: #fff;
       color: #ddd;

@@ -1,10 +1,13 @@
 <template>
   <div class="product">
     <loading :active.sync="isLoading"></loading>
+    <!-- 主畫面 -->
     <div class="container">
       <button class="createBtn" @click="modalshow(true)">建立新產品</button>
       <table>
-        <caption>產品列表</caption>
+        <caption>
+          產品列表
+        </caption>
         <thead>
           <tr>
             <th style="width:100px;">分類</th>
@@ -31,29 +34,72 @@
       </table>
     </div>
     <Pagination />
+    <!-- 編輯模型 -->
     <div class="modal" v-if="modalShow">
       <div class="container">
+        <!-- 關閉按鈕 -->
         <a href="#" class="closeBtn" @click.prevent="closeModal">
           <i class="fas fa-times-circle"></i>
         </a>
         <form>
           <h3>編輯產品</h3>
           <label for="title">產品名稱</label>
-          <input type="text" id="title" placeholder="請輸入產品名稱" v-model="title" />
+          <input
+            type="text"
+            id="title"
+            placeholder="請輸入產品名稱"
+            v-model="title"
+          />
           <label for="category">產品分類</label>
-          <input type="text" id="category" placeholder="請輸入產品類別" v-model="category" />
+          <input
+            type="text"
+            id="category"
+            placeholder="請輸入產品類別"
+            v-model="category"
+          />
           <label for="origin_price">產品原價</label>
-          <input type="text" id="origin_price" placeholder="請輸入產品原價" v-model="origin_price" />
+          <input
+            type="text"
+            id="origin_price"
+            placeholder="請輸入產品原價"
+            v-model="origin_price"
+          />
           <label for="price">產品售價</label>
-          <input type="text" id="price" placeholder="請輸入產品售價" v-model="price" />
+          <input
+            type="text"
+            id="price"
+            placeholder="請輸入產品售價"
+            v-model="price"
+          />
           <label for="unit">產品單位</label>
-          <input type="text" id="unit" placeholder="請輸入產品單位" v-model="unit" />
+          <input
+            type="text"
+            id="unit"
+            placeholder="請輸入產品單位"
+            v-model="unit"
+          />
           <label for="description">產品描述</label>
-          <input type="text" id="description" placeholder="請輸入產品描述" v-model="description" />
+          <input
+            type="text"
+            id="description"
+            placeholder="請輸入產品描述"
+            v-model="description"
+          />
           <label for="content">產品說明</label>
-          <textarea id="content" placeholder="請輸入產品說明" v-model="content" cols="10" rows="5"></textarea>
+          <textarea
+            id="content"
+            placeholder="請輸入產品說明"
+            v-model="content"
+            cols="10"
+            rows="5"
+          ></textarea>
           <label for="image">產品圖片</label>
-          <input type="text" id="image" placeholder="請輸入產品圖片連結" v-model="imageUrl" />
+          <input
+            type="text"
+            id="image"
+            placeholder="請輸入產品圖片連結"
+            v-model="imageUrl"
+          />
           <label for="file">
             或是上傳圖片
             <i class="fas fa-spinner fa-spin" v-if="fileUploading"></i>
@@ -77,6 +123,7 @@
         </form>
       </div>
     </div>
+    <!-- 刪除模型 -->
     <div class="delmodal" v-if="delmodalShow">
       <div class="container">
         <a href="#" class="closeBtn" @click.prevent="closedelModal">
@@ -85,7 +132,8 @@
         <h3>刪除產品</h3>
         <p>
           確認是否刪除產品「
-          <span class="strong">{{ product.title }}</span>」
+          <span class="strong">{{ product.title }}</span
+          >」
         </p>
         <div class="modalBtn">
           <button @click="delProduct">確認</button>

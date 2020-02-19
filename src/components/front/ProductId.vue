@@ -6,15 +6,19 @@
     <div class="container">
       <Breadcrumb />
       <div class="section">
+        <!-- 圖片 -->
         <div class="pic">
           <img :src="product.imageUrl" alt />
         </div>
+        <!-- 文字 -->
         <div class="txt">
           <h2 class="title">{{ product.title }}</h2>
           <h3 class="description">{{ product.description }}</h3>
           <h3 class="content" v-html="product.content"></h3>
           <div v-if="product.price !== product.origin_price">
-            <span class="linethrough">原價: {{ product.origin_price | currency }}</span>
+            <span class="linethrough"
+              >原價: {{ product.origin_price | currency }}</span
+            >
             <span class="price">特價: {{ product.price | currency }}</span>
           </div>
           <div v-else>
@@ -27,7 +31,8 @@
               @click.prevent="changeQty(-1)"
               class="qtyBtn"
               :class="{ disabled: qty <= 1 }"
-            >-</a>
+              >-</a
+            >
             <input
               type="text"
               v-model="qty"
@@ -40,10 +45,12 @@
               @click.prevent="changeQty(1)"
               class="qtyBtn"
               :class="{ disabled: qty >= 99 }"
-            >+</a>
+              >+</a
+            >
             <span class="unit">{{ product.unit }}</span>
           </div>
           <div class="icon">
+            <!-- 追蹤按鈕 -->
             <a
               href="#"
               class="star"
@@ -57,7 +64,12 @@
               <i class="far fa-heart"></i>
               <span>加入追蹤</span>
             </a>
-            <a href="#" class="addBtn" @click.prevent="addCart(product.id, qty)">
+            <!-- 購物車按鈕 -->
+            <a
+              href="#"
+              class="addBtn"
+              @click.prevent="addCart(product.id, qty)"
+            >
               <i class="fas fa-cart-plus"></i>
               <span>加入購物車</span>
             </a>
@@ -102,11 +114,7 @@ export default {
       this.$store.dispatch("addCart", { id, qty });
     },
     changeStar(item) {
-      const vm = this;
-      return vm.$store.state.star.some(el => {
-        const result = item.id === el.id;
-        return result;
-      });
+      return this.$store.state.star.some(el => item.id === el.id);
     },
     addStar(item) {
       this.$store.dispatch("addStar", item);
@@ -135,38 +143,16 @@ export default {
   width: 100%;
   max-width: 600px;
   > .container {
-    // width: 100%;
     width: 90%;
     display: flex;
     flex-direction: column;
     margin: 0 auto;
-    > .back {
-      display: flex;
-      > a {
-        @extend %abutton;
-        padding: line(0.5) line(1.5);
-        margin: line(1) 0;
-        border-radius: 5px;
-        color: $red;
-        border: 1px solid $red;
-        > i {
-          transition: 0.6s;
-          transform: translateX(0);
-        }
-      }
-      > a:hover {
-        background-color: $red;
-        color: white;
-        > i {
-          transform: translateX(-10px);
-        }
-      }
-    }
     > .section {
       display: flex;
       flex-direction: column;
       width: 100%;
       align-items: center;
+      // 圖片
       > .pic {
         > img {
           width: 300px;
@@ -175,6 +161,7 @@ export default {
           vertical-align: top;
         }
       }
+      // 文字
       > .txt {
         display: flex;
         flex-direction: column;
@@ -215,12 +202,12 @@ export default {
           font-weight: 600;
           margin: 0 0 0 line(2);
         }
+        // 數量區
         > .qty {
           display: flex;
           height: 48px;
           border-top: 1px solid #eee;
           padding: line(2) 0 0 0;
-
           > .qtyBtn {
             @extend %abutton;
             height: 48px;
@@ -232,6 +219,13 @@ export default {
             width: 48px;
             box-sizing: border-box;
             font-weight: 800;
+          }
+          // 禁止狀態
+          > .qtyBtn.disabled {
+            background-color: #fff;
+            color: #ddd;
+            pointer-events: none;
+            border-color: #ddd;
           }
           > .qtyBtn:nth-child(2) {
             line-height: 40px;
@@ -254,6 +248,7 @@ export default {
             margin: 0 0 0 line(1);
           }
         }
+        // 追蹤、購物車按鈕
         > .icon {
           margin: line(4) 0 0;
           font-size: 18px;
@@ -286,12 +281,7 @@ export default {
     }
   }
 }
-.qtyBtn.disabled {
-  background-color: #fff;
-  color: #ddd;
-  pointer-events: none;
-  border-color: #ddd;
-}
+
 @media screen and (min-width: 1200px) {
   .productId {
     width: 1160px;
@@ -300,6 +290,7 @@ export default {
       width: 100%;
       > .section {
         flex-direction: row;
+        // 圖片
         > .pic {
           width: 50%;
           display: flex;
@@ -310,6 +301,7 @@ export default {
             height: 500px;
           }
         }
+        // 文字
         > .txt {
           margin: 0 line(2);
           width: 50%;
@@ -319,6 +311,7 @@ export default {
               margin: 0 line(2) 0 0;
             }
           }
+          // 追蹤、購物車按鈕
           > .icon {
             text-align: left;
             > .star {

@@ -18,12 +18,10 @@ export default {
     ...mapGetters(["products", "isLoading"])
   },
   methods: {
-    ...mapActions(["getProducts", "getStar", "getCart"])
+    ...mapActions(["getProducts"])
   },
   created() {
     this.getProducts();
-    // this.getStar();
-    // this.getCart();
     scroll(0, 0);
   }
 };

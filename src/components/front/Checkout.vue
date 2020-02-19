@@ -5,9 +5,10 @@
     <Header />
     <Breadcrumb />
     <ProgressBar />
-    <!-- ----- 購物車清單 ----- -->
     <div class="col-2">
+      <!-- 購物車清單 -->
       <div class="cartlist">
+        <!-- 清單按鈕 -->
         <a href="#" class="toggleCart" @click.prevent="cartlistshow">
           <span v-if="!cartlistShow">展開</span>
           <span v-else>收起</span>購物清單
@@ -18,29 +19,32 @@
               <tr>
                 <th class="edit">編輯</th>
                 <th class="title">項目</th>
-                <th class="eachprice text-align-right">單價</th>
+                <th class="eachprice textRight">單價</th>
                 <th class="qty">數量</th>
-                <th class="itemprice text-align-right">小計</th>
+                <th class="itemprice textRight">小計</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="item in cart.carts" :key="item.id">
                 <td class="edit">
-                  <a href="#" class="delBtn" @click.prevent="removeCart(item.id)">
+                  <a
+                    href="#"
+                    class="delBtn"
+                    @click.prevent="removeCart(item.id)"
+                  >
                     <i class="far fa-trash-alt"></i>
                   </a>
                 </td>
                 <td>{{ item.product.title }}</td>
-                <td class="text-align-right">{{ item.product.price | currency }}</td>
+                <td class="textRight">{{ item.product.price | currency }}</td>
                 <td class="qty">{{ item.qty }}</td>
-                <td class="text-align-right">
-                  <p
-                    :class="{'text-through':item.final_total != item.total}"
-                  >{{ item.total | currency }}</p>
-                  <p
-                    class="red"
-                    v-if="item.final_total != item.total"
-                  >{{ item.final_total | currency }}</p>
+                <td class="textRight">
+                  <p :class="{ textThrough: item.final_total != item.total }">
+                    {{ item.total | currency }}
+                  </p>
+                  <p class="red" v-if="item.final_total != item.total">
+                    {{ item.final_total | currency }}
+                  </p>
                 </td>
               </tr>
             </tbody>
@@ -48,34 +52,50 @@
               <tr>
                 <td
                   colspan="3"
-                  class="text-align-center"
-                  :class="{'text-through':cart.final_total != cart.total}"
-                >總計</td>
+                  class="textCenter"
+                  :class="{ textThrough: cart.final_total != cart.total }"
+                >
+                  總計
+                </td>
                 <td
                   colspan="3"
-                  class="text-align-center red"
-                  :class="{'text-through':cart.final_total != cart.total}"
-                >{{ cart.total | currency }}</td>
+                  class="textCenter red"
+                  :class="{ textThrough: cart.final_total != cart.total }"
+                >
+                  {{ cart.total | currency }}
+                </td>
               </tr>
               <tr v-if="cart.final_total != cart.total">
-                <td colspan="3" class="text-align-center red">優惠券折扣價</td>
-                <td colspan="3" class="text-align-center red">{{ cart.final_total | currency }}</td>
+                <td colspan="3" class="textCenter red">優惠券折扣價</td>
+                <td colspan="3" class="textCenter red">
+                  {{ cart.final_total | currency }}
+                </td>
               </tr>
             </tfoot>
           </table>
         </transition>
+        <!-- 優惠券區 -->
         <div class="coupon">
           <label for="coupon">輸入test獲得優惠</label>
           <div class="block">
-            <input type="text" placeholder="輸入優惠碼" id="coupon" v-model="code" />
+            <input
+              type="text"
+              placeholder="輸入優惠碼"
+              id="coupon"
+              v-model="code"
+            />
             <a href="#" @click.prevent="submitCoupon">套用優惠碼</a>
           </div>
         </div>
       </div>
-      <!-- ----- 購買人資訊 ----- -->
+      <!-- 購買人資訊 -->
       <div class="info">
         <!-- v-slot="{ invalid }" 為搭配BTN未符合狀態禁用 只要任一位有不符合就會回傳true -->
-        <ValidationObserver tag="form" v-slot="{ invalid }" @submit.prevent="submitOrder">
+        <ValidationObserver
+          tag="form"
+          v-slot="{ invalid }"
+          @submit.prevent="submitOrder"
+        >
           <ValidationProvider rules="required" v-slot="{ errors }" name="姓名">
             <label for="name">收件人姓名</label>
             <input
@@ -98,7 +118,11 @@
             />
             <p class="tips">{{ errors[0] }}</p>
           </ValidationProvider>
-          <ValidationProvider rules="required|email" v-slot="{ errors }" name="Email">
+          <ValidationProvider
+            rules="required|email"
+            v-slot="{ errors }"
+            name="Email"
+          >
             <label for="email">收件人信箱</label>
             <input
               type="email"
@@ -121,8 +145,21 @@
             <p class="tips">{{ errors[0] }}</p>
           </ValidationProvider>
           <label for="message">留言</label>
-          <textarea name id="message" cols="40" rows="10" placeholder="輸入對賣家說的話" v-model="message"></textarea>
-          <button class="submit" :disabled="invalid" :class="{ disabled: invalid }">送出</button>
+          <textarea
+            name
+            id="message"
+            cols="40"
+            rows="10"
+            placeholder="輸入對賣家說的話"
+            v-model="message"
+          ></textarea>
+          <button
+            class="submit"
+            :disabled="invalid"
+            :class="{ disabled: invalid }"
+          >
+            送出
+          </button>
         </ValidationObserver>
       </div>
     </div>
@@ -221,10 +258,9 @@ export default {
     width: 95%;
     display: flex;
     flex-direction: column;
-    // align-items: center;
-    // ----- 購物車清單 -----
+    // 購物車清單
     > .cartlist {
-      // margin: line(1) auto;
+      // 清單按鈕
       > .toggleCart {
         @extend %abutton;
         text-align: center;
@@ -265,7 +301,7 @@ export default {
           width: 20%;
         }
       }
-      // ----- 優惠券 -----
+      // 優惠券區
       > .coupon {
         margin: line(1) 0;
         > .block {
@@ -276,6 +312,9 @@ export default {
             margin: line(1) 0;
             height: 30px;
             box-sizing: border-box;
+            border-radius: 5px;
+            padding: line(0.5) line(1);
+            border: 1px solid $red;
             font-size: 1rem;
             width: 200px;
             border-radius: 5px 0 0 5px;
@@ -292,21 +331,16 @@ export default {
             box-sizing: border-box;
             border-radius: 0 5px 5px 0;
           }
-          > input:focus ~ a {
-            background-color: $yellow;
-          }
         }
       }
     }
-    // ----- 購買人資訊 -----
+    // 購買人資訊
     > .info {
-      // margin: 0 auto;
       > form {
         display: flex;
         flex-direction: column;
-        // align-items: center;
-
         label {
+          display: block;
           font-size: 1rem;
           line-height: 2rem;
         }
@@ -316,6 +350,17 @@ export default {
         }
         textarea {
           width: 80%;
+        }
+        input:focus,
+        textarea:focus {
+          outline: none;
+          border: 1px solid #00a5a8;
+        }
+        input,
+        textarea {
+          border-radius: 5px;
+          padding: line(0.5) line(1);
+          border: 1px solid $red;
         }
         input.invalid {
           border: 1px solid red;
@@ -338,6 +383,7 @@ export default {
           transform: translateY(0px);
           transition: 0.7s;
         }
+        // 禁止狀態
         button.disabled {
           background-color: #fff;
           color: #ddd;
@@ -352,47 +398,19 @@ export default {
     }
   }
 }
-input,
-textarea {
-  border-radius: 5px;
-  padding: line(0.5) line(1);
-  border: 1px solid $red;
-}
-input:focus {
-  border: 1px solid #00a5a8;
-}
-textarea:focus {
-  outline: none;
-  border: 1px solid #00a5a8;
-}
-label {
-  display: block;
-}
-.red {
-  color: red !important;
-}
-.text-align-right {
-  text-align: right !important;
-}
-.text-align-center {
-  text-align: center !important;
-}
-.text-through {
-  text-decoration: line-through;
-}
 
 @media screen and (min-width: 1200px) {
   .checkout {
     width: 1160px;
     max-width: 1160px;
   }
-
   .checkout .col-2 {
     width: 1160px;
     flex-direction: row;
     justify-content: center;
     align-items: flex-start;
   }
+  // 購物車清單及購買人資訊
   .checkout .cartlist,
   .checkout .info {
     width: 45%;

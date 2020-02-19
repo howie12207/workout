@@ -1,5 +1,6 @@
 <template>
   <div class="breadcrumb">
+    <!-- 非單一產品介紹頁 -->
     <ul v-if="$route.name!='productId'">
       <i class="fas fa-home"></i>
       <li
@@ -8,6 +9,7 @@
         @click="routeTo(index)"
       >{{ breadcrumb.name }}</li>
     </ul>
+    <!-- 單一產品介紹頁 -->
     <ul v-else>
       <i class="fas fa-home"></i>
       <li @click="routeTo(0)">產品介紹</li>

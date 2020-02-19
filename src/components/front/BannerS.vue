@@ -1,5 +1,6 @@
 <template>
   <div class="banner">
+    <!-- 第一個Banner -->
     <swiper :options="swiperOption1" class="banner1">
       <swiper-slide v-for="(item, index) in banner1" :key="index">
         <a href="#" @click.prevent="seeMore(item.to)">
@@ -8,8 +9,10 @@
           </div>
         </a>
       </swiper-slide>
+      <!-- 文字敘述 -->
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
+    <!-- 第二個Banner -->
     <swiper :options="swiperOption2" class="banner2">
       <swiper-slide v-for="(item,index) in banner2" :key="index">
         <a href="#" @click.prevent="seeMore(item.to)">
@@ -22,7 +25,9 @@
           </div>
         </a>
       </swiper-slide>
+      <!-- 前一頁 -->
       <div class="swiper-button-prev" slot="button-prev"></div>
+      <!-- 下一頁 -->
       <div class="swiper-button-next" slot="button-next"></div>
     </swiper>
   </div>
@@ -44,6 +49,7 @@ export default {
       swiperOption1: {
         spaceBetween: 30,
         centeredSlides: true,
+        // 自動播放
         autoplay: {
           delay: 4000,
           disableOnInteraction: false
@@ -129,7 +135,6 @@ a {
       margin: 0 !important;
       background: none;
       position: relative;
-      // padding: line(1) 0;
       height: inherit;
       opacity: 0.4;
     }

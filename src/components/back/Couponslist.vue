@@ -1,10 +1,13 @@
 <template>
   <div class="couponslist">
     <loading :active.sync="isLoading"></loading>
+    <!-- 主畫面 -->
     <div class="container">
       <button class="createBtn" @click="modalshow(true)">建立新優惠券</button>
       <table>
-        <caption>優惠券列表</caption>
+        <caption>
+          優惠券列表
+        </caption>
         <thead>
           <tr>
             <th>名稱</th>
@@ -32,6 +35,7 @@
       </table>
     </div>
     <Pagination />
+    <!-- 編輯模型 -->
     <div class="modal" v-if="modalShow">
       <div class="container">
         <a href="#" class="closeBtn" @click.prevent="modalClose">
@@ -40,13 +44,33 @@
         <form>
           <h3>編輯優惠券</h3>
           <label for="title">優惠券名稱</label>
-          <input type="text" id="title" placeholder="請輸入優惠券名稱" v-model="title" />
+          <input
+            type="text"
+            id="title"
+            placeholder="請輸入優惠券名稱"
+            v-model="title"
+          />
           <label for="code">優惠碼</label>
-          <input type="text" id="code" placeholder="請輸入優惠碼" v-model="code" />
+          <input
+            type="text"
+            id="code"
+            placeholder="請輸入優惠碼"
+            v-model="code"
+          />
           <label for="percent">折扣百分比</label>
-          <input type="text" id="percent" placeholder="請輸入折扣百分比" v-model="percent" />
+          <input
+            type="text"
+            id="percent"
+            placeholder="請輸入折扣百分比"
+            v-model="percent"
+          />
           <label for="date">到期日</label>
-          <input type="text" v-model.lazy="date" id="date" placeholder="格式: 2020/1/1" />
+          <input
+            type="text"
+            v-model.lazy="date"
+            id="date"
+            placeholder="格式: 2020/1/1"
+          />
           <div>
             <input
               type="checkbox"
@@ -64,6 +88,7 @@
         </form>
       </div>
     </div>
+    <!-- 刪除模型 -->
     <div class="delmodal" v-if="delmodalShow">
       <div class="container">
         <a href="#" class="closeBtn" @click.prevent="delmodalClose">
@@ -72,7 +97,8 @@
         <h3>刪除優惠券</h3>
         <p>
           確認是否刪除優惠券「
-          <span class="strong">{{ coupon.title }}</span>」
+          <span class="strong">{{ coupon.title }}</span
+          >」
         </p>
         <div class="modalBtn">
           <button @click="delCoupon">確認</button>
@@ -137,7 +163,6 @@ export default {
     date: {
       get() {
         let tmp = this.$store.state.coupon.due_date;
-        // return {};
         if (tmp != undefined) {
           const date = new Date(tmp * 1000);
           return date.toLocaleDateString();
@@ -146,7 +171,6 @@ export default {
         }
       },
       set(value) {
-        console.log(value);
         let timestamp = Math.floor(new Date(value) / 1000);
         this.$store.commit("COUPON_DATE", timestamp);
       }
@@ -253,6 +277,7 @@ export default {
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
+      // 關閉按鈕
       > .closeBtn {
         font-size: 2rem;
         position: absolute;
@@ -316,6 +341,7 @@ export default {
       padding: 20px;
       box-sizing: border-box;
       position: relative;
+      // 關閉按鈕
       > .closeBtn {
         font-size: 2rem;
         position: absolute;
@@ -338,14 +364,11 @@ export default {
           width: 40%;
         }
       }
+      span.strong {
+        color: red;
+      }
     }
   }
-}
-.right {
-  text-align: right;
-}
-span.strong {
-  color: red;
 }
 button {
   border: 1px solid $red;

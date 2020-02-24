@@ -1,18 +1,6 @@
 <template>
   <div class="banner">
     <!-- 第一個Banner -->
-    <swiper :options="swiperOption1" class="banner1">
-      <swiper-slide v-for="(item, index) in banner1" :key="index">
-        <a href="#" @click.prevent="seeMore(item.to)">
-          <div class="img">
-            <img :src="item.src" alt />
-          </div>
-        </a>
-      </swiper-slide>
-      <!-- 文字敘述 -->
-      <div class="swiper-pagination" slot="pagination"></div>
-    </swiper>
-    <!-- 第二個Banner -->
     <swiper :options="swiperOption2" class="banner2">
       <swiper-slide v-for="(item,index) in banner2" :key="index">
         <a href="#" @click.prevent="seeMore(item.to)">
@@ -29,6 +17,18 @@
       <div class="swiper-button-prev" slot="button-prev"></div>
       <!-- 下一頁 -->
       <div class="swiper-button-next" slot="button-next"></div>
+    </swiper>
+    <!-- 第二個Banner -->
+    <swiper :options="swiperOption1" class="banner1">
+      <swiper-slide v-for="(item, index) in banner1" :key="index">
+        <a href="#" @click.prevent="seeMore(item.to)">
+          <div class="img">
+            <img :src="item.src" alt />
+          </div>
+        </a>
+      </swiper-slide>
+      <!-- 文字敘述 -->
+      <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
   </div>
 </template>
@@ -106,16 +106,16 @@ export default {
 @import "../../assets/variable.scss";
 a {
   @extend %abutton;
-  color: $red;
 }
 
 .banner {
   font-family: "Noto Serif TC", serif;
   max-width: 600px;
   width: 100%;
-  margin: 0 auto line(2);
+  margin: 0 auto;
+  padding: 25px 0 0;
   > .swiper-container.banner1 {
-    margin: 0 0 line(2) 0;
+    border-top: 1px solid $light;
     > .swiper-wrapper {
       img {
         width: 100%;
@@ -126,7 +126,6 @@ a {
     }
     div.swiper-pagination {
       border-bottom: 1px solid #ccc;
-      color: $red;
       display: none;
       font-size: 15px;
     }
@@ -136,14 +135,14 @@ a {
       background: none;
       position: relative;
       height: inherit;
-      opacity: 0.4;
+      opacity: 0.7;
+      color: $dark;
     }
     li.swiper-pagination-bullet:hover {
       opacity: 1;
     }
     .swiper-pagination-bullet-active {
       opacity: 1 !important;
-      color: green;
     }
     .swiper-pagination-bullet-active:after {
       content: "";
@@ -152,10 +151,11 @@ a {
       left: 0;
       right: 0;
       bottom: -1px;
-      background-color: green;
+      background: $primary;
     }
   }
   > .swiper-container.banner2 {
+    padding: 0 0 40px;
     > .swiper-button-next {
       background-color: rgba(0, 0, 0, 0.4);
       background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M27%2C22L27%2C22L5%2C44l-2.1-2.1L22.8%2C22L2.9%2C2.1L5%2C0L27%2C22L27%2C22z'%20fill%3D'%23ffffff'%2F%3E%3C%2Fsvg%3E");
@@ -192,7 +192,7 @@ a {
         width: 32px;
         box-sizing: border-box;
         padding: line(1);
-        background-color: $red;
+        background-color: $primary;
         color: white;
         font-size: 14px;
         line-height: 20px;
@@ -257,7 +257,7 @@ a {
           height: 50px;
           box-sizing: border-box;
           padding: 5px;
-          background-color: $red;
+          background-color: $primary;
           color: white;
           text-align: center;
         }
@@ -266,7 +266,7 @@ a {
           box-sizing: border-box;
           height: 50px;
           width: 232px;
-          color: black;
+          color: $dark;
         }
       }
     }

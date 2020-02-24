@@ -105,7 +105,12 @@
         <!-- 小圖示 -->
         <div class="icon">
           <!-- 搜尋區 -->
-          <div class="search">
+          <div class="searchicon" v-if="!searchShow">
+            <a href="#" @click.prevent="searchHandler(true)">
+              <i class="fas fa-search"></i>
+            </a>
+          </div>
+          <div class="search" v-else>
             <input
               type="text"
               placeholder="請輸入關鍵字.."
@@ -120,7 +125,7 @@
           </div>
           <!-- 觀察名單 -->
           <div class="star">
-            <i class="fas fa-heart"></i>
+            <i class="far fa-heart"></i>
             <span class="num" v-if="star.length">{{ star.length }}</span>
             <ul class="list starlist">
               <li class="titlelist" v-if="star.length < 1">
@@ -128,12 +133,15 @@
               </li>
               <li v-for="(item, index) in star" :key="index">
                 <!-- 取消觀察按鈕 -->
-                <a href="#" class="delBtn" @click.prevent="removeStar(item)">
-                  <i class="fas fa-heart"></i>
+                <a href="#" @click.prevent="seeMore(item.id)" class="pic">
+                  <img :src="item.imageUrl" alt />
                 </a>
-                <a href="#" @click.prevent="seeMore(item.id)" class="product">
+                <a href="#" @click.prevent="seeMore(item.id)" class="txt">
                   <span class="title">{{ item.title }}</span>
-                  <span class="price">{{ item.price | currency }}</span>
+                </a>
+                <span class="price">{{ item.price | currency }}</span>
+                <a href="#" class="delBtn" @click.prevent="removeStar(item)">
+                  <i class="far fa-trash-alt"></i>
                 </a>
               </li>
             </ul>
@@ -149,24 +157,27 @@
                 <span>目前購物車是空的</span>
               </li>
               <li v-for="(item, index) in cart.carts" :key="index">
+                <a href="#" @click.prevent="seeMore(item.product.id)" class="pic">
+                  <img :src="item.product.imageUrl" alt />
+                </a>
+                <p class="txt">
+                  <a
+                    href="#"
+                    @click.prevent="seeMore(item.product.id)"
+                    class="title"
+                  >{{ item.product.title }}</a>
+                  <span class="price">{{ item.final_total | currency }} x{{ item.qty }}</span>
+                </p>
                 <a href="#" class="delBtn" @click.prevent="removeCart(item.id)">
                   <i class="far fa-trash-alt"></i>
                 </a>
-                <a href="#" @click.prevent="seeMore(item.product.id)" class="product">
-                  <span class="title">{{ item.product.title }}</span>
-                  <span class="qty">{{ item.qty }}{{ item.product.unit }}</span>
-                  <span class="price">{{ item.final_total | currency }}</span>
-                </a>
               </li>
-              <li class="cartEnd" v-if="cart.carts.length">
-                <p class="total">
+              <li class="cartfoot">
+                <p>
                   總計:
                   <span class="dollar">{{ cart.final_total | currency }}</span>
                 </p>
-                <!-- 結帳按鈕 -->
-                <router-link to="/checkout" class="txt">
-                  <span>結帳</span>
-                </router-link>
+                <a href="#" @click.prevent="toCheckout" class="btnCheckout">結帳</a>
               </li>
             </ul>
           </div>
@@ -244,6 +255,9 @@ export default {
     sidebarShow() {
       return this.$store.state.sidebarShow;
     },
+    searchShow() {
+      return this.$store.state.searchShow;
+    },
     search: {
       get() {
         return this.$store.state.search;
@@ -279,6 +293,9 @@ export default {
     categorySwitch(category) {
       this.$store.dispatch("categorySwitch", category);
       this.$store.commit("SIDEBARSHOW", false);
+    },
+    searchHandler(state) {
+      this.$store.commit("SEARCHSHOW", state);
     },
     clearSearch() {
       this.$store.commit("SEARCH", "");
@@ -342,27 +359,31 @@ a {
     background-color: #fff;
     padding: line(1) line(2);
     box-sizing: border-box;
+    color: #444;
+    font-size: 15px;
     // 關閉按鈕
     > .closeBtn {
       position: fixed;
       left: 248px;
       top: 8px;
       color: white;
-      font-size: 2rem;
+      font-size: 24px;
     }
     // 搜尋區
     > h2,
     > .searchbox {
       display: block;
-      font-size: 1.25rem;
-      line-height: 4rem;
-      border-bottom: 1px solid rgb(66, 151, 45);
+      font-size: 16px;
+      line-height: 3rem;
+      border-bottom: 1px solid $light;
+      color: $btn-cart-hover;
+      font-weight: bold;
     }
     > .searchbar {
       display: flex;
       align-items: center;
       width: 208px;
-      border: 1px solid $red;
+      border: 1px solid $btn-star-hover;
       margin: line(2) auto 0;
       padding: line(0.5) line(1.5);
       box-sizing: border-box;
@@ -372,7 +393,7 @@ a {
         border: none;
       }
       > a {
-        color: $red;
+        color: $btn-star-hover;
       }
     }
     // 分類按鈕
@@ -380,7 +401,7 @@ a {
       display: flex;
       flex-direction: column;
       > a {
-        color: $red;
+        color: $dark;
         line-height: 3rem;
         position: relative;
         display: flex;
@@ -391,18 +412,18 @@ a {
   }
   .container {
     position: sticky;
-    margin: 0 auto line(1);
+    margin: 0 auto;
     padding: 0 line(1);
     height: 80px;
     box-sizing: border-box;
     font-family: "Noto Serif TC", serif;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid $light;
     z-index: 11;
     // 菜單按鈕
     > .menu {
-      color: $red;
+      color: $btn-cart;
       margin: 0 line(2);
       font-size: 1.75rem;
     }
@@ -424,8 +445,8 @@ a {
         text-align: center;
         padding: line(0.5) 0 line(0.5) line(0.5);
         letter-spacing: 4px;
-        color: green;
         font-weight: 900;
+        color: #666;
       }
     }
     // 分類按鈕
@@ -433,11 +454,13 @@ a {
       display: none;
       align-items: center;
       height: 100%;
+      margin: 0 auto 0 line(4);
       > a {
         @extend %abutton;
-        color: $red;
-        padding: 0 line(2);
+        color: $dark;
+        padding: 0 line(2.5);
         margin: line(2) 0 0;
+        font-size: 15px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -455,7 +478,7 @@ a {
         left: 50%;
         bottom: -16px;
         height: 3px;
-        background-color: $red;
+        background-color: $primary;
         transition: 0.4s;
       }
       > a:hover:after {
@@ -470,6 +493,9 @@ a {
       justify-content: flex-end;
       height: 100%;
       // 搜尋區
+      .searchicon {
+        display: none !important;
+      }
       > .search {
         display: none;
       }
@@ -477,8 +503,8 @@ a {
       > a,
       div:not(.search) {
         @extend %abutton;
-        color: $red;
-        font-size: 1.75rem;
+        color: #666;
+        font-size: 24px;
         margin: 0 line(1);
         position: relative;
         > i {
@@ -489,7 +515,7 @@ a {
         }
         > a {
           > i {
-            color: $red;
+            color: #666;
             height: 80px;
             line-height: 80px;
             padding: line(1);
@@ -498,22 +524,19 @@ a {
         }
         > span {
           position: absolute;
-          width: 20px;
-          height: 20px;
-          line-height: 20px;
+          width: 18px;
+          height: 18px;
+          line-height: 18px;
           text-align: center;
-          top: 24px;
-          right: -4px;
-          background-color: #92a6b5;
+          top: 28px;
+          right: 0px;
+          background-color: $primary;
           border-radius: 50%;
-          font-size: 1rem;
+          font-size: 12px;
           color: white;
         }
-        > .starlist {
-          width: 260px !important;
-        }
         > .list {
-          border: 1px solid #eee;
+          border: 1px solid $light;
           display: none;
           position: absolute;
           width: 300px;
@@ -523,7 +546,6 @@ a {
           background-color: #fff;
           padding: line(1) line(1);
           box-sizing: border-box;
-          box-shadow: 0 3px 3px rgba(255, 255, 255, 0.7);
           > .titlelist {
             display: flex;
             padding: line(1) 0 0 0;
@@ -532,54 +554,74 @@ a {
           > li {
             display: flex;
             align-items: center;
-            .delBtn {
-              display: inline-block;
-              color: red;
-              width: 24px;
+            height: 70px;
+            > .pic {
+              > img {
+                width: 50px;
+                height: 50px;
+                object-fit: cover;
+              }
             }
-            > a {
+            > .txt {
               display: flex;
-              align-items: center;
-              color: black;
-              transition: 0.5s;
-              line-height: 1.75rem;
-              .title {
-                display: inline-block;
-                width: 160px;
+              flex-direction: column;
+              justify-content: space-around;
+              width: 200px;
+              height: 50px;
+              font-size: 13px;
+              margin: 0 0 0 12px;
+              color: $dark;
+              > .title {
+                color: #555;
               }
-              .qty {
-                display: inline-block;
-                width: 40px;
-              }
-              .price {
-                display: inline-block;
-                text-align: right;
-                width: 56px;
+              > .title:hover {
+                color: $active;
+                font-weight: 600;
               }
             }
-            > a.product:hover {
-              color: #00a5a8;
+            > .delBtn {
+              color: $dark;
+              opacity: 0.5;
+              font-size: 14px;
+            }
+            > .delBtn:hover {
+              opacity: 1;
             }
           }
           > li:not(:last-child) {
-            border-bottom: 1px dotted $red;
+            border-bottom: 1px dotted $light;
           }
-          > .cartEnd {
+          > .cartfoot {
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            > .total {
-              line-height: 2rem;
-              > .dollar {
-                color: red;
-              }
+            line-height: 30px;
+            font-size: 13px;
+            .dollar {
+              color: red;
             }
-            > a {
-              background-color: $red;
-              padding: 0 line(2);
-              box-sizing: border-box;
-              border-radius: 8px;
+            .btnCheckout {
+              padding: 0 line(1);
+              background: $btn-cart;
               color: white;
+              border-radius: 4px;
+            }
+            .btnCheckout:hover {
+              background-color: $btn-cart-hover;
+            }
+          }
+        }
+        > .starlist {
+          width: 260px;
+          font-size: 13px;
+          > li {
+            justify-content: space-between;
+            > .txt {
+              width: auto;
+              margin: 0 auto 0 16px;
+            }
+            > .delBtn {
+              margin: 0 0 0 24px;
             }
           }
         }
@@ -591,7 +633,7 @@ a {
           width: 0;
           height: 0;
           border-top: 12px solid transparent;
-          border-bottom: 12px solid #eee;
+          border-bottom: 12px solid $light;
           border-right: 12px solid transparent;
           border-left: 12px solid transparent;
         }
@@ -666,27 +708,34 @@ a {
       // 分類按鈕
       > .sort {
         display: flex;
-        margin: 0 auto 0 line(1);
+        // margin: 0 auto 0 line(5);
       }
       // 小圖示
       > .icon {
         align-items: flex-end;
         // 搜尋區
+        > .searchicon {
+          display: block !important;
+        }
         > .search {
           display: flex;
           align-items: center;
-          border: 1px solid $red;
-          font-size: 1.75rem;
-          margin: 0 0 line(2);
-          padding: 0 line(2);
-          border-radius: 16px;
+          margin: 0 line(1) line(2);
+          padding: 0 0 0 line(1);
           box-sizing: border-box;
+          background-color: #f8f8f8;
           > input {
             border: none;
-            width: 180px;
+            width: 145px;
+            color: $dark;
+            font-size: 13px;
+            background-color: transparent;
           }
           > a {
-            color: $red;
+            color: white;
+            background-color: $primary;
+            font-size: 24px;
+            padding: 2px;
           }
         }
       }

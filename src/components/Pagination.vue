@@ -1,5 +1,5 @@
 <template>
-  <div class="pagination" v-if="pageTotal>1">
+  <div class="pagination" v-if="pageTotal > 1">
     <nav>
       <!-- 前一頁 -->
       <a
@@ -55,27 +55,23 @@ export default {
     font-size: 0;
     > a {
       @extend %abutton;
-      padding: line(1);
-      border-top: 1px solid $red;
-      border-right: 1px solid $red;
-      border-bottom: 1px solid $red;
-      color: $red;
+      padding: line(1) line(1.5);
+      border-top: 1px solid #e5e5e5;
+      border-right: 1px solid #e5e5e5;
+      border-bottom: 1px solid #e5e5e5;
       transition: 0.8s;
-      font-size: 1rem;
+      font-size: 13px;
+      color: #555;
     }
     // 前一頁
     > a:first-child {
-      border-left: 1px solid $red;
-      border-radius: 8px 0 0 8px;
+      border-left: 1px solid #e5e5e5;
     }
-    // 下一頁
-    > a:last-child {
-      border-radius: 0 8px 8px 0;
+    > a:hover {
+      background-color: #efefef;
     }
-    > a:hover,
     > .active {
-      background-color: $red;
-      color: white;
+      background-color: #ebf6fe;
     }
     // 禁止狀態
     > a.disabled {

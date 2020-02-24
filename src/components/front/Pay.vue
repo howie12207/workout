@@ -7,9 +7,7 @@
     <div class="container">
       <!-- 購物車清單 -->
       <table class="cartlist">
-        <caption>
-          購物清單
-        </caption>
+        <caption>購物清單</caption>
         <thead>
           <tr>
             <th>產品名稱</th>
@@ -20,7 +18,7 @@
         <tbody>
           <tr v-for="(item, index) in order.products" :key="index">
             <td>{{ item.product.title }}</td>
-            <td>{{ item.qty }}{{ item.product.unit }}</td>
+            <td>{{ item.qty }} {{ item.product.unit }}</td>
             <td class="textRight">{{ item.final_total | currency }}</td>
           </tr>
         </tbody>
@@ -33,9 +31,7 @@
       </table>
       <!-- 購買人資訊 -->
       <table class="info" v-if="order.user">
-        <caption>
-          顧客資訊
-        </caption>
+        <caption>顧客資訊</caption>
         <tbody>
           <tr>
             <th>Email</th>
@@ -109,8 +105,9 @@ export default {
   width: 100%;
   margin: 0 auto;
   font-family: "Noto Serif TC", serif;
-  color: #8d2f23;
+  color: $dark;
   min-height: calc(100vh - 100px);
+  font-size: 14px;
   > .container {
     width: 90%;
     max-width: 600px;
@@ -119,12 +116,14 @@ export default {
       width: 100%;
       text-align: left;
       > caption {
-        font-size: 1.5rem;
         text-align: left;
         margin: 10px 0;
+        font-size: 18px;
+        color: $primary;
       }
       th {
         font-weight: 900;
+        background-color: #f6f6f6;
       }
       th,
       td {
@@ -132,7 +131,7 @@ export default {
       }
       thead tr,
       tbody tr {
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid $light;
       }
       tfoot,
       // 未付款
@@ -141,22 +140,23 @@ export default {
       }
       // 已付款
       td.green {
-        color: green;
+        color: $active;
       }
     }
     // 購物車清單
     > .cartlist {
       thead tr {
-        border-top: 1px solid #ccc;
+        border-top: 1px solid $light;
       }
       th:first-child,
       td:first-child {
         width: 60%;
       }
     }
+    // 顧客資訊
     > .info {
       tbody tr:first-child {
-        border-top: 1px solid #ccc;
+        border-top: 1px solid $light;
       }
       th {
         width: 30%;
@@ -172,16 +172,15 @@ export default {
       margin: 20px 0;
       > button {
         padding: line(0.5) line(1);
-        background-color: $red;
+        background-color: $btn-cart;
         color: white;
-        border: 1px solid $red;
+        border: 1px solid $btn-cart;
         border-radius: 5px;
-        transform: translateY(0);
         transition: 0.7s;
       }
       > button:hover {
-        transform: translateY(3px);
         cursor: pointer;
+        color: $btn-cart-hover;
       }
     }
   }

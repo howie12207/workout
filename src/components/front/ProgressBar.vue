@@ -42,7 +42,7 @@ export default {
       margin: 0 line(2);
       width: 56px;
       span {
-        font-size: 14px;
+        font-size: 13px;
       }
     }
     // 圓形
@@ -55,7 +55,8 @@ export default {
       margin: auto;
       width: 24px;
       height: 24px;
-      background-color: #ccc;
+      // background-color: #ccc;
+      border: 1px solid #ccc;
       border-radius: 50%;
     }
     > li.active:after {
@@ -64,14 +65,16 @@ export default {
       font-weight: 600;
       line-height: 24px;
       color: white;
-      background-color: green;
+      background-color: #333;
+      border: none;
     }
     > li.active {
       + li:after {
-        background-color: green;
+        background-color: #333;
+        border: none;
       }
       + li {
-        color: green;
+        color: #333;
       }
     }
     // 線條
@@ -85,11 +88,11 @@ export default {
       background-color: #ccc;
     }
     > li.active:before {
-      background-color: green;
+      background-color: #333;
     }
     > li.active {
       > span {
-        color: green;
+        color: #333;
       }
     }
   }

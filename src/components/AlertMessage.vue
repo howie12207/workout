@@ -34,10 +34,10 @@ export default {
   max-width: 50%;
   top: 120px;
   right: 20px;
-  z-index: 1100;
+  z-index: 100;
   // 成功
   > .success {
-    background-color: #28a745;
+    background-color: $active;
     padding: 10px;
     border-radius: 30px;
     color: white;

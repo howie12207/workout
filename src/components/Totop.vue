@@ -61,10 +61,10 @@ export default {
   z-index: 10;
   > .container {
     @extend %abutton;
-    color: $red;
+    color: $primary;
     width: 50px;
     height: 50px;
-    background-color: #ccc;
+    background-color: #eee;
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -30,6 +30,7 @@ export default new Vuex.Store({
     sequence: "timeold",
     products: [],
     product: { category: "" },
+    searchShow: false,
     search: "",
     productId: "",
     qty: 1,
@@ -87,7 +88,7 @@ export default new Vuex.Store({
         tag: "私人教練",
         src:
           "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579403007598.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=GTA7vtIA0W3pmD5%2BKf8XTeX65i0uDltIlk6p%2FMkrw8OKGWcbhw7FflpSQAk2SAtlqH%2Bxn8N4Io5VVnueFzHyIQb%2FWc5eeqh2xSHgzCXmkpLQQlCjvvQ3UpOJMgpaElzw8OeE5LXYwz4tPEG8NxMLIFsXmj69QDBtmzi8kondkZJWTaAtlPK8hIGLC%2BaU9woKUnfsDVt3xEiYiaqaKw1v3o3qBZd8tvZhkSxUQpKYLSHHuzla6VHlM%2FKt2pZJ%2Fg3l2PaIZ4hsPxCXXnUvp4FEEJq9%2BllVMBJ6hWQ%2BExisigOBNH%2BeklWD31Ss8JRu%2F4mNF%2Foayi2bQ2L0yzAmD184SA%3D%3D",
-        description: "專業1對1指導訓練，讓你突飛猛進",
+        description: "專業1對1指導訓練，讓你突飛猛進。",
         to: "-LyvkMt2XlxH2tCk9C2X"
       },
       {
@@ -115,14 +116,14 @@ export default new Vuex.Store({
         tag: "音樂世界",
         src:
           "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1577850512423.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=LiDuiZtTIAgZEXRZQt5lzirseXSVArkTV0cYOU4%2BiRpDBTR0Csgs%2FaNP4t5uxKHXaz6TeTa3UObV83axcKHm2brYPjpQ6DprAYM9WlnOnxmPzvRaqXEG1gTtc7Ohsqjl3QghRQD3Dc7YPYWyqf%2B1VXj5ZpkJaVhteg4%2BtQwIEZV6giM6FIDFj0U%2BmeMnC8KF%2FErV%2BrYrbI4vlo%2BRRvkabHp1jbAXFBRIek%2Bcxo2hPWgeWBFc8ehIdOiJw%2B3gSTx0HOH3fwmOK7OHMGNlwR5CCzhiXHpV9N4tcKkwmg5jDbuHrCtjhcQ6mkcFVc2CIHL3dT6GZaXm0rk8pXwXx7NaxA%3D%3D",
-        description: "運動不再單調乏味",
+        description: "運動不再單調乏味，讓音樂環繞你的四周。",
         to: "-LxUD2R2ttgl5bY7aBe3"
       },
       {
         tag: "懶人神器",
         src:
           "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579275379515.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=i96vBsGjYooNUXdlc1G26hc3yTLn7hQttMTMy7qK3YWLCWlvkbg8yW0CMBNG7dsB8qq6v%2FycQ%2F%2FnjmgMAU3cdDjvAlIeRiMT6eitUHgzt%2FQ%2BLKyMI%2BpqGxXc6R%2Fr3EmpKU3MgGn1CiJeuz7Cum3XEfkfWBxbeOrbRqELz78Y4p4dyM%2B5Qhz%2FDUTo0IxbzW74OGVLMA5sDH1kA7fuHwRRa1MLzF3fiCogNfrgiF7w5rCWBMkNL1wfO9fKnrOZ800jaRiZbzCMHw7NsH3eEWXLL8Hc1DfBLBrJSIYcosGaAC%2Bhw9xDmV%2FJ01lBJqEsqwOjO2NbGaCgRjkxp260xcO4cw%3D%3D",
-        description: "按下開關輕鬆按摩",
+        description: "按下開關輕鬆按摩，電動就是這麼方便。",
         to: "-Lyo8Ug-ydmWocOl881I"
       }
     ],
@@ -239,6 +240,9 @@ export default new Vuex.Store({
     },
     MENUSHOW(state, payload) {
       state.menuShow = payload;
+    },
+    SEARCHSHOW(state, payload) {
+      state.searchShow = payload;
     },
     SEARCH(state, payload) {
       // let specialKey =
@@ -478,11 +482,9 @@ export default new Vuex.Store({
     // ----- 取得個別產品內容 -----
     getProduct(context, payload) {
       context.commit("ISLOADING", true);
-      // console.log(payload);
       context.commit("QTY", 1); //數量初始化
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${payload}`;
       axios.get(url).then(response => {
-        // console.log(response);
         context.commit("PRODUCT", response.data.product); //將取得的產品塞入
         context.commit("ISLOADING", false);
       });
@@ -498,7 +500,6 @@ export default new Vuex.Store({
       if (!context.state.star.includes(payload)) {
         let [...tmp] = context.state.star; //複製內容
         tmp.push(payload); //若原本不存在此項則加入
-        // console.log(tmp);
         context.commit("STAR", tmp);
         localStorage.setItem("favorite", JSON.stringify(tmp)); //存入LS
       }
@@ -793,20 +794,21 @@ export default new Vuex.Store({
     // ----- 後台取得訂單列表 -----
     getOrders(context) {
       context.commit("ISLOADING", true);
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/orders?page=1`;
+      let page = context.state.page.pageNow;
+      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/orders?page=${page}`;
       axios.get(url).then(response => {
-        context.commit("ORDERS", response.data.orders);
-        // console.log(response);
+        context.commit("PAGETOTAL", response.data.pagination.total_pages); //將得到的總頁數儲存
+        context.commit("ORDERS", response.data.orders); // 將訂單內容儲存
         context.commit("ISLOADING", false);
       });
     },
     // ----- 後台取得優惠券列表 -----
     getCoupons(context) {
       context.commit("ISLOADING", true);
-      let payload = 1;
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupons?page=${payload}`;
+      let page = context.state.page.pageNow;
+      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupons?page=${page}`;
       axios.get(url).then(response => {
-        // console.log(response);
+        context.commit("PAGETOTAL", response.data.pagination.total_pages); //將得到的總頁數儲存
         context.commit("COUPONS", response.data.coupons);
         context.commit("ISLOADING", false);
       });
@@ -822,7 +824,6 @@ export default new Vuex.Store({
       }
       axios[method](url, { data: context.state.coupon }).then(response => {
         if (response.data.success) {
-          // console.log(response);
           context.commit("MODALSHOW", false);
           context.dispatch("getCoupons");
           context.commit("ISLOADING", false);

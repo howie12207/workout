@@ -1,6 +1,5 @@
 <template>
   <div class="product">
-    <loading :active.sync="isLoading"></loading>
     <!-- 主畫面 -->
     <div class="container">
       <button class="createBtn" @click="modalshow(true)">建立新產品</button>
@@ -151,7 +150,7 @@ export default {
   name: "Productslist",
   components: { Pagination },
   computed: {
-    ...mapGetters(["products", "modalShow", "product", "isLoading"]),
+    ...mapGetters(["products", "modalShow", "product"]),
     pagelist() {
       const nowPage = this.$store.state.page.pageNow;
       const str = nowPage * 10 - 10;
@@ -315,6 +314,7 @@ export default {
     margin: 0 auto;
     min-height: calc(90vh - 228px);
     > .createBtn {
+      margin: line(1) 0 0;
       align-self: flex-end;
     }
     > table {

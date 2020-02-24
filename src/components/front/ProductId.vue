@@ -16,9 +16,7 @@
           <h3 class="description">{{ product.description }}</h3>
           <h3 class="content" v-html="product.content"></h3>
           <div v-if="product.price !== product.origin_price">
-            <span class="linethrough"
-              >原價: {{ product.origin_price | currency }}</span
-            >
+            <span class="linethrough">原價: {{ product.origin_price | currency }}</span>
             <span class="price">特價: {{ product.price | currency }}</span>
           </div>
           <div v-else>
@@ -31,8 +29,7 @@
               @click.prevent="changeQty(-1)"
               class="qtyBtn"
               :class="{ disabled: qty <= 1 }"
-              >-</a
-            >
+            >-</a>
             <input
               type="text"
               v-model="qty"
@@ -45,8 +42,7 @@
               @click.prevent="changeQty(1)"
               class="qtyBtn"
               :class="{ disabled: qty >= 99 }"
-              >+</a
-            >
+            >+</a>
             <span class="unit">{{ product.unit }}</span>
           </div>
           <div class="icon">
@@ -65,11 +61,7 @@
               <span>加入追蹤</span>
             </a>
             <!-- 購物車按鈕 -->
-            <a
-              href="#"
-              class="addBtn"
-              @click.prevent="addCart(product.id, qty)"
-            >
+            <a href="#" class="addBtn" @click.prevent="addCart(product.id, qty)">
               <i class="fas fa-cart-plus"></i>
               <span>加入購物車</span>
             </a>
@@ -169,30 +161,26 @@ export default {
         > .title {
           font-size: 20px;
           line-height: 30px;
-          color: $red;
+          color: #1e1e1e;
           font-weight: 900;
           margin: 0 0 line(1);
-          > a {
-            @extend %abutton;
-            display: inline-block;
-            color: red;
-          }
         }
         > .description {
           padding: 0 0 0 line(4);
-          font-size: 1rem;
+          font-size: 15px;
           line-height: 1.5;
-          color: #00a5a8;
+          color: #666;
         }
         > .content {
-          border-top: 1px solid #eee;
+          border-top: 1px solid $light;
           margin: line(1) 0 0;
           padding: line(1) 0 0 line(4);
           font-size: 13px;
+          color: $dark;
         }
         .linethrough {
           text-decoration: line-through;
-          font-size: 14px;
+          font-size: 15px;
           line-height: 2;
         }
         .price {
@@ -206,14 +194,16 @@ export default {
         > .qty {
           display: flex;
           height: 48px;
-          border-top: 1px solid #eee;
+          border-top: 1px solid $light;
           padding: line(2) 0 0 0;
+          color: #4c4242;
+          font-size: 15px;
           > .qtyBtn {
             @extend %abutton;
             height: 48px;
             text-align: center;
             line-height: 48px;
-            border: 1px solid $red;
+            border: 1px solid #666;
             background-color: #fff;
             font-size: 36px;
             width: 48px;
@@ -234,16 +224,15 @@ export default {
             cursor: pointer;
           }
           > input {
-            color: $red;
             width: 160px;
             height: 48px;
             box-sizing: border-box;
-            border: 1px solid $red;
+            border: 1px solid #666;
             font-size: 1.5rem;
             text-align: center;
           }
           > .unit {
-            font-size: 24px;
+            font-size: 15px;
             align-self: center;
             margin: 0 0 0 line(1);
           }
@@ -254,7 +243,7 @@ export default {
           font-size: 18px;
           text-align: center;
           > .star {
-            background-color: #caa1aa;
+            background-color: $btn-star;
             color: white;
             padding: line(1);
             > i {
@@ -262,11 +251,11 @@ export default {
             }
           }
           > .star:hover {
-            background-color: #eec8c1;
+            background-color: $btn-star-hover;
           }
           > .addBtn {
             margin: 0 0 0 line(2);
-            background-color: #89a1bb;
+            background-color: $btn-cart;
             color: white;
             padding: line(1);
             > i {
@@ -274,7 +263,7 @@ export default {
             }
           }
           > .addBtn:hover {
-            background-color: #abc3dd;
+            background-color: $btn-cart-hover;
           }
         }
       }

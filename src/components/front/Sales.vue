@@ -47,9 +47,11 @@
           </div>
           <!-- 文字 -->
           <div class="txt" v-if="item">
-            <a href="#" class="title" @click.prevent="seeMore(item.id)">{{
+            <a href="#" class="title" @click.prevent="seeMore(item.id)">
+              {{
               item.title
-            }}</a>
+              }}
+            </a>
             <p class="description">{{ item.description }}</p>
             <p class="price" v-if="item.origin_price === item.price">
               <span></span>
@@ -164,30 +166,32 @@ a {
       }
       > h2 {
         position: absolute;
-        top: 100px;
-        left: 32px;
+        top: 152px;
+        left: 16px;
         background-color: rgba(255, 255, 255, 0.4);
-        padding: line(3) line(1) line(3) line(3);
+        padding: line(1.5);
         font-size: 1.5rem;
         color: white;
         font-weight: 900;
         letter-spacing: 8px;
       }
-      > h2:before {
-        content: "";
-        position: absolute;
-        top: 8px;
-        left: 8px;
-        width: 8px;
-        height: 60px;
-        background-color: $red;
-      }
+      // > h2:before {
+      //   content: "";
+      //   position: absolute;
+      //   top: 8px;
+      //   left: 8px;
+      //   width: 8px;
+      //   height: 60px;
+      //   background-color: $red;
+      // }
     }
     // 排序方法
     > .sequence {
       display: flex;
       justify-content: flex-end;
       align-items: center;
+      font-size: 14px;
+      margin: 0 0 line(2);
       > label {
         margin: 0 line(1) 0 0;
       }
@@ -199,7 +203,8 @@ a {
       justify-content: center;
       > .item {
         width: 150px;
-        margin: line(1) line(1) 0 0;
+        margin: line(1) auto;
+        padding: 0 line(0.5);
         // 圖片
         > .pic {
           position: relative;
@@ -221,19 +226,19 @@ a {
                   padding: line(1);
                   font-size: 1.25rem;
                   margin: 0 line(0.5);
-                  color: $red;
+                  color: white;
                 }
                 > i.fa-heart {
-                  background-color: #caa1aa;
+                  background-color: $btn-star;
                 }
                 > i.fa-heart:hover {
-                  background-color: #eec8c1;
+                  background-color: $btn-star-hover;
                 }
                 > i.fa-cart-plus {
-                  background-color: #89a1bb;
+                  background-color: $btn-cart;
                 }
                 > i.fa-cart-plus:hover {
-                  background-color: #abc3dd;
+                  background-color: $btn-cart-hover;
                 }
               }
             }
@@ -251,15 +256,15 @@ a {
           line-height: 20px;
           margin: line(1) 0 0;
           > .title {
-            color: $red;
-            font-size: 15px;
+            color: #505050;
+            font-size: 14px;
             font-weight: 600;
           }
           > .title:hover {
             text-decoration: underline;
           }
           > .description {
-            color: green;
+            color: #999;
             font-size: 13px;
           }
           > .price {
@@ -268,7 +273,7 @@ a {
             > .origin {
               text-decoration: line-through;
               font-size: 12px;
-              color: #999;
+              color: #888;
             }
             > .special {
               color: red;
@@ -290,11 +295,11 @@ a {
       > .banner {
         > img {
           width: 1160px;
-          height: 400px;
+          height: 280px;
         }
         > h2 {
-          top: 240px;
-          left: 80px;
+          top: 196px;
+          left: 48px;
           font-size: 3rem;
         }
         > h2:before {

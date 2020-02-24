@@ -243,8 +243,7 @@ a {
   > .container {
     display: flex;
     flex-direction: column;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid $light;
     // 左邊大標題
     > .sort {
       // 圖片
@@ -254,7 +253,7 @@ a {
       // 文字
       > .txt {
         position: relative;
-        color: $red;
+        color: $primary;
         line-height: 2rem;
         font-size: 1.25rem;
         margin: line(1);
@@ -267,19 +266,20 @@ a {
         bottom: 0;
         left: 0;
         width: 4px;
-        background-color: $red;
+        background-color: $primary;
       }
     }
     // 右邊主區域
     > .section {
       display: flex;
       flex-wrap: wrap;
+      // justify-content: flex-start;
       justify-content: center;
-      margin: 0 auto;
       // 單一個體
       > .item {
         width: 150px;
-        margin: line(1) line(1) line(1) 0;
+        margin: line(1) auto;
+        padding: 0 line(0.5);
         // 圖片
         > .pic {
           position: relative;
@@ -300,19 +300,19 @@ a {
                   padding: line(1);
                   font-size: 1.25rem;
                   margin: 0 line(0.5);
-                  color: $red;
+                  color: white;
                 }
                 > i.fa-heart {
-                  background-color: #caa1aa;
+                  background-color: $btn-star;
                 }
                 > i.fa-heart:hover {
-                  background-color: #eec8c1;
+                  background-color: $btn-star-hover;
                 }
                 > i.fa-cart-plus {
-                  background-color: #89a1bb;
+                  background-color: $btn-cart;
                 }
                 > i.fa-cart-plus:hover {
-                  background-color: #abc3dd;
+                  background-color: $btn-cart-hover;
                 }
               }
             }
@@ -330,15 +330,15 @@ a {
           line-height: 20px;
           margin: line(1) 0 0;
           > .title {
-            color: $red;
-            font-size: 15px;
+            color: #505050;
+            font-size: 14px;
             font-weight: 600;
           }
           > .title:hover {
             text-decoration: underline;
           }
           > .description {
-            color: green;
+            color: #999;
             font-size: 13px;
           }
           > .price {
@@ -347,7 +347,7 @@ a {
             > .origin {
               text-decoration: line-through;
               font-size: 12px;
-              color: #999;
+              color: #888;
             }
             > .special {
               color: red;
@@ -361,13 +361,13 @@ a {
       }
       > .more {
         width: 150px;
-        margin: line(1) line(1) line(1) 0;
+        margin: line(1) auto line(1) 0;
         display: flex;
         justify-content: center;
         align-items: center;
         font-size: 1.5rem;
         > a {
-          color: $red;
+          color: $primary;
           padding: line(2);
         }
       }
@@ -403,7 +403,7 @@ a {
           position: absolute;
           top: 32px;
           right: 24px;
-          background-color: rgba(255, 255, 255, 0.6);
+          background-color: rgba(0, 0, 0, 0.6);
           width: 60px;
           height: 180px;
           writing-mode: vertical-lr;

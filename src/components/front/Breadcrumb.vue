@@ -59,24 +59,28 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/variable";
 .breadcrumb {
-  margin: line(1) 0;
+  margin: line(2) 0 line(4);
+  font-size: 14px;
+  padding: 8px 0;
+  border-bottom: 1px solid $light;
   > ul {
     display: flex;
     > i {
-      margin: 0 line(1) 0 0;
+      margin: 0 line(2) 0 0;
+      color: #ccc;
     }
     > li {
       cursor: pointer;
-      color: $red;
+      color: #666;
     }
     > li:not(:last-child):hover {
-      font-weight: 800;
+      color: $active;
     }
     > li:last-child {
       cursor: default;
     }
     > li:not(:last-child):after {
-      content: "/";
+      content: "-";
       margin: line(1);
     }
   }

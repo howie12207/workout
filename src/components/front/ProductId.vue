@@ -204,6 +204,7 @@ export default {
             text-align: center;
             line-height: 48px;
             border: 1px solid #666;
+            color: #666;
             background-color: #fff;
             font-size: 36px;
             width: 48px;

@@ -29,7 +29,9 @@
               @click.prevent="changeQty(-1)"
               class="qtyBtn"
               :class="{ disabled: qty <= 1 }"
-            >-</a>
+            >
+              <i class="fas fa-minus"></i>
+            </a>
             <input
               type="text"
               v-model="qty"
@@ -42,7 +44,9 @@
               @click.prevent="changeQty(1)"
               class="qtyBtn"
               :class="{ disabled: qty >= 99 }"
-            >+</a>
+            >
+              <i class="fas fa-plus"></i>
+            </a>
             <span class="unit">{{ product.unit }}</span>
           </div>
           <div class="icon">
@@ -198,6 +202,7 @@ export default {
           padding: line(2) 0 0 0;
           color: #4c4242;
           font-size: 15px;
+          align-items: center;
           > .qtyBtn {
             @extend %abutton;
             height: 48px;
@@ -206,7 +211,7 @@ export default {
             border: 1px solid #666;
             color: #666;
             background-color: #fff;
-            font-size: 36px;
+            // font-size: 36px;
             width: 48px;
             box-sizing: border-box;
             font-weight: 800;
@@ -219,7 +224,13 @@ export default {
             border-color: #ddd;
           }
           > .qtyBtn:nth-child(2) {
-            line-height: 40px;
+            // line-height: 40px;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+          }
+          > .qtyBtn:nth-child(4) {
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
           }
           > button:hover {
             cursor: pointer;
@@ -243,10 +254,12 @@ export default {
           margin: line(4) 0 0;
           font-size: 18px;
           text-align: center;
+
           > .star {
             background-color: $btn-star;
             color: white;
             padding: line(1);
+            border-radius: 3px;
             > i {
               margin: 0 line(1) 0 0;
             }
@@ -259,6 +272,7 @@ export default {
             background-color: $btn-cart;
             color: white;
             padding: line(1);
+            border-radius: 3px;
             > i {
               margin: 0 line(1) 0 0;
             }

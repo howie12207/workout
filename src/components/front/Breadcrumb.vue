@@ -59,12 +59,15 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/variable";
 .breadcrumb {
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
   margin: line(2) 0 line(4);
   font-size: 14px;
   padding: 8px 0;
   border-bottom: 1px solid $light;
   > ul {
     display: flex;
+    align-items: center;
     > i {
       margin: 0 line(2) 0 0;
       color: #ccc;
@@ -72,6 +75,9 @@ export default {
     > li {
       cursor: pointer;
       color: #666;
+      position: relative;
+      height: 16px;
+      line-height: 16px;
     }
     > li:not(:last-child):hover {
       color: $active;
@@ -80,7 +86,7 @@ export default {
       cursor: default;
     }
     > li:not(:last-child):after {
-      content: "-";
+      content: "/";
       margin: line(1);
     }
   }

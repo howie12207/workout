@@ -180,7 +180,7 @@ export default {
       }
       > button:hover {
         cursor: pointer;
-        color: $btn-cart-hover;
+        background-color: $btn-cart-hover;
       }
     }
   }

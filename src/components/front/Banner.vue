@@ -90,6 +90,14 @@ export default {
         navigation: {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev"
+        },
+        breakpoints: {
+          640: {
+            slidesPerView: 2
+          },
+          1200: {
+            slidesPerView: 3
+          }
         }
       }
     };

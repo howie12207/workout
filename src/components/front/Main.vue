@@ -1,7 +1,6 @@
 <template>
   <div class="main">
-    <Banner v-if="fullWidth>=1200" />
-    <BannerS v-else />
+    <Banner />
     <div class="container">
       <!-- 左邊大標題 -->
       <div class="sort">
@@ -14,7 +13,7 @@
       </div>
       <!-- 右邊主區域 -->
       <div class="section">
-        <div class="item" v-for="(item,index) in sales" :key="index">
+        <div class="item" v-for="(item, index) in sales" :key="index">
           <a href="#" class="pic" v-if="item" @click.prevent="seeMore(item.id)">
             <!-- 圖片 -->
             <div class="mask">
@@ -43,18 +42,18 @@
           <div class="txt" v-if="item">
             <a href="#" class="title" @click.prevent="seeMore(item.id)">{{ item.title }}</a>
             <p class="description">{{ item.description }}</p>
-            <p class="price" v-if="item.origin_price===item.price">
+            <p class="price" v-if="item.origin_price === item.price">
               <!-- 留空讓價錢靠右 -->
               <span></span>
               <span class="special">{{ item.price|currency }}</span>
             </p>
             <p class="price" v-else>
-              <span class="origin">{{ item.origin_price |currency }}</span>
+              <span class="origin">{{ item.origin_price | currency }}</span>
               <span class="special">{{ item.price|currency }}</span>
             </p>
           </div>
         </div>
-        <div class="item more" v-if="sales.length<8">
+        <div class="item more" v-if="sales.length < 8">
           <router-link to="/product/sales">查看更多</router-link>
         </div>
       </div>
@@ -71,7 +70,7 @@
       </div>
       <!-- 右邊主區域 -->
       <div class="section">
-        <div class="item" v-for="(item,index) in beginner" :key="index">
+        <div class="item" v-for="(item, index) in beginner" :key="index">
           <a href="#" class="pic" v-if="item" @click="seeMore(item.id)">
             <!-- 圖片 -->
             <div class="mask">
@@ -100,14 +99,14 @@
           <div class="txt" v-if="item">
             <a href="#" class="title" @click="seeMore(item.id)">{{ item.title }}</a>
             <p class="description">{{ item.description }}</p>
-            <p class="price" v-if="item.origin_price===item.price">
+            <p class="price" v-if="item.origin_price === item.price">
               <!-- 留空讓價錢靠右 -->
               <span></span>
-              <span class="special">{{ item.price|currency }}</span>
+              <span class="special">{{ item.price | currency }}</span>
             </p>
             <p class="price" v-else>
-              <span class="origin">{{ item.origin_price |currency }}</span>
-              <span class="special">{{ item.price|currency }}</span>
+              <span class="origin">{{ item.origin_price | currency }}</span>
+              <span class="special">{{ item.price | currency }}</span>
             </p>
           </div>
         </div>
@@ -125,7 +124,7 @@
       </div>
       <!-- 右邊主區域 -->
       <div class="section">
-        <div class="item" v-for="(item,index) in oldder" :key="index">
+        <div class="item" v-for="(item, index) in oldder" :key="index">
           <a href="#" class="pic" v-if="item" @click.prevent="seeMore(item.id)">
             <!-- 圖片 -->
             <div class="mask">
@@ -154,13 +153,13 @@
           <div class="txt" v-if="item">
             <a href="#" class="title" @click.prevent="seeMore(item.id)">{{ item.title }}</a>
             <p class="description">{{ item.description }}</p>
-            <p class="price" v-if="item.origin_price===item.price">
+            <p class="price" v-if="item.origin_price === item.price">
               <!-- 留白讓價錢靠右 -->
               <span></span>
               <span class="special">{{ item.price|currency }}</span>
             </p>
             <p class="price" v-else>
-              <span class="origin">{{ item.origin_price |currency }}</span>
+              <span class="origin">{{ item.origin_price | currency }}</span>
               <span class="special">{{ item.price|currency }}</span>
             </p>
           </div>
@@ -170,18 +169,14 @@
   </div>
 </template>
 
-
 <script>
 import { mapGetters } from "vuex";
 import Banner from "./Banner.vue";
-import BannerS from "./BannerS.vue";
 export default {
   name: "Main",
-  components: { Banner, BannerS },
+  components: { Banner },
   data() {
-    return {
-      fullWidth: 0
-    };
+    return {};
   },
   computed: {
     ...mapGetters(["newer", "beginner", "oldder", "products", "cart"]),
@@ -219,13 +214,6 @@ export default {
   },
   created() {
     this.$store.dispatch("getProducts");
-  },
-  mounted() {
-    const vm = this;
-    vm.fullWidth = window.innerWidth;
-    window.onresize = () => {
-      vm.fullWidth = window.innerWidth;
-    };
   }
 };
 </script>

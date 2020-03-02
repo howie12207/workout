@@ -67,7 +67,7 @@
           <i class="fas fa-bars"></i>
         </a>
         <!-- LOGO -->
-        <router-link to="/login" class="logo">
+        <router-link to="/" class="logo">
           <img src="../assets/logo.png" alt="logo" />
           <h2>健身趣</h2>
         </router-link>
@@ -166,7 +166,7 @@
                     @click.prevent="seeMore(item.product.id)"
                     class="title"
                   >{{ item.product.title }}</a>
-                  <span class="price">{{ item.final_total | currency }} x{{ item.qty }}</span>
+                  <span class="price">{{ item.product.price | currency }} x{{ item.qty }}</span>
                 </p>
                 <a href="#" class="delBtn" @click.prevent="removeCart(item.id)">
                   <i class="far fa-trash-alt"></i>

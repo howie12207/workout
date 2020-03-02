@@ -139,7 +139,7 @@ export default {
   width: 100%;
   max-width: 600px;
   > .container {
-    width: 90%;
+    // width: 90%;
     display: flex;
     flex-direction: column;
     margin: 0 auto;

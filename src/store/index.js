@@ -372,7 +372,7 @@ export default new Vuex.Store({
         context.commit("PRODUCTS", response.data.products); //將取得的產品塞入
         context.commit(
           "PAGETOTAL",
-          Math.ceil(response.data.products.length / 9)
+          Math.ceil(response.data.products.length / 16)
         ); //取得產品總頁數
         context.commit("CATEGORIES", response.data.products); //分類
         context.commit("ISLOADING", false);

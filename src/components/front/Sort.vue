@@ -171,7 +171,7 @@ a {
       }
       > h2 {
         position: absolute;
-        top: 152px;
+        top: 132px;
         left: 16px;
         background-color: rgba(255, 255, 255, 0.4);
         padding: line(1.5);
@@ -303,7 +303,7 @@ a {
           height: 280px;
         }
         > h2 {
-          top: 196px;
+          top: 176px;
           left: 48px;
           font-size: 3rem;
         }

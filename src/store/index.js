@@ -3,6 +3,28 @@ import Vuex from "vuex";
 import axios from "axios";
 import router from "../router";
 
+import {
+  getProductsApi,
+  getProductApi,
+  getCartApi,
+  addCartApi,
+  removeCartApi,
+  submitCouponApi,
+  submitOrderApi,
+  getOrderApi,
+  payApi,
+} from "@/api/api.js";
+
+import {
+  loginApi,
+  logoutApi,
+  getProductslistApi,
+  getOrdersApi,
+  getCouponsApi,
+  delCouponApi,
+  updateCouponApi,
+} from "@/api/apiBack.js";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -14,7 +36,7 @@ export default new Vuex.Store({
     loginTips: "",
     login: {
       username: "",
-      password: ""
+      password: "",
     },
     sidebarShow: false,
     menuShow: false,
@@ -22,7 +44,7 @@ export default new Vuex.Store({
     delmodalShow: false,
     page: {
       pageNow: 1,
-      pageTotal: 1
+      pageTotal: 1,
     },
     categories: [],
     categorySwitch: "",
@@ -41,9 +63,9 @@ export default new Vuex.Store({
         name: "",
         phone: "",
         email: "",
-        address: ""
+        address: "",
       },
-      message: ""
+      message: "",
     },
     starShow: false,
     cartShow: false,
@@ -60,28 +82,28 @@ export default new Vuex.Store({
       {
         src: require("../assets/shake.jpg"),
         alt: "shake",
-        to: "-LxULEc2iXOAYLYjlRRj"
+        to: "-LxULEc2iXOAYLYjlRRj",
       },
       {
         src: require("../assets/whey.jpg"),
         alt: "whey",
-        to: "-LxUDhK_wBafnper1FoU"
+        to: "-LxUDhK_wBafnper1FoU",
       },
       {
         src: require("../assets/clothes.jpg"),
         alt: "clothes",
-        to: "-LyvhuXJY-gZLIbYhuPS"
+        to: "-LyvhuXJY-gZLIbYhuPS",
       },
       {
         src: require("../assets/barbell.jpg"),
         alt: "dumbell",
-        to: "-LxUB8_TcXPic76dNZKn"
+        to: "-LxUB8_TcXPic76dNZKn",
       },
       {
         src: require("../assets/course.jpg"),
         alt: "course",
-        to: "-Lyvj9zOvUF9ouXBiBpY"
-      }
+        to: "-Lyvj9zOvUF9ouXBiBpY",
+      },
     ],
     banner2: [
       {
@@ -89,81 +111,81 @@ export default new Vuex.Store({
         src:
           "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579403007598.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=GTA7vtIA0W3pmD5%2BKf8XTeX65i0uDltIlk6p%2FMkrw8OKGWcbhw7FflpSQAk2SAtlqH%2Bxn8N4Io5VVnueFzHyIQb%2FWc5eeqh2xSHgzCXmkpLQQlCjvvQ3UpOJMgpaElzw8OeE5LXYwz4tPEG8NxMLIFsXmj69QDBtmzi8kondkZJWTaAtlPK8hIGLC%2BaU9woKUnfsDVt3xEiYiaqaKw1v3o3qBZd8tvZhkSxUQpKYLSHHuzla6VHlM%2FKt2pZJ%2Fg3l2PaIZ4hsPxCXXnUvp4FEEJq9%2BllVMBJ6hWQ%2BExisigOBNH%2BeklWD31Ss8JRu%2F4mNF%2Foayi2bQ2L0yzAmD184SA%3D%3D",
         description: "專業1對1指導訓練，讓你突飛猛進。",
-        to: "-LyvkMt2XlxH2tCk9C2X"
+        to: "-LyvkMt2XlxH2tCk9C2X",
       },
       {
         tag: "心律監測",
         src:
           "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579420864114.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=QifVKK5jXnsIjKGDIb8LbZ5y5XivCWTfIvJu1JsvLeAUdKEF7uPkWXyXtgu5nYsX8D9fTYhBVoixHMEB1fvpFQLvV2cJJSpJouiJSxd1a8u8%2B0yIjZExKc%2FR4Rch%2FXbkVFN%2B8aFBdlnS78bTFUDqeGDEEsrwrtyt7HbES%2FjwuOuB9gcEOgt91%2BxNBtmDRSaC7E0ZM8%2B8e4vRFLfevPgQRb%2Fq91S%2B%2BlltQ3UHI3tQzefmbZyYPgYaBcyqpjAb6tN7F6fNE9KQmu8GRoJVbJetP5cWdUdyzLIbJzB51zaoleMfStfPG%2B1xt1qINdNGMJsTJOEZCYKxREx%2BRenBGavvTw%3D%3D",
         description: "多種搭配運動計步功能，以及通話撥話等功能。",
-        to: "-LxUJuHnZTrbQqCsMDC3"
+        to: "-LxUJuHnZTrbQqCsMDC3",
       },
       {
         tag: "放鬆神器",
         src:
           "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579421054615.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=IUZ73GZfrlKUC5WbhVQr282agWhHL5nZoZDyY4X2iWeXhN031WAiwGaaW5ZwfwmB0DypSKdmYI%2BHe1YuFst5i8Vegdpwn0TugEJJaKeeks5ZrDcgBImjqgPIe5mCSY%2FeVy1KjKFbhisp7IWFgkWIIPsBdbJX8g%2BmPZrLJziNt%2FiPjW7VdBXMsrjZvXNyRVJ7ldM1GJJ9OkQ0clivRYAxWquV5e%2FBniJPlZXX2cnZLLzxg1EgAo2ozt%2FD24ZrEnSFOlGAtisDXMW46%2BNJIMgNy5zuM12uFSkfXRzIbui2oXZ0fDG90q4RxSVMjJ72%2BwHcBYWhVsYZJ7rmwcd9VRJgMw%3D%3D",
         description: "運動完痠痛，使用它來好好放鬆吧。",
-        to: "-LxUKlOGVkBrGr8w7U7P"
+        to: "-LxUKlOGVkBrGr8w7U7P",
       },
       {
         tag: "補充能量",
         src:
           "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579240011072.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=fYRG1ZC%2BkP80eeIoPgNzlLeyNaSCknRCJmAoexm0hGnNHaZKzUvXIH1%2BhG84iH3wrRwtbO%2FgSXe42dThq9NlRyLdarmOnuuFyCcCLwV8FLCwqDG5mB9lQFSuBwOcB%2FO%2BBupWvjrF2GdHw%2FjnDB7pxJRgsFJVi1sc13PxOokix4nlnWFCQ52uFYfQRNTUSjdkFXy8lW3NKyvb0vvWoNcwMca%2Bi6aJMTwc7kKhNT4qC51mOioCsuxkPecmm8bHjonzer7Mi6a5hi9IAplUkSijJ3gn0SpW26l5bnRZRfiqU4r63fRSHA0bw9WX7oUqDzzkja8Sxg4Qp5BEEZklQEeKRQ%3D%3D",
         description: "運動前、運動完方便補充能量。",
-        to: "-LxUGEe7UjuOj4rvDR8C"
+        to: "-LxUGEe7UjuOj4rvDR8C",
       },
       {
         tag: "音樂世界",
         src:
           "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1577850512423.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=LiDuiZtTIAgZEXRZQt5lzirseXSVArkTV0cYOU4%2BiRpDBTR0Csgs%2FaNP4t5uxKHXaz6TeTa3UObV83axcKHm2brYPjpQ6DprAYM9WlnOnxmPzvRaqXEG1gTtc7Ohsqjl3QghRQD3Dc7YPYWyqf%2B1VXj5ZpkJaVhteg4%2BtQwIEZV6giM6FIDFj0U%2BmeMnC8KF%2FErV%2BrYrbI4vlo%2BRRvkabHp1jbAXFBRIek%2Bcxo2hPWgeWBFc8ehIdOiJw%2B3gSTx0HOH3fwmOK7OHMGNlwR5CCzhiXHpV9N4tcKkwmg5jDbuHrCtjhcQ6mkcFVc2CIHL3dT6GZaXm0rk8pXwXx7NaxA%3D%3D",
         description: "運動不再單調乏味，讓音樂環繞你的四周。",
-        to: "-LxUD2R2ttgl5bY7aBe3"
+        to: "-LxUD2R2ttgl5bY7aBe3",
       },
       {
         tag: "懶人神器",
         src:
           "https://storage.googleapis.com/vue-course-api.appspot.com/howieg1220%2F1579275379515.jpg?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=i96vBsGjYooNUXdlc1G26hc3yTLn7hQttMTMy7qK3YWLCWlvkbg8yW0CMBNG7dsB8qq6v%2FycQ%2F%2FnjmgMAU3cdDjvAlIeRiMT6eitUHgzt%2FQ%2BLKyMI%2BpqGxXc6R%2Fr3EmpKU3MgGn1CiJeuz7Cum3XEfkfWBxbeOrbRqELz78Y4p4dyM%2B5Qhz%2FDUTo0IxbzW74OGVLMA5sDH1kA7fuHwRRa1MLzF3fiCogNfrgiF7w5rCWBMkNL1wfO9fKnrOZ800jaRiZbzCMHw7NsH3eEWXLL8Hc1DfBLBrJSIYcosGaAC%2Bhw9xDmV%2FJ01lBJqEsqwOjO2NbGaCgRjkxp260xcO4cw%3D%3D",
         description: "按下開關輕鬆按摩，電動就是這麼方便。",
-        to: "-Lyo8Ug-ydmWocOl881I"
-      }
+        to: "-Lyo8Ug-ydmWocOl881I",
+      },
     ],
     sortBanner: {
       equipment: {
         src: require("../assets/tools.jpg"),
         alt: "健身器材",
-        title: "健身器材"
+        title: "健身器材",
       },
       clothes: {
         src: require("../assets/clothesbanner.jpg"),
         alt: "運動服飾",
-        title: "運動服飾"
+        title: "運動服飾",
       },
       course: {
         src: require("../assets/coursebanner.jpg"),
         alt: "專業課程",
-        title: "專業課程"
+        title: "專業課程",
       },
       accessory: {
         src: require("../assets/accessorybanner.jpg"),
         alt: "運動配件",
-        title: "運動配件"
+        title: "運動配件",
       },
       gear: {
         src: require("../assets/gearbanner.jpg"),
         alt: "健身護具",
-        title: "健身護具"
+        title: "健身護具",
       },
       boxing: {
         src: require("../assets/boxingbanner.jpg"),
         alt: "拳擊用品",
-        title: "拳擊用品"
+        title: "拳擊用品",
       },
       nutrition: {
         src: require("../assets/nutritionbanner.jpg"),
         alt: "營養補充",
-        title: "營養補充"
-      }
-    }
+        title: "營養補充",
+      },
+    },
   },
   mutations: {
     // --- Header ---
@@ -216,7 +238,7 @@ export default new Vuex.Store({
     CATEGORIES(state, payload) {
       // 方法一
       const categories = new Set();
-      payload.forEach(item => {
+      payload.forEach((item) => {
         categories.add(item.category);
       });
       state.categories = Array.from(categories);
@@ -361,23 +383,20 @@ export default new Vuex.Store({
     // --- 警示 ---
     MESSAGES(state, payload) {
       state.messages = payload;
-    }
+    },
   },
   actions: {
     // ----- 取得所有產品清單 -----
-    getProducts(context) {
+    async getProducts(context) {
       context.commit("ISLOADING", true);
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
-      axios.get(url).then(response => {
-        context.commit("PRODUCTS", response.data.products); //將取得的產品塞入
-        context.commit(
-          "PAGETOTAL",
-          Math.ceil(response.data.products.length / 16)
-        ); //取得產品總頁數
-        context.commit("CATEGORIES", response.data.products); //分類
-        context.commit("ISLOADING", false);
-        // console.log(response);
-      });
+      await getProductsApi()
+        .then((response) => {
+          context.commit("PRODUCTS", response.products); //將取得的產品塞入
+          context.commit("PAGETOTAL", Math.ceil(response.products.length / 16)); //取得產品總頁數
+          context.commit("CATEGORIES", response.products); //分類
+          context.commit("ISLOADING", false);
+        })
+        .catch((err) => console.log(err));
     },
     // ----- 取得當前分頁的分類 -----
     getCategory(context, payload) {
@@ -480,14 +499,15 @@ export default new Vuex.Store({
       context.commit("ISLOADING", false);
     },
     // ----- 取得個別產品內容 -----
-    getProduct(context, payload) {
+    async getProduct(context, payload) {
       context.commit("ISLOADING", true);
       context.commit("QTY", 1); //數量初始化
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${payload}`;
-      axios.get(url).then(response => {
-        context.commit("PRODUCT", response.data.product); //將取得的產品塞入
-        context.commit("ISLOADING", false);
-      });
+      await getProductApi(payload)
+        .then((response) => {
+          context.commit("PRODUCT", response.product); //將取得的產品塞入
+          context.commit("ISLOADING", false);
+        })
+        .catch((err) => console.log(err));
     },
     // ----- 取得觀察清單 -----
     getStar(context) {
@@ -506,7 +526,7 @@ export default new Vuex.Store({
       context.commit("ISLOADING", false);
       context.dispatch("updateMessage", {
         message: "已加入觀察名單",
-        status: "success"
+        status: "success",
       });
     },
     // ----- 移除觀察名單 -----
@@ -520,7 +540,7 @@ export default new Vuex.Store({
         }
         context.dispatch("updateMessage", {
           message: "已從觀察名單移除",
-          status: "success"
+          status: "success",
         });
       });
       tmp.splice(index, 1);
@@ -529,61 +549,63 @@ export default new Vuex.Store({
       context.commit("ISLOADING", false);
     },
     // ----- 取得購物車清單 -----
-    getCart(context) {
+    async getCart(context) {
       context.commit("ISLOADING", true);
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      axios.get(url).then(response => {
-        // console.log(response);
-        context.commit("CART", response.data.data);
-        context.commit("ISLOADING", false);
-      });
+      await getCartApi()
+        .then((response) => {
+          // console.log(response);
+          context.commit("CART", response.data);
+          context.commit("ISLOADING", false);
+        })
+        .catch((err) => console.log(err));
     },
     // ----- 加入購物車 -----
-    addCart(context, { id, qty = 1 }) {
+    async addCart(context, { id, qty = 1 }) {
       context.commit("ISLOADING", true);
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      axios.post(url, { data: { product_id: id, qty } }).then(response => {
-        if (response.data.success) {
-          context.commit("ISLOADING", false);
-          context.dispatch("getCart");
-          context.dispatch("updateMessage", {
-            message: "已加入購物車",
-            status: "success"
-          });
-          // console.log(response);
-        } else {
-          context.commit("ISLOADING", false);
-          // console.log("加入失敗");
-          context.dispatch("updateMessage", {
-            message: "加入購物車失敗",
-            status: "false"
-          });
-        }
-      });
+      await addCartApi({ data: { product_id: id, qty } })
+        .then((response) => {
+          if (response.success) {
+            context.commit("ISLOADING", false);
+            context.dispatch("getCart");
+            context.dispatch("updateMessage", {
+              message: "已加入購物車",
+              status: "success",
+            });
+            // console.log(response);
+          } else {
+            context.commit("ISLOADING", false);
+            // console.log("加入失敗");
+            context.dispatch("updateMessage", {
+              message: "加入購物車失敗",
+              status: "false",
+            });
+          }
+        })
+        .catch((err) => console.log(err));
     },
     // ----- 移除購物車 -----
-    removeCart(context, payload) {
+    async removeCart(context, payload) {
       context.commit("ISLOADING", true);
-      // console.log(payload);
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${payload}`;
-      axios.delete(url).then(response => {
-        if (response.data.success) {
-          // console.log("已刪除");
-          context.commit("ISLOADING", false);
-          context.dispatch("getCart");
-          context.dispatch("updateMessage", {
-            message: "已從購物車移除",
-            status: "success"
-          });
-        } else {
-          // console.log("刪除失敗");
-          context.commit("ISLOADING", false);
-          context.dispatch("updateMessage", {
-            message: "從購物車移除失敗",
-            status: "false"
-          });
-        }
-      });
+      await removeCartApi(payload)
+        .then((response) => {
+          if (response.success) {
+            // console.log("已刪除");
+            context.commit("ISLOADING", false);
+            context.dispatch("getCart");
+            context.dispatch("updateMessage", {
+              message: "已從購物車移除",
+              status: "success",
+            });
+          } else {
+            // console.log("刪除失敗");
+            context.commit("ISLOADING", false);
+            context.dispatch("updateMessage", {
+              message: "從購物車移除失敗",
+              status: "false",
+            });
+          }
+        })
+        .catch((err) => console.log(err));
     },
     // ----- 搜尋功能 -----
     searching(context) {
@@ -602,109 +624,117 @@ export default new Vuex.Store({
       }
     },
     // ----- 套用優惠券 -----
-    submitCoupon(context) {
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/coupon`;
-      axios.post(url, { data: { code: context.state.code } }).then(response => {
-        if (response.data.success) {
-          // console.log(response);
-          context.dispatch("getCart");
-          context.dispatch("updateMessage", {
-            message: "優惠券套用成功",
-            status: "success"
-          });
-        } else {
-          // console.log(response);
-          context.dispatch("getCart");
-          context.dispatch("updateMessage", {
-            message: response.data.message,
-            status: "false"
-          });
-        }
-      });
+    async submitCoupon(context) {
+      await submitCouponApi({ data: { code: context.state.code } })
+        .then((response) => {
+          if (response.success) {
+            // console.log(response);
+            context.dispatch("getCart");
+            context.dispatch("updateMessage", {
+              message: "優惠券套用成功",
+              status: "success",
+            });
+          } else {
+            // console.log(response);
+            context.dispatch("getCart");
+            context.dispatch("updateMessage", {
+              message: response.message,
+              status: "false",
+            });
+          }
+        })
+        .catch((err) => console.log(err));
     },
     // ----- 送出訂單 -----
-    submitOrder(context) {
+    async submitOrder(context) {
       context.commit("ISLOADING", true);
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order`;
-      axios.post(url, { data: context.state.customer }).then(response => {
-        if (response.data.success) {
-          // console.log("訂單已建立");
-          context.commit("ISLOADING", false);
-          router.push(`/pay/${response.data.orderId}`);
-        } else {
-          // console.log("訂單建立失敗");
-          context.commit("ISLOADING", false);
-          context.dispatch("updateMessage", {
-            message: response.data.message,
-            status: "false"
-          });
-        }
-      });
+      await submitOrderApi({ data: context.state.customer })
+        .then((response) => {
+          if (response.success) {
+            // console.log("訂單已建立");
+            context.commit("ISLOADING", false);
+            router.push(`/pay/${response.orderId}`);
+          } else {
+            // console.log("訂單建立失敗");
+            context.commit("ISLOADING", false);
+            context.dispatch("updateMessage", {
+              message: response.message,
+              status: "false",
+            });
+          }
+        })
+        .catch((err) => console.log(err));
     },
     // ----- 取得特定訂單 -----
-    getOrder(context, payload) {
+    async getOrder(context, payload) {
       context.commit("ISLOADING", true);
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order/${payload}`;
-      axios.get(url).then(response => {
-        context.commit("ORDER", response.data.order);
-        // console.log(response);
-        context.commit("ISLOADING", false);
-      });
+      await getOrderApi(payload)
+        .then((response) => {
+          context.commit("ORDER", response.order);
+          // console.log(response);
+          context.commit("ISLOADING", false);
+        })
+        .catch((err) => console.log(err));
     },
     // ----- 付款按鈕 -----
-    pay(context, payload) {
+    async pay(context, payload) {
       context.commit("ISLOADING", true);
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/pay/${payload}`;
-      axios.post(url).then(response => {
-        if (response.data.success) {
-          context.commit("ISLOADING", false);
-          context.dispatch("getOrder", payload);
-          context.dispatch("updateMessage", {
-            message: "付款成功",
-            status: "success"
-          });
-        } else {
-          context.commit("ISLOADING", false);
-          context.dispatch("getOrder", payload);
-          context.dispatch("updateMessage", {
-            message: "付款失敗",
-            status: "false"
-          });
-        }
-      });
+      await payApi(payload)
+        .then((response) => {
+          if (response.success) {
+            context.commit("ISLOADING", false);
+            context.dispatch("getOrder", payload);
+            context.dispatch("updateMessage", {
+              message: "付款成功",
+              status: "success",
+            });
+          } else {
+            context.commit("ISLOADING", false);
+            context.dispatch("getOrder", payload);
+            context.dispatch("updateMessage", {
+              message: "付款失敗",
+              status: "false",
+            });
+          }
+        })
+        .catch((err) => console.log(err));
     },
     // ----- 登入 -----
-    login(context) {
+    async login(context) {
       context.commit("ISLOADING", true);
-      const url = `${process.env.VUE_APP_APIPATH}/admin/signin`;
       context.commit("LOGINTIPS", "");
-      axios.post(url, context.state.login).then(response => {
-        if (response.data.success) {
-          router.push("/admin/productslist");
-          context.commit("ISLOADING", false);
-        } else {
-          context.commit("LOGINTIPS", "帳密有誤，請重新填寫");
-          context.commit("ISLOADING", false);
-        }
-      });
+      await loginApi(context.state.login)
+        .then((response) => {
+          if (response.success) {
+            router.push("/admin/productslist");
+            context.commit("ISLOADING", false);
+          } else {
+            context.commit("LOGINTIPS", "帳密有誤，請重新填寫");
+            context.commit("ISLOADING", false);
+          }
+        })
+        .catch((err) => console.log(err));
     },
     // ----- 登出 -----
-    logout() {
-      const url = `${process.env.VUE_APP_APIPATH}/logout`;
-      axios.post(url).then(() => {
-        router.push("/login");
-      });
+    async logout() {
+      await logoutApi()
+        .then(() => {
+          router.push("/login");
+        })
+        .catch((err) => console.log(err));
     },
     // ----- 後台取得產品列表 -----
-    getProductslist(context, payload) {
+    async getProductslist(context, payload) {
       context.commit("ISLOADING", true);
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/products?page=${payload}`;
-      axios.get(url).then(response => {
-        context.commit("PRODUCTS", response.data.products);
-        // console.log(response);
-        context.commit("PAGINATION", response.data.pagination);
-        context.commit("ISLOADING", false);
-      });
+      // const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/products?page=${payload}`;
+      await getProductslistApi(payload)
+        .then((response) => {
+          context.commit("PRODUCTS", response.products);
+          // console.log(response);
+          context.commit("PAGINATION", response.pagination);
+          context.commit("ISLOADING", false);
+        })
+        .catch((err) => console.log(err));
     },
     // ----- 開關產品模型 -----
     modalShow(context, { isNew, item }) {
@@ -733,21 +763,22 @@ export default new Vuex.Store({
         method = "put";
         url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product/${context.state.product.id}`;
       }
-      axios[method](url, { data: context.state.product }).then(response => {
-        if (response.data.success) {
-          // console.log(response);
+      axios[method](url, { data: context.state.product }).then((response) => {
+        console.log(response, 1);
+        if (response.success) {
+          console.log(response, 2);
           context.commit("MODALSHOW", false);
           context.dispatch("getProductslist");
           context.dispatch("updateMessage", {
             message: "產品更新成功",
-            status: "success"
+            status: "success",
           });
         } else {
           // console.log("新增失敗");
           context.dispatch("getProductslist");
           context.dispatch("updateMessage", {
             message: "產品更新失敗",
-            status: "false"
+            status: "false",
           });
         }
       });
@@ -756,14 +787,14 @@ export default new Vuex.Store({
     delProduct(context) {
       context.commit("ISLOADING", true);
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product/${context.state.product.id}`;
-      axios.delete(url).then(response => {
+      axios.delete(url).then((response) => {
         if (response.data.success) {
           context.commit("DELMODALSHOW", false);
           context.commit("ISLOADING", false);
           context.dispatch("getProductslist");
           context.dispatch("updateMessage", {
             message: "產品刪除成功",
-            status: "success"
+            status: "success",
           });
         } else {
           // console.log("刪除失敗");
@@ -772,7 +803,7 @@ export default new Vuex.Store({
           context.dispatch("getProductslist");
           context.dispatch("updateMessage", {
             message: "產品刪除失敗",
-            status: "false"
+            status: "false",
           });
         }
       });
@@ -792,81 +823,88 @@ export default new Vuex.Store({
       context.dispatch("getProductslist", page);
     },
     // ----- 後台取得訂單列表 -----
-    getOrders(context) {
+    async getOrders(context) {
       context.commit("ISLOADING", true);
       let page = context.state.page.pageNow;
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/orders?page=${page}`;
-      axios.get(url).then(response => {
-        context.commit("PAGETOTAL", response.data.pagination.total_pages); //將得到的總頁數儲存
-        context.commit("ORDERS", response.data.orders); // 將訂單內容儲存
-        context.commit("ISLOADING", false);
-      });
+      await getOrdersApi(page)
+        .then((response) => {
+          context.commit("PAGETOTAL", response.pagination.total_pages); //將得到的總頁數儲存
+          context.commit("ORDERS", response.orders); // 將訂單內容儲存
+          context.commit("ISLOADING", false);
+        })
+        .catch((err) => console.log(err));
     },
     // ----- 後台取得優惠券列表 -----
-    getCoupons(context) {
+    async getCoupons(context) {
       context.commit("ISLOADING", true);
       let page = context.state.page.pageNow;
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupons?page=${page}`;
-      axios.get(url).then(response => {
-        context.commit("PAGETOTAL", response.data.pagination.total_pages); //將得到的總頁數儲存
-        context.commit("COUPONS", response.data.coupons);
-        context.commit("ISLOADING", false);
-      });
+      // const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupons?page=${page}`;
+      await getCouponsApi(page)
+        .then((response) => {
+          context.commit("PAGETOTAL", response.pagination.total_pages); //將得到的總頁數儲存
+          context.commit("COUPONS", response.coupons);
+          context.commit("ISLOADING", false);
+        })
+        .catch((err) => console.log(err));
     },
     // ----- 更新優惠券 -----
-    updateCoupon(context) {
+    async updateCoupon(context) {
       context.commit("ISLOADING", true);
       let method = "post";
-      let url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon`;
+      // let url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon`;
       if (!context.state.isNew) {
         method = "put";
-        url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon/${context.state.coupon.id}`;
+        // url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon/${context.state.coupon.id}`;
       }
-      axios[method](url, { data: context.state.coupon }).then(response => {
-        if (response.data.success) {
-          context.commit("MODALSHOW", false);
-          context.dispatch("getCoupons");
-          context.commit("ISLOADING", false);
-          context.dispatch("updateMessage", {
-            message: "優惠券更新成功",
-            status: "success"
-          });
-        } else {
-          // console.log("更新失敗");
-          context.commit("MODALSHOW", false);
-          context.dispatch("getCoupons");
-          context.commit("ISLOADING", false);
-          context.dispatch("updateMessage", {
-            message: "優惠券更新失敗",
-            status: "false"
-          });
-        }
-      });
+      await updateCouponApi(method, { data: context.state.coupon })
+        .then((response) => {
+          if (response.data.success) {
+            context.commit("MODALSHOW", false);
+            context.dispatch("getCoupons");
+            context.commit("ISLOADING", false);
+            context.dispatch("updateMessage", {
+              message: "優惠券更新成功",
+              status: "success",
+            });
+          } else {
+            // console.log("更新失敗");
+            context.commit("MODALSHOW", false);
+            context.dispatch("getCoupons");
+            context.commit("ISLOADING", false);
+            context.dispatch("updateMessage", {
+              message: "優惠券更新失敗",
+              status: "false",
+            });
+          }
+        })
+        .catch((err) => console.log(err));
     },
     // ----- 刪除優惠券 -----
-    delCoupon(context) {
+    async delCoupon(context) {
       context.commit("ISLOADING", true);
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon/${context.state.coupon.id}`;
-      axios.delete(url).then(response => {
-        if (response.data.success) {
-          context.commit("DELMODALSHOW", false);
-          context.dispatch("getCoupons");
-          context.commit("ISLOADING", false);
-          context.dispatch("updateMessage", {
-            message: "優惠券刪除成功",
-            status: "success"
-          });
-        } else {
-          // console.log("刪除失敗");
-          context.commit("DELMODALSHOW", false);
-          context.dispatch("getCoupons");
-          context.commit("ISLOADING", false);
-          context.dispatch("updateMessage", {
-            message: "優惠券刪除失敗",
-            status: "false"
-          });
-        }
-      });
+      // const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon/${context.state.coupon.id}`;
+      await delCouponApi()
+        .then((response) => {
+          if (response.success) {
+            context.commit("DELMODALSHOW", false);
+            context.dispatch("getCoupons");
+            context.commit("ISLOADING", false);
+            context.dispatch("updateMessage", {
+              message: "優惠券刪除成功",
+              status: "success",
+            });
+          } else {
+            // console.log("刪除失敗");
+            context.commit("DELMODALSHOW", false);
+            context.dispatch("getCoupons");
+            context.commit("ISLOADING", false);
+            context.dispatch("updateMessage", {
+              message: "優惠券刪除失敗",
+              status: "false",
+            });
+          }
+        })
+        .catch((err) => console.log(err));
     },
     // ----- 更換頁面 -----
     toPage(context, payload) {
@@ -880,7 +918,7 @@ export default new Vuex.Store({
       tmp.push({
         message,
         status,
-        timestamp
+        timestamp,
       });
       context.commit("MESSAGES", tmp);
       context.dispatch("removeMessageWithTiming", timestamp);
@@ -902,7 +940,7 @@ export default new Vuex.Store({
           }
         });
       }, 2000);
-    }
+    },
   },
   getters: {
     navShow(state) {
@@ -972,7 +1010,7 @@ export default new Vuex.Store({
         return !item.price.match(item.origin_price);
       });
       return tmp;
-    }
+    },
   },
-  modules: {}
+  modules: {},
 });

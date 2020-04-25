@@ -4,7 +4,6 @@ import router from "./router";
 import store from "./store";
 // ----- axios套件 -----
 import axios from "axios";
-import VueAxios from "vue-axios";
 
 // ----- loading畫面套件 -----
 import Loading from "vue-loading-overlay";
@@ -33,7 +32,6 @@ import * as rules from "vee-validate/dist/rules";
 // ----- 載入中文 -----
 import tw from "vee-validate/dist/locale/zh_TW";
 
-Vue.use(VueAxios, axios);
 Vue.use(VueAwesomeSwiper /* { default global options } */);
 
 // ----- 跨域 -----
@@ -53,12 +51,12 @@ Vue.component("ValidationObserver", ValidationObserver);
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
     const url = `${process.env.VUE_APP_APIPATH}/api/user/check`;
-    axios.post(url).then(response => {
+    axios.post(url).then((response) => {
       if (response.data.success) {
         next();
       } else {
         next({
-          path: "/login"
+          path: "/login",
         });
       }
     });
@@ -71,19 +69,19 @@ const originalPush = router.__proto__.push;
 router.__proto__.push = function push(location, onResolve, onReject) {
   if (onResolve || onReject)
     return originalPush.call(this, location, onResolve, onReject);
-  return originalPush.call(this, location).catch(err => err);
+  return originalPush.call(this, location).catch((err) => err);
 };
 
 // ----- Vee-validate規則中文化 -----
 for (let rule in rules) {
   extend(rule, {
     ...rules[rule], // 加規則
-    message: tw.messages[rule] // 中文化
+    message: tw.messages[rule], // 中文化
   });
 }
 
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount("#app");

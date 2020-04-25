@@ -1,19 +1,24 @@
 import axios from "axios";
+import store from "@/store";
 
 const instance = axios.create({
   baseURL: "https://vue-course-api.hexschool.io/api/howieg1220",
+  withCredentials: true,
 });
 
 instance.interceptors.request.use(
   (config) => {
+    store.commit("ISLOADING", true);
     return config;
   },
   (err) => {
+    store.commit("ISLOADING", true);
     return Promise.reject(err);
   }
 );
 instance.interceptors.response.use(
   (res) => {
+    store.commit("ISLOADING", false);
     if (res.status === 200) {
       return Promise.resolve(res.data);
     } else {
@@ -21,6 +26,7 @@ instance.interceptors.response.use(
     }
   },
   (err) => {
+    store.commit("ISLOADING", false);
     if (err.response) {
       return Promise.reject(err.response);
     } else {

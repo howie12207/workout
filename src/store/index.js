@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from "axios";
 import router from "../router";
 
 import {
@@ -19,10 +18,12 @@ import {
   loginApi,
   logoutApi,
   getProductslistApi,
+  updateProductApi,
+  delProductApi,
   getOrdersApi,
   getCouponsApi,
-  delCouponApi,
   updateCouponApi,
+  delCouponApi,
 } from "@/api/apiBack.js";
 
 Vue.use(Vuex);
@@ -388,13 +389,11 @@ export default new Vuex.Store({
   actions: {
     // ----- 取得所有產品清單 -----
     async getProducts(context) {
-      context.commit("ISLOADING", true);
       await getProductsApi()
         .then((response) => {
           context.commit("PRODUCTS", response.products); //將取得的產品塞入
           context.commit("PAGETOTAL", Math.ceil(response.products.length / 16)); //取得產品總頁數
           context.commit("CATEGORIES", response.products); //分類
-          context.commit("ISLOADING", false);
         })
         .catch((err) => console.log(err));
     },
@@ -493,19 +492,15 @@ export default new Vuex.Store({
     },
     // ----- 查看產品細節 -----
     seeMore(context, payload) {
-      context.commit("ISLOADING", true);
       router.push(`/product/${payload}`); //跳到產品頁
       context.dispatch("getProduct", payload);
-      context.commit("ISLOADING", false);
     },
     // ----- 取得個別產品內容 -----
     async getProduct(context, payload) {
-      context.commit("ISLOADING", true);
       context.commit("QTY", 1); //數量初始化
       await getProductApi(payload)
         .then((response) => {
           context.commit("PRODUCT", response.product); //將取得的產品塞入
-          context.commit("ISLOADING", false);
         })
         .catch((err) => console.log(err));
     },
@@ -516,14 +511,12 @@ export default new Vuex.Store({
     },
     // ----- 加入觀察名單 -----
     addStar(context, payload) {
-      context.commit("ISLOADING", true);
       if (!context.state.star.includes(payload)) {
         let [...tmp] = context.state.star; //複製內容
         tmp.push(payload); //若原本不存在此項則加入
         context.commit("STAR", tmp);
         localStorage.setItem("favorite", JSON.stringify(tmp)); //存入LS
       }
-      context.commit("ISLOADING", false);
       context.dispatch("updateMessage", {
         message: "已加入觀察名單",
         status: "success",
@@ -531,7 +524,6 @@ export default new Vuex.Store({
     },
     // ----- 移除觀察名單 -----
     removeStar(context, payload) {
-      context.commit("ISLOADING", true);
       let index = "";
       let [...tmp] = context.state.star;
       tmp.forEach((element, key) => {
@@ -546,35 +538,27 @@ export default new Vuex.Store({
       tmp.splice(index, 1);
       context.commit("STAR", tmp);
       localStorage.setItem("favorite", JSON.stringify(tmp));
-      context.commit("ISLOADING", false);
     },
     // ----- 取得購物車清單 -----
     async getCart(context) {
-      context.commit("ISLOADING", true);
       await getCartApi()
         .then((response) => {
           // console.log(response);
           context.commit("CART", response.data);
-          context.commit("ISLOADING", false);
         })
         .catch((err) => console.log(err));
     },
     // ----- 加入購物車 -----
     async addCart(context, { id, qty = 1 }) {
-      context.commit("ISLOADING", true);
       await addCartApi({ data: { product_id: id, qty } })
         .then((response) => {
           if (response.success) {
-            context.commit("ISLOADING", false);
             context.dispatch("getCart");
             context.dispatch("updateMessage", {
               message: "已加入購物車",
               status: "success",
             });
-            // console.log(response);
           } else {
-            context.commit("ISLOADING", false);
-            // console.log("加入失敗");
             context.dispatch("updateMessage", {
               message: "加入購物車失敗",
               status: "false",
@@ -585,20 +569,15 @@ export default new Vuex.Store({
     },
     // ----- 移除購物車 -----
     async removeCart(context, payload) {
-      context.commit("ISLOADING", true);
       await removeCartApi(payload)
         .then((response) => {
           if (response.success) {
-            // console.log("已刪除");
-            context.commit("ISLOADING", false);
             context.dispatch("getCart");
             context.dispatch("updateMessage", {
               message: "已從購物車移除",
               status: "success",
             });
           } else {
-            // console.log("刪除失敗");
-            context.commit("ISLOADING", false);
             context.dispatch("updateMessage", {
               message: "從購物車移除失敗",
               status: "false",
@@ -628,14 +607,12 @@ export default new Vuex.Store({
       await submitCouponApi({ data: { code: context.state.code } })
         .then((response) => {
           if (response.success) {
-            // console.log(response);
             context.dispatch("getCart");
             context.dispatch("updateMessage", {
               message: "優惠券套用成功",
               status: "success",
             });
           } else {
-            // console.log(response);
             context.dispatch("getCart");
             context.dispatch("updateMessage", {
               message: response.message,
@@ -647,16 +624,11 @@ export default new Vuex.Store({
     },
     // ----- 送出訂單 -----
     async submitOrder(context) {
-      context.commit("ISLOADING", true);
       await submitOrderApi({ data: context.state.customer })
         .then((response) => {
           if (response.success) {
-            // console.log("訂單已建立");
-            context.commit("ISLOADING", false);
             router.push(`/pay/${response.orderId}`);
           } else {
-            // console.log("訂單建立失敗");
-            context.commit("ISLOADING", false);
             context.dispatch("updateMessage", {
               message: response.message,
               status: "false",
@@ -667,29 +639,23 @@ export default new Vuex.Store({
     },
     // ----- 取得特定訂單 -----
     async getOrder(context, payload) {
-      context.commit("ISLOADING", true);
       await getOrderApi(payload)
         .then((response) => {
           context.commit("ORDER", response.order);
-          // console.log(response);
-          context.commit("ISLOADING", false);
         })
         .catch((err) => console.log(err));
     },
     // ----- 付款按鈕 -----
     async pay(context, payload) {
-      context.commit("ISLOADING", true);
       await payApi(payload)
         .then((response) => {
           if (response.success) {
-            context.commit("ISLOADING", false);
             context.dispatch("getOrder", payload);
             context.dispatch("updateMessage", {
               message: "付款成功",
               status: "success",
             });
           } else {
-            context.commit("ISLOADING", false);
             context.dispatch("getOrder", payload);
             context.dispatch("updateMessage", {
               message: "付款失敗",
@@ -701,16 +667,13 @@ export default new Vuex.Store({
     },
     // ----- 登入 -----
     async login(context) {
-      context.commit("ISLOADING", true);
       context.commit("LOGINTIPS", "");
       await loginApi(context.state.login)
         .then((response) => {
           if (response.success) {
             router.push("/admin/productslist");
-            context.commit("ISLOADING", false);
           } else {
             context.commit("LOGINTIPS", "帳密有誤，請重新填寫");
-            context.commit("ISLOADING", false);
           }
         })
         .catch((err) => console.log(err));
@@ -724,15 +687,12 @@ export default new Vuex.Store({
         .catch((err) => console.log(err));
     },
     // ----- 後台取得產品列表 -----
-    async getProductslist(context, payload) {
-      context.commit("ISLOADING", true);
-      // const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/products?page=${payload}`;
-      await getProductslistApi(payload)
+    async getProductslist(context) {
+      let page = context.state.page.pageNow;
+      await getProductslistApi(page)
         .then((response) => {
           context.commit("PRODUCTS", response.products);
-          // console.log(response);
-          context.commit("PAGINATION", response.pagination);
-          context.commit("ISLOADING", false);
+          context.commit("PAGETOTAL", response.pagination.total_pages); //將得到的總頁數儲存
         })
         .catch((err) => console.log(err));
     },
@@ -756,57 +716,57 @@ export default new Vuex.Store({
       context.commit("COUPON", Object.assign({}, payload));
     },
     // ----- 更新(新增,編輯)產品 -----
-    updateProduct(context) {
+    async updateProduct(context) {
       let method = "post";
-      let url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product`;
       if (!context.state.isNew) {
         method = "put";
-        url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product/${context.state.product.id}`;
       }
-      axios[method](url, { data: context.state.product }).then((response) => {
-        console.log(response, 1);
-        if (response.success) {
-          console.log(response, 2);
-          context.commit("MODALSHOW", false);
-          context.dispatch("getProductslist");
-          context.dispatch("updateMessage", {
-            message: "產品更新成功",
-            status: "success",
-          });
-        } else {
-          // console.log("新增失敗");
-          context.dispatch("getProductslist");
-          context.dispatch("updateMessage", {
-            message: "產品更新失敗",
-            status: "false",
-          });
-        }
-      });
+      await updateProductApi(
+        method,
+        { data: context.state.product },
+        context.state.product.id
+      )
+        .then((response) => {
+          if (response.success) {
+            context.commit("MODALSHOW", false);
+            context.dispatch("getProductslist");
+            context.dispatch("updateMessage", {
+              message: "產品更新成功",
+              status: "success",
+            });
+          } else {
+            // console.log("新增失敗");
+            context.dispatch("getProductslist");
+            context.dispatch("updateMessage", {
+              message: "產品更新失敗",
+              status: "false",
+            });
+          }
+        })
+        .catch((err) => console.log(err));
     },
     // ----- 刪除產品 -----
-    delProduct(context) {
-      context.commit("ISLOADING", true);
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product/${context.state.product.id}`;
-      axios.delete(url).then((response) => {
-        if (response.data.success) {
-          context.commit("DELMODALSHOW", false);
-          context.commit("ISLOADING", false);
-          context.dispatch("getProductslist");
-          context.dispatch("updateMessage", {
-            message: "產品刪除成功",
-            status: "success",
-          });
-        } else {
-          // console.log("刪除失敗");
-          context.commit("DELMODALSHOW", false);
-          context.commit("ISLOADING", false);
-          context.dispatch("getProductslist");
-          context.dispatch("updateMessage", {
-            message: "產品刪除失敗",
-            status: "false",
-          });
-        }
-      });
+    async delProduct(context) {
+      // const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product/${context.state.product.id}`;
+      await delProductApi(context.state.product.id)
+        .then((response) => {
+          if (response.success) {
+            context.commit("DELMODALSHOW", false);
+            context.dispatch("getProductslist");
+            context.dispatch("updateMessage", {
+              message: "產品刪除成功",
+              status: "success",
+            });
+          } else {
+            context.commit("DELMODALSHOW", false);
+            context.dispatch("getProductslist");
+            context.dispatch("updateMessage", {
+              message: "產品刪除失敗",
+              status: "false",
+            });
+          }
+        })
+        .catch((err) => console.log(err));
     },
     // ----- 後台分頁切換 -----
     End_changePage(context, payload) {
@@ -824,44 +784,39 @@ export default new Vuex.Store({
     },
     // ----- 後台取得訂單列表 -----
     async getOrders(context) {
-      context.commit("ISLOADING", true);
       let page = context.state.page.pageNow;
       await getOrdersApi(page)
         .then((response) => {
           context.commit("PAGETOTAL", response.pagination.total_pages); //將得到的總頁數儲存
           context.commit("ORDERS", response.orders); // 將訂單內容儲存
-          context.commit("ISLOADING", false);
         })
         .catch((err) => console.log(err));
     },
     // ----- 後台取得優惠券列表 -----
     async getCoupons(context) {
-      context.commit("ISLOADING", true);
       let page = context.state.page.pageNow;
-      // const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupons?page=${page}`;
       await getCouponsApi(page)
         .then((response) => {
           context.commit("PAGETOTAL", response.pagination.total_pages); //將得到的總頁數儲存
           context.commit("COUPONS", response.coupons);
-          context.commit("ISLOADING", false);
         })
         .catch((err) => console.log(err));
     },
     // ----- 更新優惠券 -----
     async updateCoupon(context) {
-      context.commit("ISLOADING", true);
       let method = "post";
-      // let url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon`;
       if (!context.state.isNew) {
         method = "put";
-        // url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon/${context.state.coupon.id}`;
       }
-      await updateCouponApi(method, { data: context.state.coupon })
+      await updateCouponApi(
+        method,
+        { data: context.state.coupon },
+        context.state.coupon.id
+      )
         .then((response) => {
-          if (response.data.success) {
+          if (response.success) {
             context.commit("MODALSHOW", false);
             context.dispatch("getCoupons");
-            context.commit("ISLOADING", false);
             context.dispatch("updateMessage", {
               message: "優惠券更新成功",
               status: "success",
@@ -870,7 +825,6 @@ export default new Vuex.Store({
             // console.log("更新失敗");
             context.commit("MODALSHOW", false);
             context.dispatch("getCoupons");
-            context.commit("ISLOADING", false);
             context.dispatch("updateMessage", {
               message: "優惠券更新失敗",
               status: "false",
@@ -881,14 +835,11 @@ export default new Vuex.Store({
     },
     // ----- 刪除優惠券 -----
     async delCoupon(context) {
-      context.commit("ISLOADING", true);
-      // const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon/${context.state.coupon.id}`;
-      await delCouponApi()
+      await delCouponApi(context.state.coupon.id)
         .then((response) => {
           if (response.success) {
             context.commit("DELMODALSHOW", false);
             context.dispatch("getCoupons");
-            context.commit("ISLOADING", false);
             context.dispatch("updateMessage", {
               message: "優惠券刪除成功",
               status: "success",
@@ -897,7 +848,6 @@ export default new Vuex.Store({
             // console.log("刪除失敗");
             context.commit("DELMODALSHOW", false);
             context.dispatch("getCoupons");
-            context.commit("ISLOADING", false);
             context.dispatch("updateMessage", {
               message: "優惠券刪除失敗",
               status: "false",
